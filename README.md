@@ -12,6 +12,7 @@
 
 ## 構成
 
+- `MAIN.md`: System A/B を横断して学ぶ教科書型のメイン教材
 - `docs/system-a/`: 書籍管理システムの教材と API 仕様
 - `system-a/`: 教材用の完成実装
 - `docs/system-b/`: 用例採集システムの課題文と API 仕様
