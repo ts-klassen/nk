@@ -58,13 +58,27 @@
 - `FORBIDDEN`
 - `NOT_FOUND`
 - `CONFLICT`
+- `INTERNAL_SERVER_ERROR`
+
+## エラー message
+
+| code | message |
+| --- | --- |
+| `VALIDATION_ERROR` | `入力値が不正です` |
+| `UNAUTHORIZED` | `認証が必要です` |
+| `FORBIDDEN` | `この操作は許可されていません` |
+| `NOT_FOUND` | `対象リソースが存在しません` |
+| `CONFLICT` | `リソースが競合しています` |
+| `INTERNAL_SERVER_ERROR` | `サーバーエラーが発生しました` |
+
+`INTERNAL_SERVER_ERROR` は想定外エラー時の実装上の共通コードとする。通常の教材課題で受講生が意図的に発生させる対象ではなく、公開テストの主対象にも含めない。
 
 ## TODO
 
-- [ ] API 仕様書の共通テンプレートを作る。
-- [ ] 各エラーコードの message 文言を決める。
-- [ ] `500 Internal Server Error` を仕様書に載せる範囲を決める。
-- [ ] 日時文字列をアプリ側でどう生成するか決める。
+- [x] API 仕様書の共通テンプレートを作る。
+- [x] 各エラーコードの message 文言を決める。
+- [x] `500 Internal Server Error` を仕様書に載せる範囲を決める。
+- [x] 日時文字列をアプリ側でどう生成するか決める。
 
 ## 完了条件
 

@@ -1,0 +1,37 @@
+CREATE TABLE users (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  username VARCHAR(32) NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_users_username (username)
+);
+
+CREATE TABLE books (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  isbn VARCHAR(13) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  author VARCHAR(255) NOT NULL,
+  published_date DATE NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_books_isbn (isbn)
+);
+
+CREATE TABLE reading_notes (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  user_id BIGINT UNSIGNED NOT NULL,
+  book_id BIGINT UNSIGNED NOT NULL,
+  page INT UNSIGNED NOT NULL,
+  body TEXT NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_reading_notes_user_book (user_id, book_id),
+  KEY idx_reading_notes_book (book_id),
+  CONSTRAINT fk_reading_notes_user_id FOREIGN KEY (user_id) REFERENCES users (id),
+  CONSTRAINT fk_reading_notes_book_id FOREIGN KEY (book_id) REFERENCES books (id),
+  CONSTRAINT chk_reading_notes_page_positive CHECK (page > 0)
+);

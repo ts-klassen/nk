@@ -1,1 +1,5 @@
 *.swp
+node_modules/
+system-a/dist/
+system-b/dist/
+.env
