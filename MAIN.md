@@ -463,15 +463,20 @@ const rows = await queryRows<BookRow[]>(
 
 プレースホルダーにできるのは値だけである。テーブル名、カラム名、`ORDER BY` の向きなどをユーザー入力から直接作ってはいけない。どうしても動的に変える場合は、許可する値をコード側で固定して選ぶ。
 
-`system-a/src/app.ts` の `buildPatch()` は、リクエストボディのキーをそのまま SQL に入れているのではない。`isbn`、`title`、`author`、`publishedDate` のような API のフィールド名を、コード内で決めた DB カラム名へ対応付けている。
+`PATCH /books/:bookId` の `UPDATE` では、リクエストボディのキーをそのまま SQL に入れているのではない。`isbn`、`title`、`author`、`publishedDate` のような許可済みフィールドだけを確認し、コード内で決めた DB カラム名を使う。
 
 ```ts
-const { assignments, values } = buildPatch(req.body, {
-  isbn: "isbn",
-  title: "title",
-  author: "author",
-  publishedDate: "published_date"
-});
+const assignments: string[] = [];
+const values: unknown[] = [];
+
+if (Object.prototype.hasOwnProperty.call(req.body, "isbn")) {
+  assignments.push("isbn = ?");
+  values.push(req.body.isbn);
+}
+if (Object.prototype.hasOwnProperty.call(req.body, "publishedDate")) {
+  assignments.push("published_date = ?");
+  values.push(req.body.publishedDate);
+}
 ```
 
 この場合、SQL に入るカラム名はコード内の固定文字列だけである。ユーザー入力は `values` に入り、`?` の値として渡される。
@@ -579,9 +584,9 @@ query("offset").optional().isInt({ min: 0 }).toInt()
 JSON body の検証は `system-a/src/app.ts` にある。
 
 ```ts
-const isbnRule = () => body("isbn").isString().matches(/^(?:\d{10}|\d{13})$/);
-const titleRule = () => body("title").isString().trim().isLength({ min: 1, max: 255 });
-const authorRule = () => body("author").isString().trim().isLength({ min: 1, max: 255 });
+body("isbn").isString().matches(/^(?:\d{10}|\d{13})$/)
+body("title").isString().trim().isLength({ min: 1, max: 255 })
+body("author").isString().trim().isLength({ min: 1, max: 255 })
 ```
 
 `body("title")` は JSON body の `title` を検証する。`trim()` は前後の空白を取り除く。空白だけの文字列は、`trim()` 後に長さ 0 になり、`isLength({ min: 1 })` で不正になる。
@@ -589,7 +594,17 @@ const authorRule = () => body("author").isString().trim().isLength({ min: 1, max
 `POST /books` では、必要な項目をすべて検証してから処理に入る。
 
 ```ts
-[isbnRule(), titleRule(), authorRule(), publishedDateRule(), handleValidationErrors]
+[
+  body("isbn").isString().matches(/^(?:\d{10}|\d{13})$/),
+  body("title").isString().trim().isLength({ min: 1, max: 255 }),
+  body("author").isString().trim().isLength({ min: 1, max: 255 }),
+  body("publishedDate")
+    .optional({ nullable: true })
+    .isString()
+    .bail()
+    .custom(isValidDateOnly),
+  handleValidationErrors
+]
 ```
 
 `PATCH /books/:bookId` は部分更新なので、すべての項目を必須にはしない。ただし、更新する項目が 1 つもないリクエストは意味がないため、`requireAtLeastOne()` で少なくとも 1 項目が含まれることを確認する。
@@ -598,10 +613,14 @@ const authorRule = () => body("author").isString().trim().isLength({ min: 1, max
 [
   ...validateId("bookId"),
   requireAtLeastOne(["isbn", "title", "author", "publishedDate"]),
-  isbnRule().optional(),
-  titleRule().optional(),
-  authorRule().optional(),
-  publishedDateRule(),
+  body("isbn").optional().isString().matches(/^(?:\d{10}|\d{13})$/),
+  body("title").optional().isString().trim().isLength({ min: 1, max: 255 }),
+  body("author").optional().isString().trim().isLength({ min: 1, max: 255 }),
+  body("publishedDate")
+    .optional({ nullable: true })
+    .isString()
+    .bail()
+    .custom(isValidDateOnly),
   handleValidationErrors
 ]
 ```

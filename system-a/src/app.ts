@@ -1,9 +1,4 @@
-import express, {
-  type NextFunction,
-  type Request,
-  type RequestHandler,
-  type Response
-} from "express";
+import express, { type Request, type Response } from "express";
 import { body } from "express-validator";
 import { DateTime } from "luxon";
 import type { RowDataPacket } from "mysql2/promise";
@@ -53,18 +48,6 @@ interface ReadingNoteRow extends RowDataPacket {
 
 interface CountRow extends RowDataPacket {
   total: number;
-}
-
-type AsyncHandler = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => Promise<void>;
-
-function asyncHandler(handler: AsyncHandler): RequestHandler {
-  return (req, res, next) => {
-    void handler(req, res, next).catch(next);
-  };
 }
 
 function formatDateTime(value: string): string {
@@ -159,23 +142,6 @@ function assertOwnReadingNote(note: ReadingNoteRow, userId: number): void {
   }
 }
 
-function buildPatch(
-  bodyValue: Record<string, unknown>,
-  mapping: Record<string, string>
-): { assignments: string[]; values: unknown[] } {
-  const assignments: string[] = [];
-  const values: unknown[] = [];
-
-  for (const [bodyKey, column] of Object.entries(mapping)) {
-    if (Object.prototype.hasOwnProperty.call(bodyValue, bodyKey)) {
-      assignments.push(`${column} = ?`);
-      values.push(bodyValue[bodyKey]);
-    }
-  }
-
-  return { assignments, values };
-}
-
 function isValidDateOnly(value: string): boolean {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
   if (!match) {
@@ -198,30 +164,18 @@ function isValidDateOnly(value: string): boolean {
   );
 }
 
-const usernameRule = () =>
-  body("username").isString().matches(/^[A-Za-z0-9_]{3,32}$/);
-const passwordRule = () => body("password").isString().isLength({ min: 8, max: 72 });
-const isbnRule = () => body("isbn").isString().matches(/^(?:\d{10}|\d{13})$/);
-const titleRule = () => body("title").isString().trim().isLength({ min: 1, max: 255 });
-const authorRule = () => body("author").isString().trim().isLength({ min: 1, max: 255 });
-const publishedDateRule = () =>
-  body("publishedDate")
-    .optional({ nullable: true })
-    .isString()
-    .bail()
-    .custom(isValidDateOnly);
-const pageRule = () => body("page").isInt({ min: 1 }).toInt();
-const noteBodyRule = () =>
-  body("body").isString().trim().isLength({ min: 1, max: 2000 });
-
 export function createApp() {
   const app = express();
   app.use(express.json());
 
   app.post(
     "/users",
-    [usernameRule(), passwordRule(), handleValidationErrors],
-    asyncHandler(async (req, res) => {
+    [
+      body("username").isString().matches(/^[A-Za-z0-9_]{3,32}$/),
+      body("password").isString().isLength({ min: 8, max: 72 }),
+      handleValidationErrors
+    ],
+    async (req: Request, res: Response) => {
       const passwordHash = await argon2.hash(req.body.password);
 
       let userId: number;
@@ -244,13 +198,13 @@ export function createApp() {
       );
 
       res.status(201).json(mapUser(users[0]));
-    })
+    }
   );
 
   app.get(
     "/books",
     validatePagination(),
-    asyncHandler(async (req, res) => {
+    async (req: Request, res: Response) => {
       const { limit, offset } = getPagination(req);
       const countRows = await queryRows<CountRow[]>(
         "SELECT COUNT(*) AS total FROM books"
@@ -268,13 +222,23 @@ export function createApp() {
           total: Number(countRows[0]?.total ?? 0)
         }
       });
-    })
+    }
   );
 
   app.post(
     "/books",
-    [isbnRule(), titleRule(), authorRule(), publishedDateRule(), handleValidationErrors],
-    asyncHandler(async (req, res) => {
+    [
+      body("isbn").isString().matches(/^(?:\d{10}|\d{13})$/),
+      body("title").isString().trim().isLength({ min: 1, max: 255 }),
+      body("author").isString().trim().isLength({ min: 1, max: 255 }),
+      body("publishedDate")
+        .optional({ nullable: true })
+        .isString()
+        .bail()
+        .custom(isValidDateOnly),
+      handleValidationErrors
+    ],
+    async (req: Request, res: Response) => {
       let bookId: number;
       try {
         const result = await execute(
@@ -296,16 +260,16 @@ export function createApp() {
 
       const book = await findBook(bookId);
       res.status(201).json(mapBook(book));
-    })
+    }
   );
 
   app.get(
     "/books/:bookId",
     validateId("bookId"),
-    asyncHandler(async (req, res) => {
+    async (req: Request, res: Response) => {
       const book = await findBook(Number(req.params.bookId));
       res.json(mapBook(book));
-    })
+    }
   );
 
   app.patch(
@@ -313,20 +277,37 @@ export function createApp() {
     [
       ...validateId("bookId"),
       requireAtLeastOne(["isbn", "title", "author", "publishedDate"]),
-      isbnRule().optional(),
-      titleRule().optional(),
-      authorRule().optional(),
-      publishedDateRule(),
+      body("isbn").optional().isString().matches(/^(?:\d{10}|\d{13})$/),
+      body("title").optional().isString().trim().isLength({ min: 1, max: 255 }),
+      body("author").optional().isString().trim().isLength({ min: 1, max: 255 }),
+      body("publishedDate")
+        .optional({ nullable: true })
+        .isString()
+        .bail()
+        .custom(isValidDateOnly),
       handleValidationErrors
     ],
-    asyncHandler(async (req, res) => {
+    async (req: Request, res: Response) => {
       await findBook(Number(req.params.bookId));
-      const { assignments, values } = buildPatch(req.body, {
-        isbn: "isbn",
-        title: "title",
-        author: "author",
-        publishedDate: "published_date"
-      });
+      const assignments: string[] = [];
+      const values: unknown[] = [];
+
+      if (Object.prototype.hasOwnProperty.call(req.body, "isbn")) {
+        assignments.push("isbn = ?");
+        values.push(req.body.isbn);
+      }
+      if (Object.prototype.hasOwnProperty.call(req.body, "title")) {
+        assignments.push("title = ?");
+        values.push(req.body.title);
+      }
+      if (Object.prototype.hasOwnProperty.call(req.body, "author")) {
+        assignments.push("author = ?");
+        values.push(req.body.author);
+      }
+      if (Object.prototype.hasOwnProperty.call(req.body, "publishedDate")) {
+        assignments.push("published_date = ?");
+        values.push(req.body.publishedDate);
+      }
 
       try {
         await execute(
@@ -341,13 +322,13 @@ export function createApp() {
       }
 
       res.status(204).send();
-    })
+    }
   );
 
   app.delete(
     "/books/:bookId",
     validateId("bookId"),
-    asyncHandler(async (req, res) => {
+    async (req: Request, res: Response) => {
       const bookId = Number(req.params.bookId);
       await findBook(bookId);
 
@@ -361,13 +342,13 @@ export function createApp() {
       }
 
       res.status(204).send();
-    })
+    }
   );
 
   app.get(
     "/books/:bookId/reading-notes",
     [requireAuth, ...validateId("bookId"), ...validatePagination()],
-    asyncHandler(async (req, res) => {
+    async (req: Request, res: Response) => {
       const bookId = Number(req.params.bookId);
       await findBook(bookId);
 
@@ -389,13 +370,19 @@ export function createApp() {
           total: Number(countRows[0]?.total ?? 0)
         }
       });
-    })
+    }
   );
 
   app.post(
     "/books/:bookId/reading-notes",
-    [requireAuth, ...validateId("bookId"), pageRule(), noteBodyRule(), handleValidationErrors],
-    asyncHandler(async (req, res) => {
+    [
+      requireAuth,
+      ...validateId("bookId"),
+      body("page").isInt({ min: 1 }).toInt(),
+      body("body").isString().trim().isLength({ min: 1, max: 2000 }),
+      handleValidationErrors
+    ],
+    async (req: Request, res: Response) => {
       const bookId = Number(req.params.bookId);
       await findBook(bookId);
 
@@ -406,17 +393,17 @@ export function createApp() {
 
       const note = await findReadingNote(Number(result.insertId));
       res.status(201).json(mapReadingNote(note));
-    })
+    }
   );
 
   app.get(
     "/reading-notes/:noteId",
     [requireAuth, ...validateId("noteId")],
-    asyncHandler(async (req, res) => {
+    async (req: Request, res: Response) => {
       const note = await findReadingNote(Number(req.params.noteId));
       assertOwnReadingNote(note, Number(req.user?.id));
       res.json(mapReadingNote(note));
-    })
+    }
   );
 
   app.patch(
@@ -425,31 +412,39 @@ export function createApp() {
       requireAuth,
       ...validateId("noteId"),
       requireAtLeastOne(["page", "body"]),
-      pageRule().optional(),
-      noteBodyRule().optional(),
+      body("page").optional().isInt({ min: 1 }).toInt(),
+      body("body").optional().isString().trim().isLength({ min: 1, max: 2000 }),
       handleValidationErrors
     ],
-    asyncHandler(async (req, res) => {
+    async (req: Request, res: Response) => {
       const note = await findReadingNote(Number(req.params.noteId));
       assertOwnReadingNote(note, Number(req.user?.id));
 
-      const { assignments, values } = buildPatch(req.body, {
-        page: "page",
-        body: "body"
-      });
+      const assignments: string[] = [];
+      const values: unknown[] = [];
+
+      if (Object.prototype.hasOwnProperty.call(req.body, "page")) {
+        assignments.push("page = ?");
+        values.push(req.body.page);
+      }
+      if (Object.prototype.hasOwnProperty.call(req.body, "body")) {
+        assignments.push("body = ?");
+        values.push(req.body.body);
+      }
+
       await execute(
         `UPDATE reading_notes SET ${assignments.join(", ")} WHERE id = ?`,
         [...values, Number(req.params.noteId)]
       );
 
       res.status(204).send();
-    })
+    }
   );
 
   app.delete(
     "/reading-notes/:noteId",
     [requireAuth, ...validateId("noteId")],
-    asyncHandler(async (req, res) => {
+    async (req: Request, res: Response) => {
       const note = await findReadingNote(Number(req.params.noteId));
       assertOwnReadingNote(note, Number(req.user?.id));
 
@@ -457,7 +452,7 @@ export function createApp() {
         Number(req.params.noteId)
       ]);
       res.status(204).send();
-    })
+    }
   );
 
   app.use((_req, _res, next) => {

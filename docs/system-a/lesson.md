@@ -291,8 +291,8 @@ DB アクセスには `mysql2` を使う。ORM は使わない。
 | --- | --- |
 | `bookId` は正整数 | `validateId("bookId")` |
 | `limit` 最大 100 | `validatePagination()` |
-| `isbn` は 10 桁または 13 桁 | `isbnRule()` |
-| `publishedDate` は実在日付 | `isValidDateOnly()` と `publishedDateRule()` |
+| `isbn` は 10 桁または 13 桁 | `body("isbn").isString().matches(...)` |
+| `publishedDate` は実在日付 | `body("publishedDate").custom(isValidDateOnly)` |
 | 空の PATCH は `400` | `requireAtLeastOne()` |
 | バリデーション詳細は返さない | `handleValidationErrors` |
 
