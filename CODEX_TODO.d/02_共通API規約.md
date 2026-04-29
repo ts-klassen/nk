@@ -24,7 +24,8 @@
 - `offset` のデフォルトは `0` とする。
 - 一覧の並び順は `id ASC` とする。
 - 一覧レスポンスには `total` を含める。
-- `createdAt` / `updatedAt` は RFC 3339 風の日時文字列にする。
+- `createdAt` / `updatedAt` は RFC 3339 date-time の文字列にする。
+- DB には UTC で保存し、レスポンス時に必要なタイムゾーンへ変換する。
 - 日付だけの項目は `YYYY-MM-DD` にする。
 
 ## 一覧レスポンス形式

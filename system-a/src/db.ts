@@ -1,5 +1,6 @@
 import mysql, {
   type Pool,
+  type PoolConnection,
   type ResultSetHeader,
   type RowDataPacket
 } from "mysql2/promise";
@@ -29,7 +30,7 @@ export function getPool(): Pool {
         "MYSQL_DATABASE",
         "Set MYSQL_DATABASE when starting the server."
       ),
-      timezone: "+09:00",
+      timezone: "Z",
       dateStrings: true,
       connectionLimit: 10
     });
@@ -38,18 +39,38 @@ export function getPool(): Pool {
   return pool;
 }
 
+async function withUtcConnection<T>(
+  callback: (connection: PoolConnection) => Promise<T>
+): Promise<T> {
+  const connection = await getPool().getConnection();
+
+  try {
+    await connection.query("SET time_zone = '+00:00'");
+    return await callback(connection);
+  } finally {
+    connection.release();
+  }
+}
+
 export async function queryRows<T extends RowDataPacket[]>(
   sql: string,
   params: unknown[] = []
 ): Promise<T> {
-  const [rows] = await getPool().query<T>(sql, params);
-  return rows;
+  return withUtcConnection(async (connection) => {
+    const [rows] = await connection.query<T>(sql, params);
+    return rows;
+  });
 }
 
 export async function execute(
   sql: string,
   params: unknown[] = []
 ): Promise<ResultSetHeader> {
-  const [result] = await getPool().execute<ResultSetHeader>(sql, params as any);
-  return result;
+  return withUtcConnection(async (connection) => {
+    const [result] = await connection.execute<ResultSetHeader>(
+      sql,
+      params as any
+    );
+    return result;
+  });
 }

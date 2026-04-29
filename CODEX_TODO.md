@@ -53,6 +53,7 @@
 - `mysql2`
 - `mocha`
 - `chai`
+- `luxon`
 - `express-validator`
 - `argon2`
 - ORM は使わない
@@ -72,7 +73,7 @@
 - `offset` のデフォルトは `0` とする。
 - 一覧の並び順は `id ASC` とする。
 - 一覧レスポンスには `total` を必ず含める。
-- `createdAt` / `updatedAt` は RFC 3339 風の日時文字列にする。
+- `createdAt` / `updatedAt` は RFC 3339 date-time の文字列にする。
 - 日付だけの項目は `YYYY-MM-DD` にする。
 - 主キーは MySQL の `AUTO_INCREMENT` とする。
 

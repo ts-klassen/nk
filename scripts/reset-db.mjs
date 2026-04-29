@@ -64,6 +64,7 @@ async function createConnectionWithRetry(maxAttempts = 30) {
 const connection = await createConnectionWithRetry();
 
 try {
+  await connection.query("SET time_zone = '+00:00'");
   await connection.query(`DROP DATABASE IF EXISTS \`${database}\``);
   await connection.query(
     `CREATE DATABASE \`${database}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci`

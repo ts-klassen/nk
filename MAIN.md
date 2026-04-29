@@ -355,7 +355,6 @@ DELETE /books/1
 | `errors.ts` | 共通エラーレスポンス |
 | `validation.ts` | 入力チェック |
 | `auth.ts` | ログイン確認 |
-| `time.ts` | 日付フォーマット |
 | `types.ts` | `req.user` などの型定義 |
 
 最初に実装する項目:
@@ -476,6 +475,50 @@ const { assignments, values } = buildPatch(req.body, {
 ```
 
 この場合、SQL に入るカラム名はコード内の固定文字列だけである。ユーザー入力は `values` に入り、`?` の値として渡される。
+
+### 日時フォーマット
+
+`created_at` / `updated_at` は MySQL の `DATETIME` である。`DATETIME` はタイムゾーン情報を持たないため、この教材では「DB に保存されている `DATETIME` は UTC として扱う」という規約にする。
+
+`docker-compose.yml` では MySQL のデフォルトタイムゾーンを `+00:00` にしている。さらに `system-a/src/db.ts` では、SQL を実行する接続ごとに `SET time_zone = '+00:00'` を実行する。これにより、`CURRENT_TIMESTAMP` で作られる `created_at` / `updated_at` も UTC の時刻になる。
+
+日時については、次の 3 つを分けて考える。
+
+| 場所 | 方針 |
+| --- | --- |
+| DB 保存 | UTC の `DATETIME` として保存する |
+| API 出力 | `Asia/Tokyo` に変換して RFC 3339 date-time として返す |
+| API 入力 | Luxon で ISO の日時表現を読み、UTC に変換して保存する |
+
+この教材では、API の日時は次の形で返す。
+
+```text
+2026-04-28T11:39:55+09:00
+```
+
+これは RFC 3339 の date-time 形式である。DB には UTC で保存し、API レスポンスを作るときに `Asia/Tokyo` の時刻へ変換して `+09:00` を付ける。
+
+たとえば DB の `created_at` が UTC の `2026-04-28 02:39:55` なら、API では次のように返す。
+
+```text
+2026-04-28T11:39:55+09:00
+```
+
+`system-a` を作った人は、宗教上の理由で `2026-04-28 11:39:55` のようなスペース区切りを API に出せないため、`system-a/src/app.ts` でレスポンス用の文字列に変換している。日時の扱いには Luxon を使う。
+
+`DateTime.fromSQL(value, { zone: "utc" })` で、DB から来た `DATETIME` 文字列を UTC として解釈する。`setZone("Asia/Tokyo")` で東京時間に変換し、`toISO()` で `T` 区切りと `+09:00` を含む文字列にする。具体的なコードは `system-a/src/app.ts` の `formatDateTime()` を読む。
+
+この処理は Luxon に任せる。独自の RFC 3339 パーサーや日時専用モジュールは作らない。Node.js 標準の `Date` は UTC への変換には使えるが、入力文字列によっては実行環境のタイムゾーンに影響され、存在しない日付を別の日付へ正規化して受け入れることもある。そのため、入力日時の解釈、検証、タイムゾーン変換は Luxon で行う。
+
+`mysql2` の設定では `dateStrings: true` を指定しているため、MySQL の `DATETIME` は基本的に文字列として届く。その文字列は UTC として扱う。DB に UTC ではない値を書き込むと、日時の解釈がずれる。
+
+リクエストボディで日時を受け取る API では、`Date.parse()` や正規表現だけで処理しない。Luxon の `DateTime.fromISO()` で ISO の日時表現を読み取り、UTC の `YYYY-MM-DD HH:mm:ss` に変換して保存する。
+
+入力で受け入れる形式は、Luxon の `fromISO()` が受け付ける ISO datetime に限定する。`Z`、`+09:00`、`+0900`、小数秒付きなどはライブラリに任せる。スペース区切りの日時は受け入れない。タイムゾーン指定がない ISO datetime は、この教材では UTC として扱う。
+
+`publishedDate` のような日付だけの値は、日時ではないので `DateTime.fromSQL(value, { zone: "utc" }).toISODate()` で `YYYY-MM-DD` にする。`null` の場合は `null` のまま返す。
+
+`system-b` でも、同じ API 仕様にするなら Luxon を使って同じ方針で実装する。DB には UTC で保存し、レスポンスの `createdAt` / `updatedAt` は `2026-04-28T11:39:55+09:00` の形にそろえる。
 
 ### CRUD 処理の読み方
 

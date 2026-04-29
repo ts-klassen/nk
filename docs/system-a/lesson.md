@@ -27,6 +27,7 @@ API 仕様は [api.md](api.md) を参照する。
 - MySQL
 - Docker Compose
 - `mysql2`
+- `luxon`
 - `express-validator`
 - `argon2`
 
@@ -229,8 +230,8 @@ DB アクセスには `mysql2` を使う。ORM は使わない。
 | `GET /books` の `items` | `app.get("/books", ...)` の `books.map(mapBook)` |
 | `pagination.total` | `SELECT COUNT(*) AS total FROM books` |
 | `limit` / `offset` | `validatePagination()` と `getPagination()` |
-| 日時の `+09:00` 表記 | `system-a/src/time.ts` の `formatDateTime()` |
-| `publishedDate` の `YYYY-MM-DD` | `system-a/src/time.ts` の `formatDate()` |
+| UTC 保存した日時の `+09:00` 表示 | `system-a/src/app.ts` の `formatDateTime()` |
+| `publishedDate` の `YYYY-MM-DD` | `system-a/src/app.ts` の `formatDate()` |
 
 ### 書籍削除
 

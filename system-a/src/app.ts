@@ -5,6 +5,7 @@ import express, {
   type Response
 } from "express";
 import { body } from "express-validator";
+import { DateTime } from "luxon";
 import type { RowDataPacket } from "mysql2/promise";
 import argon2 from "argon2";
 import { requireAuth } from "./auth";
@@ -15,7 +16,6 @@ import {
   isDuplicateEntry,
   isReferencedByForeignKey
 } from "./errors";
-import { formatDate, formatDateTime } from "./time";
 import {
   getPagination,
   handleValidationErrors,
@@ -65,6 +65,35 @@ function asyncHandler(handler: AsyncHandler): RequestHandler {
   return (req, res, next) => {
     void handler(req, res, next).catch(next);
   };
+}
+
+function formatDateTime(value: string): string {
+  const dateTime = DateTime.fromSQL(value, { zone: "utc" });
+  if (!dateTime.isValid) {
+    throw new Error(`Invalid UTC datetime: ${value}`);
+  }
+
+  const formatted = dateTime
+    .setZone("Asia/Tokyo")
+    .toISO({ suppressMilliseconds: true });
+  if (!formatted) {
+    throw new Error(`Invalid UTC datetime: ${value}`);
+  }
+
+  return formatted;
+}
+
+function formatDate(value: string | null): string | null {
+  if (value === null) {
+    return null;
+  }
+
+  const date = DateTime.fromSQL(value, { zone: "utc" });
+  if (!date.isValid) {
+    throw new Error(`Invalid date: ${value}`);
+  }
+
+  return date.toISODate();
 }
 
 function mapUser(row: UserRow) {

@@ -18,6 +18,7 @@
 
 - `createdAt` / `updatedAt`: `2026-04-28T11:39:55+09:00` 形式。
 - `publishedDate`: `YYYY-MM-DD` 形式、または `null`。
+- DB には UTC で保存し、レスポンス時に `Asia/Tokyo` の `+09:00` 表示へ変換する。
 
 ### ページング
 

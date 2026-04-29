@@ -4,10 +4,10 @@ services:
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_0900_ai_ci
-      - --default-time-zone=+09:00
+      - --default-time-zone=+00:00
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:?MYSQL_PASSWORD is required}
-      TZ: Asia/Tokyo
+      TZ: UTC
     ports:
       - "3306:3306"
     volumes:

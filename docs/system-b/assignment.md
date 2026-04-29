@@ -92,6 +92,7 @@ MYSQL_DATABASE=backend_training_b_test_volatile npm run test:b
 - Express v5
 - MySQL
 - `mysql2`
+- `luxon`
 - `express-validator`
 - `argon2`
 - Mocha / Chai
