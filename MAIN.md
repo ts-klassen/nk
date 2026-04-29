@@ -62,13 +62,74 @@ GET /books
 }
 ```
 
+### `jq`
+
+`jq` は、JSON を整形したり、必要な値だけを取り出したりするためのコマンドである。
+
+AlmaLinux では `dnf` でインストールする。
+
+```bash
+sudo dnf install -y jq
+jq --version
+```
+
+`jq .` は JSON 全体を読みやすく表示する。`jq` の `.` は、今見ている JSON 全体を表す。
+
+`.message` は JSON 全体の `message` フィールドを取り出す。`.pagination.limit` のように `.` をつなげると、ネストしたオブジェクトの内側のフィールドを取り出せる。
+
+```bash
+echo '{"message":"hello"}' | jq .
+echo '{"message":"hello"}' | jq '.message'
+echo '{"pagination":{"limit":20,"offset":0}}' | jq '.pagination.limit'
+```
+
+配列は `[0]` のように番号で指定する。番号は `0` から始まる。`.items[0]` は `items` の先頭要素、`.items[0].id` は先頭要素の `id` フィールドである。
+
+配列の各要素を順に取り出す場合は `.items[]` と書く。そこからさらに `.id` をつなげると、各要素の `id` だけを取り出せる。
+
+```bash
+echo '{"items":[{"id":1},{"id":2}]}' | jq '.items[0]'
+echo '{"items":[{"id":1},{"id":2}]}' | jq '.items[0].id'
+echo '{"items":[{"id":1},{"id":2}]}' | jq '.items[].id'
+```
+
+文字列の引用符を外して表示したい場合は `-r` を付ける。
+
+```bash
+echo '{"message":"hello"}' | jq -r '.message'
+```
+
+### 課題
+
+次の JSON から、2 件目の `title` だけを `jq` で表示せよ。
+
+```json
+{
+  "items": [
+    {
+      "id": 1,
+      "title": "Node.js入門"
+    },
+    {
+      "id": 2,
+      "title": "HTTP入門"
+    }
+  ],
+  "pagination": {
+    "limit": 20,
+    "offset": 0,
+    "total": 2
+  }
+}
+```
+
 ## 第 2 章 `curl` でリクエストを送る
 
 `curl` は、ターミナルからサーバーに要求を送るためのコマンドである。
 
 ### 準備
 
-この章から、Linux 環境のターミナルでコマンドを実行する。コマンドは、この教材のファイル一式を配置したディレクトリで実行する。`package.json` がある場所である。
+この教材では、Linux 環境のターミナルでコマンドを実行する。コマンドは、この教材のファイル一式を配置したディレクトリで実行する。`package.json` がある場所である。
 
 `npm` は、Node.js のプロジェクトで使うコマンドである。この教材では、必要なライブラリをインストールしたり、あらかじめ用意された起動コマンドを実行したりするために使う。
 
@@ -147,6 +208,12 @@ curl -i -X POST http://127.0.0.1:3001/echo-body \
 
 サーバーは `400 Bad Request` を返す。外部から送られる入力は信用できるとは限らない。
 
+### 課題
+
+存在しないエンドポイントにリクエストを送り、ステータスを確認せよ。
+
+練習用サーバーに対して、定義されていない任意の URL へ `GET` リクエストを送れ。`-i` を使い、`404 Not Found` になることを確認せよ。
+
 ## 第 3 章 echo エンドポイント
 
 `system-a/src/practice-server.ts` に次の処理を追加する。追加位置は `jsonErrorHandler` より前。
@@ -188,6 +255,12 @@ curl -i -X POST "http://127.0.0.1:3001/debug/request?mode=practice" \
 ```
 
 `curl` のレスポンスと、サーバー側の `console.log` の両方を確認する。
+
+### 課題
+
+クエリパラメータを `&` で 1 つ増やし、ヘッダーとボディーのフィールドも 1 つずつ増やしてリクエストせよ。
+
+直前の `curl` コマンドを元にして、URL、`-H`、`-d` をそれぞれ変更せよ。レスポンスとサーバー側の `console.log` を見て、`query`、`headers`、`body` に増やした値が入っていることを確認せよ。
 
 ## 第 4 章 REST API の基本
 
@@ -231,6 +304,12 @@ DELETE /books/1
 | `404` | 対象がない |
 | `409` | 一意制約や外部キー制約に違反 |
 
+### 課題
+
+`echo-body` に対して、未実装の HTTP メソッド `PATCH` でリクエストを送り、ステータスを確認せよ。
+
+`POST /echo-body` と別のリクエストとして扱われることを確認せよ。
+
 ## 第 5 章 system-b の基本構成
 
 `system-b/src` に実装する。`system-a` と同じ分け方にすると、対応関係を追いやすい。
@@ -263,6 +342,12 @@ npm run db:reset:b
 npm run build:b
 MYSQL_DATABASE=backend_training_b_volatile PORT=3001 npm run start:b
 ```
+
+### 課題
+
+`npm run start:b` を成功させよ。
+
+まず `system-b/src/server.ts` から Express サーバーを起動できる状態にせよ。必要なファイルを `system-b/src` に追加し、`npm run build:b` が通ることを確認してから起動せよ。
 
 ## 第 6 章 テーマ 1: 認証なし CRUD
 
@@ -379,6 +464,12 @@ curl -i -X PATCH http://127.0.0.1:3001/terms/1 \
 curl -i -X DELETE http://127.0.0.1:3001/terms/1
 ```
 
+### 課題
+
+`system-b` に用語 CRUD を実装せよ。
+
+仕様通りに実装し、上の `curl` で確認せよ。
+
 ## 第 7 章 テーマ 2: ユーザー登録
 
 この章では、`system-a` のユーザー登録処理を確認し、`system-b` に同じ処理を実装する。
@@ -437,6 +528,12 @@ curl -i -X POST http://127.0.0.1:3001/users \
   -H "content-type: application/json" \
   -d '{"username":"alice","password":"password123"}'
 ```
+
+### 課題
+
+`system-b` にユーザー登録 API を実装せよ。
+
+仕様通りに実装し、上の `curl` で確認せよ。
 
 ## 第 8 章 テーマ 3: 認証付き CRUD
 
@@ -557,6 +654,12 @@ curl -i -u alice:password123 -X PATCH http://127.0.0.1:3001/examples/1 \
 curl -i -u alice:password123 -X DELETE http://127.0.0.1:3001/examples/1
 ```
 
+### 課題
+
+`system-b` に用例 CRUD と Basic 認証を実装せよ。
+
+仕様通りに実装し、上の `curl` で確認せよ。
+
 ## 第 9 章 公開テスト
 
 すべての API を実装した後に実行する。
@@ -566,6 +669,12 @@ npm run test:b
 ```
 
 手動確認用に `PORT=3001 npm run start:b` を起動している場合は、停止してから実行する。
+
+### 課題
+
+`npm run test:b` が通るようにせよ。
+
+テストが失敗した場合は、失敗メッセージと API 仕様を照らし合わせて `system-b/src` の実装を直せ。テストを通すためだけに公開テストを書き換えるな。
 
 ## 付録 A. 対応表
 
