@@ -2,7 +2,7 @@
 
 新卒社員向けの Node.js / TypeScript / Express / MySQL バックエンド教材です。
 
-目的は Node.js の先端機能を学ぶことではなく、REST API、CRUD、DB 連携、入力バリデーション、エラーハンドリング、Basic 認証を通じてバックエンド開発の基礎を学ぶことです。
+目的は Node.js の先端機能を学ぶことではなく、HTTP で JSON を返すバックエンドの作り方を、固定値を返す `GET` / `POST` から順番に学ぶことです。途中で REST API、CRUD、DB 連携、入力バリデーション、エラーハンドリング、Basic 認証を扱います。
 
 ## 前提
 
@@ -25,6 +25,12 @@
 ```bash
 npm install
 npm run db:up
+```
+
+最初は DB を使わない練習用サーバーで、`curl`、`GET`、`POST`、値の渡し方を確認します。
+
+```bash
+npm run start:practice
 ```
 
 ## システム A: 書籍管理
