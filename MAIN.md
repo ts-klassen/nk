@@ -382,6 +382,10 @@ MYSQL_DATABASE=backend_training_b_volatile PORT=3001 npm run start:b
 `npm run start:b` を成功させよ。
 
 まず `system-b/src/server.ts` から Express サーバーを起動できる状態にせよ。必要なファイルを `system-b/src` に追加し、`npm run build:b` が通ることを確認してから起動せよ。
+課題としては、起動さえすれば良い。
+他の項目は、第 6 章以降、必要に迫られたら作るでも良い。
+
+ヒント: 最低限起動させるだけであれば、 10 行程度の簡単な server.ts でも十分。
 
 ## 第 6 章 テーマ 1: 認証なし CRUD
 
