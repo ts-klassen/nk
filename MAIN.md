@@ -108,17 +108,21 @@ echo '{"message":"hello"}' | jq -r '.message'
   "items": [
     {
       "id": 1,
-      "title": "Node.js入門"
+      "title": "新明解国語辞典"
     },
     {
       "id": 2,
-      "title": "HTTP入門"
+      "title": "三省堂国語辞典"
+    },
+    {
+      "id": 3,
+      "title": "例解新国語辞典"
     }
   ],
   "pagination": {
     "limit": 20,
     "offset": 0,
-    "total": 2
+    "total": 3
   }
 }
 ```
@@ -643,10 +647,10 @@ body("author").isString().trim().isLength({ min: 1, max: 255 })
 curl -i -X POST http://127.0.0.1:3000/books \
   -H "content-type: application/json" \
   -d '{
-    "isbn": "9784297127473",
-    "title": "Node.js入門",
-    "author": "山田太郎",
-    "publishedDate": "2026-04-28"
+    "isbn": "9784385130781",
+    "title": "新明解国語辞典",
+    "author": "山田忠雄、倉持保男、上野善道、山田明雄、井島正博、笹原宏之",
+    "publishedDate": "1972-01-24"
   }'
 
 curl -i "http://127.0.0.1:3000/books?limit=10&offset=0"
@@ -655,7 +659,12 @@ curl -i http://127.0.0.1:3000/books/1
 
 curl -i -X PATCH http://127.0.0.1:3000/books/1 \
   -H "content-type: application/json" \
-  -d '{"title":"Node.js入門 改訂版"}'
+  -d '{
+    "isbn": "9784385139289",
+    "title": "三省堂国語辞典",
+    "author": "見坊豪紀、市川孝、飛田良文、山崎誠、飯間浩明、塩田雄大",
+    "publishedDate": "1960-12-10"
+  }'
 
 curl -i -X DELETE http://127.0.0.1:3000/books/1
 ```
@@ -969,10 +978,10 @@ curl -i -X POST http://127.0.0.1:3000/users \
 curl -i -X POST http://127.0.0.1:3000/books \
   -H "content-type: application/json" \
   -d '{
-    "isbn": "9784297127473",
-    "title": "Node.js入門",
-    "author": "山田太郎",
-    "publishedDate": "2026-04-28"
+    "isbn": "9784385130781",
+    "title": "新明解国語辞典",
+    "author": "山田忠雄、倉持保男、上野善道、山田明雄、井島正博、笹原宏之",
+    "publishedDate": "1972-01-24"
   }'
 ```
 
@@ -1131,4 +1140,3 @@ MYSQL_DATABASE=backend_training_b_test_volatile npm run test:b
 | 連番の `AUTO_INCREMENT` ID をそのまま API に出す | 一般的な設計ではあるが、ID が推測可能になる。推測されても権限チェックで守れる設計にするか、必要に応じて UUID や ULID などを検討する。 |
 | 認証 API にレート制限を置かない | 教材では省略している。実務ではログイン試行、ユーザー登録、パスワードリセットなどにレート制限や不正検知を入れる。 |
 | フロントエンドやブラウザ利用を考慮しない | この教材では API とコマンド確認に集中している。ブラウザから使う場合は、CORS、Cookie、CSRF、SameSite、画面側の入力制御も設計対象になる。 |
-

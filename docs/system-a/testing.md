@@ -87,35 +87,37 @@ async function postJson(path, body, headers = {}) {
 describe("書籍 API", () => {
   it("ログインなしで書籍を作成できる", async () => {
     const response = await postJson("/books", {
-      isbn: "9784297127473",
-      title: "Node.js入門",
-      author: "山田太郎",
-      publishedDate: "2026-04-28"
+      isbn: "9784385130781",
+      title: "新明解国語辞典",
+      author: "山田忠雄、倉持保男、上野善道、山田明雄、井島正博、笹原宏之",
+      publishedDate: "1972-01-24"
     });
 
     expect(response.status).to.equal(201);
     expect(response.body).to.include({
-      isbn: "9784297127473",
-      title: "Node.js入門",
-      author: "山田太郎",
-      publishedDate: "2026-04-28"
+      isbn: "9784385130781",
+      title: "新明解国語辞典",
+      author: "山田忠雄、倉持保男、上野善道、山田明雄、井島正博、笹原宏之",
+      publishedDate: "1972-01-24"
     });
     expect(response.body).to.have.property("id").that.is.a("number");
   });
 
   it("ISBN が重複したら 409 を返す", async () => {
-    const isbn = "9784297127480";
+    const isbn = "9784385139289";
     const created = await postJson("/books", {
       isbn,
-      title: "重複確認用の本",
-      author: "鈴木一郎"
+      title: "三省堂国語辞典",
+      author: "見坊豪紀、市川孝、飛田良文、山崎誠、飯間浩明、塩田雄大",
+      publishedDate: "1960-12-10"
     });
     expect(created.status).to.equal(201);
 
     const response = await postJson("/books", {
       isbn,
-      title: "別の本",
-      author: "佐藤花子"
+      title: "三省堂国語辞典",
+      author: "見坊豪紀、市川孝、飛田良文、山崎誠、飯間浩明、塩田雄大",
+      publishedDate: "1960-12-10"
     });
 
     expect(response.status).to.equal(409);
