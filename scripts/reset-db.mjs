@@ -11,6 +11,21 @@ if (!schemaPathArg || !databaseArg) {
 
 const schemaPath = path.resolve(process.cwd(), schemaPathArg);
 const database = databaseArg;
+
+function assertVolatileDatabaseName(databaseName) {
+  if (/^[A-Za-z0-9_]+_volatile$/.test(databaseName)) {
+    return;
+  }
+
+  console.error(
+    `Refusing to reset non-volatile database: ${JSON.stringify(databaseName)}`
+  );
+  console.error("Database names passed to reset-db.mjs must end with _volatile.");
+  process.exit(1);
+}
+
+assertVolatileDatabaseName(database);
+
 const schemaSql = await fs.readFile(schemaPath, "utf8");
 
 const connectionConfig = {

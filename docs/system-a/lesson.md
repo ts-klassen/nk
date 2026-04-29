@@ -39,7 +39,7 @@ npm install
 npm run db:up
 npm run db:reset:a
 npm run build:a
-MYSQL_DATABASE=backend_training_a PORT=3000 npm run start:a
+MYSQL_DATABASE=backend_training_a_volatile PORT=3000 npm run start:a
 ```
 
 別のターミナルから API を呼ぶ。
@@ -152,12 +152,13 @@ npm run db:reset:a
 ```
 
 このコマンドは DB を作り直す。手元のデータは消える。
+安全のため、初期化対象の DB 名は `_volatile` で終わる名前だけ許可する。
 
 実装手順:
 
 1. `system-a/sql/schema.sql` に `users`、`books`、`reading_notes` テーブルを定義する。
 2. `scripts/reset-db.mjs` で DB を削除、作成し、`schema.sql` を実行する。
-3. `npm run db:reset:a` から `scripts/reset-db.mjs system-a/sql/schema.sql backend_training_a` を呼ぶ。
+3. `npm run db:reset:a` から `scripts/reset-db.mjs system-a/sql/schema.sql backend_training_a_volatile` を呼ぶ。
 
 仕様とコードの対応:
 

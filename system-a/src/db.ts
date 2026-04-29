@@ -13,7 +13,7 @@ export function getPool(): Pool {
       port: Number(process.env.MYSQL_PORT ?? "3306"),
       user: process.env.MYSQL_USER ?? "root",
       password: process.env.MYSQL_PASSWORD ?? "rootpass",
-      database: process.env.MYSQL_DATABASE ?? "backend_training_a",
+      database: process.env.MYSQL_DATABASE ?? "backend_training_a_volatile",
       timezone: "+09:00",
       dateStrings: true,
       connectionLimit: 10

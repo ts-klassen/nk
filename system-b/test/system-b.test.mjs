@@ -6,8 +6,21 @@ import { expect } from "chai";
 import argon2 from "argon2";
 
 const baseUrl = `http://127.0.0.1:${process.env.SYSTEM_B_PORT ?? "3001"}`;
-const database = process.env.MYSQL_DATABASE ?? "backend_training_b";
+const database = process.env.MYSQL_DATABASE ?? "backend_training_b_test_volatile";
 let serverProcess;
+
+function assertVolatileDatabaseName(databaseName) {
+  if (/^[A-Za-z0-9_]+_volatile$/.test(databaseName)) {
+    return;
+  }
+
+  throw new Error(
+    `Refusing to reset non-volatile database: ${JSON.stringify(databaseName)}. ` +
+      "MYSQL_DATABASE for tests must end with _volatile."
+  );
+}
+
+assertVolatileDatabaseName(database);
 
 const mysqlConnectionConfig = {
   host: process.env.MYSQL_HOST ?? "127.0.0.1",

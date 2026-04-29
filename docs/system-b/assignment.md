@@ -54,6 +54,8 @@ npm run test:b
 ```
 
 `npm run test:b` は TypeScript をビルドしてから公開テストを実行する。
+公開テストはデフォルトで `backend_training_b_test_volatile` を作り直す。
+安全のため、テストが初期化できる DB 名は `_volatile` で終わる名前だけに制限している。
 
 ## 実装場所
 
