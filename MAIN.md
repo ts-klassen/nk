@@ -1132,11 +1132,3 @@ MYSQL_DATABASE=backend_training_b_test_volatile npm run test:b
 | 認証 API にレート制限を置かない | 教材では省略している。実務ではログイン試行、ユーザー登録、パスワードリセットなどにレート制限や不正検知を入れる。 |
 | フロントエンドやブラウザ利用を考慮しない | この教材では API とコマンド確認に集中している。ブラウザから使う場合は、CORS、Cookie、CSRF、SameSite、画面側の入力制御も設計対象になる。 |
 
-## 参考資料
-
-- `docs/system-a/api.md`
-- `docs/system-a/lesson.md`
-- `docs/system-a/testing.md`
-- `docs/system-b/api.md`
-- `docs/system-b/assignment.md`
-- `docs/consistency.md`
