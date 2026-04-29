@@ -30,7 +30,7 @@ API 仕様は [api.md](api.md) を参照する。DB スキーマは `system-b/sq
 
 - `docs/system-b/api.md`: API 仕様書
 - `system-b/sql/schema.sql`: DB スキーマ
-- `system-b/test/system-b.test.mjs`: 振る舞いテスト
+- `system-b/test/system-b.test.ts`: 振る舞いテスト
 - `system-b/src/server.ts`: 最小の雛形
 
 ## 実行方法

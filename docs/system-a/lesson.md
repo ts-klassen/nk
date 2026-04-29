@@ -181,15 +181,15 @@ npm run db:reset:a
 実装手順:
 
 1. `system-a/sql/schema.sql` に `users`、`books`、`notes` テーブルを定義する。
-2. `scripts/reset-db.mjs` で DB を削除、作成し、`schema.sql` を実行する。
-3. `npm run db:reset:a` から `scripts/reset-db.mjs system-a/sql/schema.sql backend_training_a_volatile` を呼ぶ。
+2. `scripts/reset-db.ts` で DB を削除、作成し、`schema.sql` を実行する。
+3. `npm run db:reset:a` から `scripts/reset-db.ts system-a/sql/schema.sql backend_training_a_volatile` を呼ぶ。
 
 仕様とコードの対応:
 
 | 仕様 | 対応するコード |
 | --- | --- |
 | MySQL を Docker Compose で使う | `docker-compose.yml` |
-| migration ツールを使わない | `scripts/reset-db.mjs` と `system-a/sql/schema.sql` |
+| migration ツールを使わない | `scripts/reset-db.ts` と `system-a/sql/schema.sql` |
 | `AUTO_INCREMENT` 主キー | `system-a/sql/schema.sql` の各 `id` |
 | `isbn` 一意 | `system-a/sql/schema.sql` の `uq_books_isbn` |
 

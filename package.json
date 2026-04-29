@@ -6,15 +6,16 @@
     "db:up": "docker-compose up -d mysql",
     "db:down": "docker-compose down",
     "db:destroy": "docker-compose down -v",
-    "db:reset:a": "node scripts/reset-db.mjs system-a/sql/schema.sql backend_training_a_volatile",
-    "db:reset:b": "node scripts/reset-db.mjs system-b/sql/schema.sql backend_training_b_volatile",
+    "db:reset:a": "node scripts/reset-db.ts system-a/sql/schema.sql backend_training_a_volatile",
+    "db:reset:b": "node scripts/reset-db.ts system-b/sql/schema.sql backend_training_b_volatile",
     "build:a": "tsc -p system-a/tsconfig.json",
     "start:practice": "npm run build:a && node system-a/dist/practice-server.js",
     "start:a": "node system-a/dist/server.js",
     "dev:a": "npm run build:a && npm run start:a",
     "build:b": "tsc -p system-b/tsconfig.json",
     "start:b": "node system-b/dist/server.js",
-    "test:b": "npm run build:b && mocha \"system-b/test/**/*.test.mjs\" --timeout 10000"
+    "typecheck:tools": "tsc -p tsconfig.tools.json",
+    "test:b": "npm run typecheck:tools && npm run build:b && mocha \"system-b/test/**/*.test.ts\" --timeout 10000"
   },
   "engines": {
     "node": ">=22"
@@ -27,6 +28,7 @@
     "mysql2": "^3.14.0"
   },
   "devDependencies": {
+    "@types/chai": "^5.2.3",
     "@types/express": "^5.0.0",
     "@types/luxon": "^3.7.1",
     "@types/mocha": "^10.0.10",

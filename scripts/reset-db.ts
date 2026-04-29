@@ -1,18 +1,18 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import mysql from "mysql2/promise";
+import mysql, { type Connection, type ConnectionOptions } from "mysql2/promise";
 
 const [, , schemaPathArg, databaseArg] = process.argv;
 
 if (!schemaPathArg || !databaseArg) {
-  console.error("Usage: node scripts/reset-db.mjs <schema.sql> <database>");
+  console.error("Usage: node scripts/reset-db.ts <schema.sql> <database>");
   process.exit(1);
 }
 
 const schemaPath = path.resolve(process.cwd(), schemaPathArg);
 const database = databaseArg;
 
-function assertVolatileDatabaseName(databaseName) {
+function assertVolatileDatabaseName(databaseName: string): void {
   if (/^[A-Za-z0-9_]+_volatile$/.test(databaseName)) {
     return;
   }
@@ -20,7 +20,7 @@ function assertVolatileDatabaseName(databaseName) {
   console.error(
     `Refusing to reset non-volatile database: ${JSON.stringify(databaseName)}`
   );
-  console.error("Database names passed to reset-db.mjs must end with _volatile.");
+  console.error("Database names passed to reset-db.ts must end with _volatile.");
   process.exit(1);
 }
 
@@ -28,7 +28,7 @@ assertVolatileDatabaseName(database);
 
 const schemaSql = await fs.readFile(schemaPath, "utf8");
 
-function requiredEnv(name) {
+function requiredEnv(name: string): string {
   const value = process.env[name];
   if (value) {
     return value;
@@ -44,17 +44,17 @@ const connectionConfig = {
   user: process.env.MYSQL_USER ?? "root",
   password: requiredEnv("MYSQL_PASSWORD"),
   multipleStatements: true
-};
+} satisfies ConnectionOptions;
 
-async function createConnectionWithRetry(maxAttempts = 30) {
-  let lastError;
+async function createConnectionWithRetry(maxAttempts = 30): Promise<Connection> {
+  let lastError: unknown = new Error("Could not connect to MySQL.");
 
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     try {
       return await mysql.createConnection(connectionConfig);
     } catch (error) {
       lastError = error;
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise<void>((resolve) => setTimeout(resolve, 1000));
     }
   }
 

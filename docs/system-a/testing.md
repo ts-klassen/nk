@@ -49,7 +49,7 @@ schema.sql 実行
 テスト実行
 ```
 
-この教材では `scripts/reset-db.mjs` を使える。
+この教材では `scripts/reset-db.ts` を使える。
 
 ```bash
 npm run db:reset:a

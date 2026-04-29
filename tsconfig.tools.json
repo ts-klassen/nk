@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "types": ["mocha", "node"],
+    "noEmit": true
+  },
+  "include": ["scripts/**/*.ts", "system-b/test/**/*.ts"]
+}

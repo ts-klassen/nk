@@ -1,14 +1,41 @@
 import fs from "node:fs/promises";
 import net from "node:net";
-import { spawn } from "node:child_process";
-import mysql from "mysql2/promise";
+import { spawn, type ChildProcess } from "node:child_process";
+import mysql, {
+  type Connection,
+  type ConnectionOptions,
+  type RowDataPacket
+} from "mysql2/promise";
 import { expect } from "chai";
 import argon2 from "argon2";
 
 const baseUrl = `http://127.0.0.1:${process.env.SYSTEM_B_PORT ?? "3001"}`;
-let serverProcess;
+let serverProcess: ChildProcess | undefined;
 
-function requiredEnv(name, hint) {
+type JsonBody = any;
+
+interface TestResponse<TBody = JsonBody> {
+  status: number;
+  headers: Headers;
+  body: TBody;
+}
+
+interface RequestOptions {
+  method?: string;
+  headers?: Record<string, string>;
+  body?: string;
+}
+
+interface TestUser {
+  username: string;
+  password: string;
+}
+
+interface PasswordHashRow extends RowDataPacket {
+  password_hash: string;
+}
+
+function requiredEnv(name: string, hint: string): string {
   const value = process.env[name];
   if (value) {
     return value;
@@ -22,7 +49,7 @@ const database = requiredEnv(
   "Set MYSQL_DATABASE when running tests."
 );
 
-function assertVolatileDatabaseName(databaseName) {
+function assertVolatileDatabaseName(databaseName: string): void {
   if (/^[A-Za-z0-9_]+_volatile$/.test(databaseName)) {
     return;
   }
@@ -40,19 +67,19 @@ const mysqlConnectionConfig = {
   port: Number(process.env.MYSQL_PORT ?? "3306"),
   user: process.env.MYSQL_USER ?? "root",
   password: requiredEnv("MYSQL_PASSWORD", "Source .env before running tests.")
-};
+} satisfies ConnectionOptions;
 
-function auth(username, password) {
+function auth(username: string, password: string): string {
   return `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`;
 }
 
-async function resetDatabase() {
+async function resetDatabase(): Promise<void> {
   const schemaSql = await fs.readFile("system-b/sql/schema.sql", "utf8");
   const connectionConfig = {
     ...mysqlConnectionConfig,
     multipleStatements: true
-  };
-  let connection;
+  } satisfies ConnectionOptions;
+  let connection: Connection | undefined;
 
   for (let attempt = 1; attempt <= 30; attempt += 1) {
     try {
@@ -62,8 +89,12 @@ async function resetDatabase() {
       if (attempt === 30) {
         throw error;
       }
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise<void>((resolve) => setTimeout(resolve, 1000));
     }
+  }
+
+  if (!connection) {
+    throw new Error("Could not connect to MySQL.");
   }
 
   try {
@@ -78,14 +109,14 @@ async function resetDatabase() {
   }
 }
 
-async function findPasswordHash(username) {
+async function findPasswordHash(username: string): Promise<string | undefined> {
   const connection = await mysql.createConnection({
     ...mysqlConnectionConfig,
     database
   });
 
   try {
-    const [rows] = await connection.execute(
+    const [rows] = await connection.execute<PasswordHashRow[]>(
       "SELECT password_hash FROM users WHERE username = ?",
       [username]
     );
@@ -95,7 +126,7 @@ async function findPasswordHash(username) {
   }
 }
 
-function waitForPort(port, timeoutMs = 5000) {
+function waitForPort(port: number, timeoutMs = 5000): Promise<void> {
   const start = Date.now();
 
   return new Promise((resolve, reject) => {
@@ -119,7 +150,10 @@ function waitForPort(port, timeoutMs = 5000) {
   });
 }
 
-async function request(path, options = {}) {
+async function request(
+  path: string,
+  options: RequestOptions = {}
+): Promise<TestResponse> {
   const response = await fetch(`${baseUrl}${path}`, {
     ...options,
     headers: {
@@ -137,7 +171,11 @@ async function request(path, options = {}) {
   };
 }
 
-async function postJson(path, body, headers = {}) {
+async function postJson(
+  path: string,
+  body: Record<string, unknown>,
+  headers: Record<string, string> = {}
+): Promise<TestResponse> {
   return request(path, {
     method: "POST",
     headers,
@@ -145,7 +183,11 @@ async function postJson(path, body, headers = {}) {
   });
 }
 
-async function patchJson(path, body, headers = {}) {
+async function patchJson(
+  path: string,
+  body: Record<string, unknown>,
+  headers: Record<string, string> = {}
+): Promise<TestResponse> {
   return request(path, {
     method: "PATCH",
     headers,
@@ -155,12 +197,12 @@ async function patchJson(path, body, headers = {}) {
 
 let sequence = 0;
 
-function uniqueValue(prefix) {
+function uniqueValue(prefix: string): string {
   sequence += 1;
   return `${prefix}_${sequence}`;
 }
 
-function expectUnauthorized(response) {
+function expectUnauthorized(response: TestResponse): void {
   expect(response.status).to.equal(401);
   expect(response.headers.get("www-authenticate")).to.equal(
     'Basic realm="backend-training"'
@@ -173,7 +215,7 @@ function expectUnauthorized(response) {
   });
 }
 
-async function createUser(prefix = "user") {
+async function createUser(prefix = "user"): Promise<TestUser> {
   const user = {
     username: uniqueValue(prefix),
     password: "password123"
@@ -186,7 +228,7 @@ async function createUser(prefix = "user") {
   return user;
 }
 
-async function createTerm(prefix = "用語") {
+async function createTerm(prefix = "用語"): Promise<TestResponse> {
   const termText = uniqueValue(prefix);
   const response = await postJson("/terms", { term: termText });
 
@@ -196,7 +238,11 @@ async function createTerm(prefix = "用語") {
   return response;
 }
 
-async function createExample(termId, user, overrides = {}) {
+async function createExample(
+  termId: number,
+  user: TestUser,
+  overrides: Record<string, unknown> = {}
+): Promise<TestResponse> {
   const requestBody = {
     body: uniqueValue("用例本文"),
     collectedDate: "2026-04-28",
@@ -215,7 +261,7 @@ describe("用例採集 API", () => {
   before(async () => {
     await resetDatabase();
 
-    serverProcess = spawn("node", ["system-b/dist/server.js"], {
+    const spawnedServer = spawn("node", ["system-b/dist/server.js"], {
       env: {
         ...process.env,
         PORT: process.env.SYSTEM_B_PORT ?? "3001",
@@ -223,9 +269,10 @@ describe("用例採集 API", () => {
       },
       stdio: ["ignore", "pipe", "pipe"]
     });
+    serverProcess = spawnedServer;
 
-    serverProcess.stdout.on("data", (chunk) => process.stdout.write(chunk));
-    serverProcess.stderr.on("data", (chunk) => process.stderr.write(chunk));
+    spawnedServer.stdout?.on("data", (chunk) => process.stdout.write(chunk));
+    spawnedServer.stderr?.on("data", (chunk) => process.stderr.write(chunk));
 
     await waitForPort(Number(process.env.SYSTEM_B_PORT ?? "3001"));
   });
@@ -252,6 +299,9 @@ describe("用例採集 API", () => {
 
       const passwordHash = await findPasswordHash(username);
       expect(passwordHash).to.be.a("string");
+      if (!passwordHash) {
+        throw new Error(`Password hash was not found for ${username}.`);
+      }
       expect(passwordHash).to.not.equal(password);
       expect(passwordHash).to.match(/^\$argon2/);
       expect(await argon2.verify(passwordHash, password)).to.equal(true);
