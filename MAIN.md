@@ -1044,7 +1044,7 @@ curl -i -u alice:password123 -X DELETE http://127.0.0.1:3001/examples/1
 
 仕様通りに実装し、上の `curl` で確認せよ。
 
-## 第 9 章 公開テスト
+## 第 9 章 振る舞いテスト
 
 すべての API を実装した後に実行する。
 
@@ -1058,7 +1058,7 @@ MYSQL_DATABASE=backend_training_b_test_volatile npm run test:b
 
 `MYSQL_DATABASE=backend_training_b_test_volatile npm run test:b` が通るようにせよ。
 
-テストが失敗した場合は、失敗メッセージと API 仕様を照らし合わせて `system-b/src` の実装を直せ。テストを通すためだけに公開テストを書き換えるな。
+テストが失敗した場合は、失敗メッセージと API 仕様を照らし合わせて `system-b/src` の実装を直せ。テストを通すためだけに振る舞いテストを書き換えるな。
 
 ## 付録 A. 対応表
 

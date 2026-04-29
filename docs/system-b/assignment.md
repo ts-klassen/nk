@@ -4,7 +4,7 @@
 
 用例採集 API を一から実装する。
 
-API 仕様は [api.md](api.md) を参照する。DB スキーマは `system-b/sql/schema.sql` を使う。公開テストは `system-b/test` にある。
+API 仕様は [api.md](api.md) を参照する。DB スキーマは `system-b/sql/schema.sql` を使う。振る舞いテストは `system-b/test` にある。
 
 ## 作るもの
 
@@ -30,7 +30,7 @@ API 仕様は [api.md](api.md) を参照する。DB スキーマは `system-b/sq
 
 - `docs/system-b/api.md`: API 仕様書
 - `system-b/sql/schema.sql`: DB スキーマ
-- `system-b/test/system-b.test.mjs`: 公開テスト
+- `system-b/test/system-b.test.mjs`: 振る舞いテスト
 - `system-b/src/server.ts`: 最小の雛形
 
 ## 実行方法
@@ -75,8 +75,8 @@ npm run db:up
 MYSQL_DATABASE=backend_training_b_test_volatile npm run test:b
 ```
 
-`npm run test:b` は TypeScript をビルドしてから公開テストを実行する。
-公開テストは `MYSQL_DATABASE` に指定した DB を作り直す。
+`npm run test:b` は TypeScript をビルドしてから振る舞いテストを実行する。
+振る舞いテストは `MYSQL_DATABASE` に指定した DB を作り直す。
 安全のため、テストが初期化できる DB 名は `_volatile` で終わる名前だけに制限している。
 
 ## 実装場所
@@ -159,7 +159,7 @@ ORM、migration ツール、JWT、セッション管理は使わない。
 - `CONFLICT`
 - `INTERNAL_SERVER_ERROR`
 
-`INTERNAL_SERVER_ERROR` は想定外エラー時の共通コードである。通常の課題実装で意図的に発生させる対象ではなく、公開テストの主対象にも含めない。
+`INTERNAL_SERVER_ERROR` は想定外エラー時の共通コードである。通常の課題実装で意図的に発生させる対象ではなく、振る舞いテストの主対象にも含めない。
 
 `401 Unauthorized` では `WWW-Authenticate` ヘッダを返す。
 
@@ -171,4 +171,4 @@ WWW-Authenticate: Basic realm="backend-training"
 
 リポジトリ丸ごとを提出する。
 
-提出物には、実装したソースコード、SQL、公開テストを実行できる状態の設定を含める。
+提出物には、実装したソースコード、SQL、振る舞いテストを実行できる状態の設定を含める。
