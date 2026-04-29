@@ -6,8 +6,13 @@ import express, {
 
 const app = express();
 const port = Number(process.env.PORT ?? 3001);
+const helloAllowedMethods = "GET, HEAD, POST, OPTIONS";
 
 app.use(express.json());
+
+app.options("/hello", (_req: Request, res: Response) => {
+  res.set("Allow", helloAllowedMethods).status(204).send();
+});
 
 app.get("/hello", (_req: Request, res: Response) => {
   res.json({
@@ -18,6 +23,15 @@ app.get("/hello", (_req: Request, res: Response) => {
 app.post("/hello", (_req: Request, res: Response) => {
   res.status(201).json({
     message: "created"
+  });
+});
+
+app.patch("/hello", (_req: Request, res: Response) => {
+  res.set("Allow", helloAllowedMethods).status(405).json({
+    error: {
+      code: "METHOD_NOT_ALLOWED",
+      message: "このメソッドは使えません"
+    }
   });
 });
 
