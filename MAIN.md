@@ -464,6 +464,74 @@ updated_at     -> updatedAt
 | `PATCH /books/:bookId` | `bookId` と body を検証し、存在確認してから `UPDATE` する |
 | `DELETE /books/:bookId` | `bookId` を検証し、存在確認してから `DELETE` する |
 
+### 入力バリデーション
+
+API に届く値は、すべて外部入力である。正しい画面から送られてくるとは限らないし、`curl` で任意の値を送ることもできる。そのため、SQL を実行する前に入力値を検証する。
+
+この教材では `express-validator` を使う。検証する場所は 3 種類ある。
+
+| 入力の場所 | Express で読む場所 | 例 |
+| --- | --- | --- |
+| path parameter | `req.params` | `/books/:bookId` の `bookId` |
+| query parameter | `req.query` | `/books?limit=10&offset=0` の `limit` / `offset` |
+| JSON body | `req.body` | `POST /books` の `isbn` / `title` / `author` |
+
+`system-a/src/validation.ts` には、複数の API で使う共通 validator がある。
+
+```ts
+export function validateId(name: string): RequestHandler[] {
+  return [
+    param(name).isInt({ min: 1 }).toInt(),
+    handleValidationErrors
+  ];
+}
+```
+
+`param(name)` は path parameter を検証する。`isInt({ min: 1 })` は 1 以上の整数か確認する。`toInt()` は文字列として届いた値を数値へ変換する。
+
+`validatePagination()` は query parameter を検証する。
+
+```ts
+query("limit").optional().isInt({ min: 1, max: 100 }).toInt()
+query("offset").optional().isInt({ min: 0 }).toInt()
+```
+
+`optional()` は、その項目が省略されてもよいという意味である。省略された場合、`getPagination()` が `limit = 20`、`offset = 0` を使う。
+
+JSON body の検証は `system-a/src/app.ts` にある。
+
+```ts
+const isbnRule = () => body("isbn").isString().matches(/^(?:\d{10}|\d{13})$/);
+const titleRule = () => body("title").isString().trim().isLength({ min: 1, max: 255 });
+const authorRule = () => body("author").isString().trim().isLength({ min: 1, max: 255 });
+```
+
+`body("title")` は JSON body の `title` を検証する。`trim()` は前後の空白を取り除く。空白だけの文字列は、`trim()` 後に長さ 0 になり、`isLength({ min: 1 })` で不正になる。
+
+`POST /books` では、必要な項目をすべて検証してから処理に入る。
+
+```ts
+[isbnRule(), titleRule(), authorRule(), publishedDateRule(), handleValidationErrors]
+```
+
+`PATCH /books/:bookId` は部分更新なので、すべての項目を必須にはしない。ただし、更新する項目が 1 つもないリクエストは意味がないため、`requireAtLeastOne()` で少なくとも 1 項目が含まれることを確認する。
+
+```ts
+[
+  ...validateId("bookId"),
+  requireAtLeastOne(["isbn", "title", "author", "publishedDate"]),
+  isbnRule().optional(),
+  titleRule().optional(),
+  authorRule().optional(),
+  publishedDateRule(),
+  handleValidationErrors
+]
+```
+
+どの検証でも、失敗した場合は `handleValidationErrors` が `400 VALIDATION_ERROR` に変換する。API ごとにバラバラのエラー形式を返さない。
+
+アプリケーション側のバリデーションと、DB の制約は役割が違う。文字数、形式、数値範囲は API の入口で `400` にする。一方、`isbn` の一意制約や外部キー制約は DB に最終判断させ、MySQL のエラーを `409 CONFLICT` に変換する。
+
 `isbn` は一意である。同じ ISBN を登録しようとすると MySQL が一意制約エラーを返す。`system-a/src/errors.ts` の `isDuplicateEntry()` は、MySQL の `errno` が `1062` かどうかを見て、`409 CONFLICT` に変換する。
 
 書籍に読書メモが紐付いている場合、書籍は削除できない。このとき MySQL は外部キー制約エラーを返す。`isReferencedByForeignKey()` は `errno` が `1451` かどうかを見て、`409 CONFLICT` に変換する。
@@ -517,6 +585,20 @@ DELETE /terms/:termId
 - `term`: 必須。1 文字以上 255 文字以下。一意。
 - `limit`: 任意。デフォルト `20`。最小 `1`。最大 `100`。
 - `offset`: 任意。デフォルト `0`。最小 `0`。
+
+`system-b` でも、`system-a` と同じ考え方で入力を検証する。
+
+| API | 検証する値 |
+| --- | --- |
+| `GET /terms` | `limit` / `offset` |
+| `POST /terms` | body の `term` |
+| `GET /terms/:termId` | path の `termId` |
+| `PATCH /terms/:termId` | path の `termId`、body に `term` が 1 項目以上あること、`term` の形式 |
+| `DELETE /terms/:termId` | path の `termId` |
+
+`termId` は 1 以上の整数でなければならない。`term` は文字列で、前後の空白を取り除いた後に 1 文字以上 255 文字以下でなければならない。空文字、空白だけの文字列、長すぎる文字列は `400 VALIDATION_ERROR` にする。
+
+`PATCH /terms/:termId` は部分更新だが、この章で更新できる項目は `term` だけである。そのため、空の JSON `{}` は `400 VALIDATION_ERROR` にする。
 
 第6章の時点では用例 API はまだ実装しないが、`examples` テーブルは `system-b/sql/schema.sql` にすでに定義されている。`examples.term_id` は `terms.id` を参照するため、後で `examples.term_id = 1` の行が作られると、`terms.id = 1` の用語は削除できなくなる。
 
