@@ -215,6 +215,8 @@ Response: `204 No Content`
 
 Response: `204 No Content`
 
+用例が紐付いている用語は削除できない。削除可否は事前の用例件数確認ではなく、DB の外部キー制約で守り、外部キー制約エラーを `409 CONFLICT` に変換する。
+
 エラー:
 
 - `400 VALIDATION_ERROR`

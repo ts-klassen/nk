@@ -47,7 +47,7 @@
 | 親子紐付け | `reading_notes.book_id` | `examples.term_id` |
 | 子リソース本文 | `reading_notes.body` | `examples.body` |
 | 子リソース固有項目 | `page` | `collected_date`, `note` |
-| 親削除時の子データ | 子データがあれば `409 CONFLICT` | 子データがあれば `409 CONFLICT` |
+| 親削除時の子データ | 外部キー制約エラーを `409 CONFLICT` に変換 | 外部キー制約エラーを `409 CONFLICT` に変換 |
 | `ON DELETE CASCADE` | 使わない | 使わない |
 | `ON DELETE SET NULL` | 使わない | 使わない |
 

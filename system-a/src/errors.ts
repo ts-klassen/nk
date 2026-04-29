@@ -18,13 +18,20 @@ export class AppError extends Error {
   }
 }
 
+function mysqlErrno(error: unknown): number | undefined {
+  if (typeof error !== "object" || error === null || !("errno" in error)) {
+    return undefined;
+  }
+
+  return Number((error as { errno: unknown }).errno);
+}
+
 export function isDuplicateEntry(error: unknown): boolean {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "errno" in error &&
-    Number((error as { errno: unknown }).errno) === 1062
-  );
+  return mysqlErrno(error) === 1062;
+}
+
+export function isReferencedByForeignKey(error: unknown): boolean {
+  return mysqlErrno(error) === 1451;
 }
 
 export const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {

@@ -9,7 +9,12 @@ import type { RowDataPacket } from "mysql2/promise";
 import argon2 from "argon2";
 import { requireAuth } from "./auth";
 import { execute, queryRows } from "./db";
-import { AppError, errorHandler, isDuplicateEntry } from "./errors";
+import {
+  AppError,
+  errorHandler,
+  isDuplicateEntry,
+  isReferencedByForeignKey
+} from "./errors";
 import { formatDate, formatDateTime } from "./time";
 import {
   getPagination,
@@ -317,15 +322,15 @@ export function createApp() {
       const bookId = Number(req.params.bookId);
       await findBook(bookId);
 
-      const countRows = await queryRows<CountRow[]>(
-        "SELECT COUNT(*) AS total FROM reading_notes WHERE book_id = ?",
-        [bookId]
-      );
-      if (Number(countRows[0]?.total ?? 0) > 0) {
-        throw new AppError(409, "CONFLICT", "リソースが競合しています");
+      try {
+        await execute("DELETE FROM books WHERE id = ?", [bookId]);
+      } catch (error) {
+        if (isReferencedByForeignKey(error)) {
+          throw new AppError(409, "CONFLICT", "リソースが競合しています");
+        }
+        throw error;
       }
 
-      await execute("DELETE FROM books WHERE id = ?", [bookId]);
       res.status(204).send();
     })
   );
