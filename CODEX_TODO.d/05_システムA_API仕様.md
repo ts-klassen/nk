@@ -23,11 +23,11 @@
 
 ### 認証必須 API
 
-- `GET /books/:bookId/reading-notes`
-- `POST /books/:bookId/reading-notes`
-- `GET /reading-notes/:noteId`
-- `PATCH /reading-notes/:noteId`
-- `DELETE /reading-notes/:noteId`
+- `GET /books/:bookId/notes`
+- `POST /books/:bookId/notes`
+- `GET /notes/:noteId`
+- `PATCH /notes/:noteId`
+- `DELETE /notes/:noteId`
 
 ## 書籍
 
@@ -59,7 +59,7 @@
 - `page` は必須の正整数。
 - `body` は必須。
 - 1 ユーザーが 1 冊に複数メモを作成できる。
-- `PATCH /reading-notes/:noteId` は部分更新。
+- `PATCH /notes/:noteId` は部分更新。
 - 存在しない本に読書メモを作る場合は `404 Not Found` とする。
 
 ## TODO

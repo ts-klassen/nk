@@ -132,11 +132,11 @@ HTTP ステータスコードとの対応は次の通り。
 
 ### 認証必須 API
 
-- `GET /books/:bookId/reading-notes`
-- `POST /books/:bookId/reading-notes`
-- `GET /reading-notes/:noteId`
-- `PATCH /reading-notes/:noteId`
-- `DELETE /reading-notes/:noteId`
+- `GET /books/:bookId/notes`
+- `POST /books/:bookId/notes`
+- `GET /notes/:noteId`
+- `PATCH /notes/:noteId`
+- `DELETE /notes/:noteId`
 
 ## システム B: 用例採集
 

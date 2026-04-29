@@ -143,7 +143,7 @@ function auth(username, password) {
 
 ```js
 await postJson(
-  "/books/1/reading-notes",
+  "/books/1/notes",
   {
     page: 123,
     body: "第3章が参考になった"

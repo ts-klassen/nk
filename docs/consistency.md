@@ -16,11 +16,11 @@
 | 親リソース詳細 | `GET /books/:bookId` | `GET /terms/:termId` |
 | 親リソース更新 | `PATCH /books/:bookId` | `PATCH /terms/:termId` |
 | 親リソース削除 | `DELETE /books/:bookId` | `DELETE /terms/:termId` |
-| 子リソース一覧 | `GET /books/:bookId/reading-notes` | `GET /terms/:termId/examples` |
-| 子リソース作成 | `POST /books/:bookId/reading-notes` | `POST /terms/:termId/examples` |
-| 子リソース詳細 | `GET /reading-notes/:noteId` | `GET /examples/:exampleId` |
-| 子リソース更新 | `PATCH /reading-notes/:noteId` | `PATCH /examples/:exampleId` |
-| 子リソース削除 | `DELETE /reading-notes/:noteId` | `DELETE /examples/:exampleId` |
+| 子リソース一覧 | `GET /books/:bookId/notes` | `GET /terms/:termId/examples` |
+| 子リソース作成 | `POST /books/:bookId/notes` | `POST /terms/:termId/examples` |
+| 子リソース詳細 | `GET /notes/:noteId` | `GET /examples/:exampleId` |
+| 子リソース更新 | `PATCH /notes/:noteId` | `PATCH /examples/:exampleId` |
+| 子リソース削除 | `DELETE /notes/:noteId` | `DELETE /examples/:exampleId` |
 
 ## 認証・公開範囲対応表
 
@@ -40,12 +40,12 @@
 | --- | --- | --- |
 | ユーザー | `users` | `users` |
 | 親リソース | `books` | `terms` |
-| 子リソース | `reading_notes` | `examples` |
+| 子リソース | `notes` | `examples` |
 | ユーザー一意制約 | `users.username` | `users.username` |
 | 親リソース一意制約 | `books.isbn` | `terms.term` |
-| 子リソース所有者 | `reading_notes.user_id` | `examples.user_id` |
-| 親子紐付け | `reading_notes.book_id` | `examples.term_id` |
-| 子リソース本文 | `reading_notes.body` | `examples.body` |
+| 子リソース所有者 | `notes.user_id` | `examples.user_id` |
+| 親子紐付け | `notes.book_id` | `examples.term_id` |
+| 子リソース本文 | `notes.body` | `examples.body` |
 | 子リソース固有項目 | `page` | `collected_date`, `note` |
 | 親削除時の子データ | 外部キー制約エラーを `409 CONFLICT` に変換 | 外部キー制約エラーを `409 CONFLICT` に変換 |
 | `ON DELETE CASCADE` | 使わない | 使わない |

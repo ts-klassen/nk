@@ -880,7 +880,7 @@ YWxpY2U6cGFzc3dvcmQxMjM=
 ```bash
 curl -i \
   -H "Authorization: Basic YWxpY2U6cGFzc3dvcmQxMjM=" \
-  http://127.0.0.1:3000/books/1/reading-notes
+  http://127.0.0.1:3000/books/1/notes
 ```
 
 元に戻せることも確認できる。
@@ -894,7 +894,7 @@ echo -n 'YWxpY2U6cGFzc3dvcmQxMjM=' | base64 -d
 毎回 Base64 を自分で作るのは面倒である。`curl` では `-u` を使うと、`username:password` から `Authorization: Basic ...` ヘッダーを自動で作ってくれる。
 
 ```bash
-curl -i -u alice:password123 http://127.0.0.1:3000/books/1/reading-notes
+curl -i -u alice:password123 http://127.0.0.1:3000/books/1/notes
 ```
 
 つまり、上の `-H "Authorization: Basic ..."` と `-u alice:password123` は同じ種類のリクエストである。
@@ -936,20 +936,20 @@ WWW-Authenticate: Basic realm="backend-training"
 
 たとえば、パスワードが間違っている場合は `401` である。正しいユーザーとして認証できたが、他人の読書メモを更新しようとした場合は `403` である。
 
-所有者チェックは、DB の行に入っている `user_id` と `req.user.id` を比べて行う。`system-a/src/app.ts` の `assertOwnReadingNote()` がその処理である。
+所有者チェックは、DB の行に入っている `user_id` と `req.user.id` を比べて行う。`system-a/src/app.ts` の `assertOwnNote()` がその処理である。
 
 ### system-a の確認箇所
 
 - `system-a/src/auth.ts`
 - `system-a/src/types.ts`
-- `system-a/src/app.ts` の `mapReadingNote()`
-- `system-a/src/app.ts` の `findReadingNote()`
-- `system-a/src/app.ts` の `assertOwnReadingNote()`
-- `GET /books/:bookId/reading-notes`
-- `POST /books/:bookId/reading-notes`
-- `GET /reading-notes/:noteId`
-- `PATCH /reading-notes/:noteId`
-- `DELETE /reading-notes/:noteId`
+- `system-a/src/app.ts` の `mapNote()`
+- `system-a/src/app.ts` の `findNote()`
+- `system-a/src/app.ts` の `assertOwnNote()`
+- `GET /books/:bookId/notes`
+- `POST /books/:bookId/notes`
+- `GET /notes/:noteId`
+- `PATCH /notes/:noteId`
+- `DELETE /notes/:noteId`
 
 確認用にユーザーと本が必要である。第6章の `system-a` 動作確認で `DELETE /books/1` まで実行していると、`books.id = 1` の本は残っていない。DB を初期化してから `system-a` を起動し直す。
 
@@ -979,7 +979,7 @@ curl -i -X POST http://127.0.0.1:3000/books \
 確認:
 
 ```bash
-curl -i -u alice:password123 -X POST http://127.0.0.1:3000/books/1/reading-notes \
+curl -i -u alice:password123 -X POST http://127.0.0.1:3000/books/1/notes \
   -H "content-type: application/json" \
   -d '{"page":123,"body":"第3章が参考になった"}'
 ```
@@ -1093,11 +1093,11 @@ MYSQL_DATABASE=backend_training_b_test_volatile npm run test:b
 | `GET /books/:bookId` | `GET /terms/:termId` |
 | `PATCH /books/:bookId` | `PATCH /terms/:termId` |
 | `DELETE /books/:bookId` | `DELETE /terms/:termId` |
-| `GET /books/:bookId/reading-notes` | `GET /terms/:termId/examples` |
-| `POST /books/:bookId/reading-notes` | `POST /terms/:termId/examples` |
-| `GET /reading-notes/:noteId` | `GET /examples/:exampleId` |
-| `PATCH /reading-notes/:noteId` | `PATCH /examples/:exampleId` |
-| `DELETE /reading-notes/:noteId` | `DELETE /examples/:exampleId` |
+| `GET /books/:bookId/notes` | `GET /terms/:termId/examples` |
+| `POST /books/:bookId/notes` | `POST /terms/:termId/examples` |
+| `GET /notes/:noteId` | `GET /examples/:exampleId` |
+| `PATCH /notes/:noteId` | `PATCH /examples/:exampleId` |
+| `DELETE /notes/:noteId` | `DELETE /examples/:exampleId` |
 
 ## 付録 B. 教材上の単純化と実務での注意
 

@@ -20,7 +20,7 @@ CREATE TABLE books (
   UNIQUE KEY uq_books_isbn (isbn)
 );
 
-CREATE TABLE reading_notes (
+CREATE TABLE notes (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   user_id BIGINT UNSIGNED NOT NULL,
   book_id BIGINT UNSIGNED NOT NULL,
@@ -29,9 +29,9 @@ CREATE TABLE reading_notes (
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  KEY idx_reading_notes_user_book (user_id, book_id),
-  KEY idx_reading_notes_book (book_id),
-  CONSTRAINT fk_reading_notes_user_id FOREIGN KEY (user_id) REFERENCES users (id),
-  CONSTRAINT fk_reading_notes_book_id FOREIGN KEY (book_id) REFERENCES books (id),
-  CONSTRAINT chk_reading_notes_page_positive CHECK (page > 0)
+  KEY idx_notes_user_book (user_id, book_id),
+  KEY idx_notes_book (book_id),
+  CONSTRAINT fk_notes_user_id FOREIGN KEY (user_id) REFERENCES users (id),
+  CONSTRAINT fk_notes_book_id FOREIGN KEY (book_id) REFERENCES books (id),
+  CONSTRAINT chk_notes_page_positive CHECK (page > 0)
 );

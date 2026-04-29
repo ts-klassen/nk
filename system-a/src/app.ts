@@ -36,7 +36,7 @@ interface BookRow extends RowDataPacket {
   updated_at: string;
 }
 
-interface ReadingNoteRow extends RowDataPacket {
+interface NoteRow extends RowDataPacket {
   id: number;
   user_id: number;
   book_id: number;
@@ -100,7 +100,7 @@ function mapBook(row: BookRow) {
   };
 }
 
-function mapReadingNote(row: ReadingNoteRow) {
+function mapNote(row: NoteRow) {
   return {
     id: Number(row.id),
     bookId: Number(row.book_id),
@@ -123,9 +123,9 @@ async function findBook(bookId: number): Promise<BookRow> {
   return rows[0];
 }
 
-async function findReadingNote(noteId: number): Promise<ReadingNoteRow> {
-  const rows = await queryRows<ReadingNoteRow[]>(
-    "SELECT * FROM reading_notes WHERE id = ?",
+async function findNote(noteId: number): Promise<NoteRow> {
+  const rows = await queryRows<NoteRow[]>(
+    "SELECT * FROM notes WHERE id = ?",
     [noteId]
   );
 
@@ -136,7 +136,7 @@ async function findReadingNote(noteId: number): Promise<ReadingNoteRow> {
   return rows[0];
 }
 
-function assertOwnReadingNote(note: ReadingNoteRow, userId: number): void {
+function assertOwnNote(note: NoteRow, userId: number): void {
   if (Number(note.user_id) !== userId) {
     throw new AppError(403, "FORBIDDEN", "この操作は許可されていません");
   }
@@ -346,7 +346,7 @@ export function createApp() {
   );
 
   app.get(
-    "/books/:bookId/reading-notes",
+    "/books/:bookId/notes",
     [requireAuth, ...validateId("bookId"), ...validatePagination()],
     async (req: Request, res: Response) => {
       const bookId = Number(req.params.bookId);
@@ -354,16 +354,16 @@ export function createApp() {
 
       const { limit, offset } = getPagination(req);
       const countRows = await queryRows<CountRow[]>(
-        "SELECT COUNT(*) AS total FROM reading_notes WHERE book_id = ? AND user_id = ?",
+        "SELECT COUNT(*) AS total FROM notes WHERE book_id = ? AND user_id = ?",
         [bookId, req.user?.id]
       );
-      const notes = await queryRows<ReadingNoteRow[]>(
-        "SELECT * FROM reading_notes WHERE book_id = ? AND user_id = ? ORDER BY id ASC LIMIT ? OFFSET ?",
+      const notes = await queryRows<NoteRow[]>(
+        "SELECT * FROM notes WHERE book_id = ? AND user_id = ? ORDER BY id ASC LIMIT ? OFFSET ?",
         [bookId, req.user?.id, limit, offset]
       );
 
       res.json({
-        items: notes.map(mapReadingNote),
+        items: notes.map(mapNote),
         pagination: {
           limit,
           offset,
@@ -374,7 +374,7 @@ export function createApp() {
   );
 
   app.post(
-    "/books/:bookId/reading-notes",
+    "/books/:bookId/notes",
     [
       requireAuth,
       ...validateId("bookId"),
@@ -387,27 +387,27 @@ export function createApp() {
       await findBook(bookId);
 
       const result = await execute(
-        "INSERT INTO reading_notes (user_id, book_id, page, body) VALUES (?, ?, ?, ?)",
+        "INSERT INTO notes (user_id, book_id, page, body) VALUES (?, ?, ?, ?)",
         [req.user?.id, bookId, req.body.page, req.body.body]
       );
 
-      const note = await findReadingNote(Number(result.insertId));
-      res.status(201).json(mapReadingNote(note));
+      const note = await findNote(Number(result.insertId));
+      res.status(201).json(mapNote(note));
     }
   );
 
   app.get(
-    "/reading-notes/:noteId",
+    "/notes/:noteId",
     [requireAuth, ...validateId("noteId")],
     async (req: Request, res: Response) => {
-      const note = await findReadingNote(Number(req.params.noteId));
-      assertOwnReadingNote(note, Number(req.user?.id));
-      res.json(mapReadingNote(note));
+      const note = await findNote(Number(req.params.noteId));
+      assertOwnNote(note, Number(req.user?.id));
+      res.json(mapNote(note));
     }
   );
 
   app.patch(
-    "/reading-notes/:noteId",
+    "/notes/:noteId",
     [
       requireAuth,
       ...validateId("noteId"),
@@ -417,8 +417,8 @@ export function createApp() {
       handleValidationErrors
     ],
     async (req: Request, res: Response) => {
-      const note = await findReadingNote(Number(req.params.noteId));
-      assertOwnReadingNote(note, Number(req.user?.id));
+      const note = await findNote(Number(req.params.noteId));
+      assertOwnNote(note, Number(req.user?.id));
 
       const assignments: string[] = [];
       const values: unknown[] = [];
@@ -433,7 +433,7 @@ export function createApp() {
       }
 
       await execute(
-        `UPDATE reading_notes SET ${assignments.join(", ")} WHERE id = ?`,
+        `UPDATE notes SET ${assignments.join(", ")} WHERE id = ?`,
         [...values, Number(req.params.noteId)]
       );
 
@@ -442,13 +442,13 @@ export function createApp() {
   );
 
   app.delete(
-    "/reading-notes/:noteId",
+    "/notes/:noteId",
     [requireAuth, ...validateId("noteId")],
     async (req: Request, res: Response) => {
-      const note = await findReadingNote(Number(req.params.noteId));
-      assertOwnReadingNote(note, Number(req.user?.id));
+      const note = await findNote(Number(req.params.noteId));
+      assertOwnNote(note, Number(req.user?.id));
 
-      await execute("DELETE FROM reading_notes WHERE id = ?", [
+      await execute("DELETE FROM notes WHERE id = ?", [
         Number(req.params.noteId)
       ]);
       res.status(204).send();

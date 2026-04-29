@@ -8,7 +8,7 @@
 
 - `users`
 - `books`
-- `reading_notes`
+- `notes`
 
 ## `users`
 
@@ -43,7 +43,7 @@
 - `isbn` は一意
 - `published_date` は nullable
 
-## `reading_notes`
+## `notes`
 
 保持する情報:
 

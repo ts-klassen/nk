@@ -247,7 +247,7 @@ Response: `204 No Content`
 
 読書メモ API は全て Basic 認証必須。読書メモは所有者だけが閲覧、更新、削除できる。
 
-### ReadingNote
+### Note
 
 ```json
 {
@@ -266,7 +266,7 @@ Response: `204 No Content`
 - `body`: 必須。1 文字以上 2000 文字以下。
 - 1 ユーザーが 1 冊に複数の読書メモを作成できる。
 
-### GET /books/:bookId/reading-notes
+### GET /books/:bookId/notes
 
 指定した本に紐付く、自分の読書メモだけを一覧取得する。
 
@@ -298,7 +298,7 @@ Response: `200 OK`
 - `401 UNAUTHORIZED`
 - `404 NOT_FOUND`: 書籍が存在しない
 
-### POST /books/:bookId/reading-notes
+### POST /books/:bookId/notes
 
 Request:
 
@@ -311,7 +311,7 @@ Request:
 
 Response: `201 Created`
 
-レスポンスボディは `ReadingNote`。
+レスポンスボディは `Note`。
 
 エラー:
 
@@ -319,11 +319,11 @@ Response: `201 Created`
 - `401 UNAUTHORIZED`
 - `404 NOT_FOUND`: 書籍が存在しない
 
-### GET /reading-notes/:noteId
+### GET /notes/:noteId
 
 Response: `200 OK`
 
-レスポンスボディは `ReadingNote`。
+レスポンスボディは `Note`。
 
 エラー:
 
@@ -332,7 +332,7 @@ Response: `200 OK`
 - `403 FORBIDDEN`: 他ユーザーの読書メモ
 - `404 NOT_FOUND`
 
-### PATCH /reading-notes/:noteId
+### PATCH /notes/:noteId
 
 部分更新。少なくとも 1 項目を指定する。
 
@@ -358,7 +358,7 @@ Response: `204 No Content`
 - `403 FORBIDDEN`: 他ユーザーの読書メモ
 - `404 NOT_FOUND`
 
-### DELETE /reading-notes/:noteId
+### DELETE /notes/:noteId
 
 Response: `204 No Content`
 
