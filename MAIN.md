@@ -2,50 +2,50 @@
 
 ## はじめに
 
-この教材では、2 つの小さなシステムを扱う。ひとつは見本として読む `system-a`、もうひとつは自分で実装する `system-b` である。どちらも、何かを記録し、あとから探し、必要に応じて直せるようにするためのシステムである。
+この教材では、2 つの小さなシステムを扱う。ひとつは見本として参照する `system-a`、もうひとつは課題として実装する `system-b` である。どちらも、何かを記録し、後から探し、必要に応じて直せるようにするためのシステムである。
 
 ### 書籍管理システム
 
 `system-a` は、書籍管理システムである。
 
-書籍管理システムは、個人の蔵書、部署の本棚、研修用の参考書、社内図書室などで、本の情報を整理するために使う。本は、手元にあるだけでは探しにくい。誰が見ても同じ本だと分かる情報を残しておくことで、あとから一覧で見たり、特定の本を探したり、重複して登録しないようにしたりできる。
+書籍管理システムは、個人の蔵書、部署の本棚、研修用の参考書、社内図書室などで、本の情報を整理するために使う。本は、所有しているだけでは後から探しにくい。誰が見ても同じ本であると分かる情報を残しておくことで、一覧で確認したり、特定の本を探したり、重複して登録しないようにしたりできる。
 
 このシステムでは、書籍としてタイトル、著者、出版日、ISBN を管理する。ISBN は、書籍を識別するために出版物へ割り当てられる番号である。同じタイトルの本でも、版や出版形態が違えば別の ISBN になることがある。人間にとっての「本の名前」だけでは曖昧な場合があるため、システムでは ISBN を使って同じ本の重複登録を防ぐ。
 
-また、このシステムでは書籍そのものだけでなく、読書メモも扱う。読書メモは、本を読んだ人が自分のために残す記録である。たとえば、参考になったページ、あとで読み返したい章、実務で使えそうな内容、疑問に思ったこと、誰かに共有したい観点などを書く。読書メモは本に紐付くが、内容は書いた本人のものなので、他の人が勝手に見たり直したりできないようにする。
+また、このシステムでは書籍そのものだけでなく、読書メモも扱う。読書メモは、本を読んだ人が自分のために残す記録である。たとえば、参考になったページ、後で読み返したい章、実務で使えそうな内容、疑問に思ったこと、誰かに共有したい観点などを書く。読書メモは本と関連付けて保存するが、内容は書いた本人のものなので、他の人が無断で閲覧・編集できないようにする。
 
 ### 用例採集システム
 
 `system-b` は、用例採集システムである。
 
-用例採集システムは、言葉の使われ方を集めるために使う。新しい業務用語、専門用語、社内だけで使われる言い回し、設計やレビューでよく出る表現は、辞書的な説明だけでは理解しにくい。実際にどの文脈で、どのような文として使われていたかを残すことで、あとから学習や共有に使える。
+用例採集システムは、言葉の使われ方を集めるために使う。新しい業務用語、専門用語、社内だけで使われる言い回し、設計やレビューで頻繁に出る表現は、辞書的な説明だけでは理解しにくい。実際にどの文脈で、どのような文として使われていたかを残すことで、後から学習や共有に使える。
 
 このシステムでは、まず用語を管理する。用語とは、意味を確認したい言葉や、チーム内で共通理解を持ちたい言葉である。たとえば「排他制御」「冪等性」「トランザクション」のような言葉を登録する。用語だけを登録しても、実際の使われ方は分からないため、このシステムでは用例も集める。
 
-用例とは、その用語が使われている具体的な文である。たとえば、会議で出た発言、設計書の一文、コードレビューのコメント、学習中に読んだ資料の一節などが用例になる。用例には、本文だけでなく、いつ集めたか、どこで見たか、なぜ残したかといった補足メモも付けられる。用例は他の人も読めるが、登録した本人だけが直したり削除したりできる。
+用例とは、その用語が使われている具体的な文である。たとえば、会議で出た発言、設計書の一文、コードレビューのコメント、学習中に読んだ資料の一節などが用例になる。用例には、本文だけでなく、いつ集めたか、どこで見たか、なぜ残したかといった補足メモも付けられる。用例は他の人も閲覧できるが、登録した本人だけが編集・削除できる。
 
 ### この教材での進め方
 
-第1章から第5章では、バックエンドの基本、動かし方、ファイルの役割を確認する。第6章からは、`system-a` の一部を読み、その直後に `system-b` の対応する部分を実装する。見本を全部読んでから課題を作るのではなく、機能ごとに読む、動かす、実装する、確認する、を繰り返す。
+第1章から第5章では、バックエンドの基本、動かし方、ファイルの役割を確認する。第6章からは、`system-a` の一部を確認し、その直後に `system-b` の対応する部分を実装する。見本をすべて確認してから課題全体を実装するのではなく、機能ごとに確認し、動かし、実装し、結果を確かめる。
 
 ## 第 1 章 バックエンドとは何か
 
-フロントエンドは画面を担当する。バックエンドは画面の裏側で、データとルールを担当する。
+フロントエンドは画面を担当する。バックエンドは画面には直接表示されない部分で、データとルールを担当する。
 
-書籍管理のサーバーなら、バックエンドは次を行う。
+書籍管理のサーバーでは、バックエンドは次の処理を行う。
 
 - 書籍一覧を返す。
 - 新しい書籍をデータベースに保存する。
 - 不正な入力を拒否する。
 - 存在しない書籍 ID に `404 Not Found` を返す。
 - 同じ ISBN の本を重複登録させない。
-- ログイン済みユーザーだけが読書メモを作れるようにする。
+- ログインしているユーザーだけが読書メモを作れるようにする。
 
 API は、別のプログラムから使うための入口である。
 
-この教材では、HTTP でデータをやり取りする API を扱う。HTTP は、Web で要求と結果をやり取りするための決まりである。
+この教材では、HTTP でデータをやり取りする API を扱う。HTTP は、Web で要求と結果をやり取りするためのルールである。
 
-JSON は、プログラム同士でデータを渡すための書き方である。JavaScript の object に近い形で書く。
+JSON は、プログラム同士でデータを渡すための書き方である。JavaScript のオブジェクトに近い形で書く。
 
 ```http
 GET /books
@@ -62,22 +62,22 @@ GET /books
 }
 ```
 
-## 第 2 章 `curl` で HTTP を触る
+## 第 2 章 `curl` でリクエストを送る
 
 `curl` は、ターミナルからサーバーに要求を送るためのコマンドである。
 
 ### 準備
 
-この章から、Linux 環境のターミナルでコマンドを実行する。コマンドは、この教材のファイル一式を置いたディレクトリで実行する。`package.json` がある場所である。
+この章から、Linux 環境のターミナルでコマンドを実行する。コマンドは、この教材のファイル一式を配置したディレクトリで実行する。`package.json` がある場所である。
 
-`npm` は、Node.js のプロジェクトで使うコマンドである。この教材では、必要なライブラリを入れたり、あらかじめ用意された起動コマンドを実行したりするために使う。
+`npm` は、Node.js のプロジェクトで使うコマンドである。この教材では、必要なライブラリをインストールしたり、あらかじめ用意された起動コマンドを実行したりするために使う。
 
 ```bash
 npm install
 npm run db:up
 ```
 
-`npm install` は、この教材で使うライブラリをインストールする。`npm run db:up` は、データベースを起動する。
+`npm install` は、この教材で使うライブラリをインストールする。`npm run db:up` は、この教材の `package.json` に用意されているコマンドで、データベースを起動する。
 
 この研修ではフロントエンドは作らない。動作確認はコマンドとテストで行う。
 
@@ -93,15 +93,15 @@ npm run start:practice
 curl -i http://127.0.0.1:3001/hello
 ```
 
-`-i` はレスポンスヘッダも表示する。
+`-i` はレスポンスヘッダーも表示する。
 
-status は結果番号、header は補足情報、body は中身である。
+ステータスは結果を表す番号、ヘッダーは補足情報、ボディーは内容である。
 
-確認するもの:
+確認する項目:
 
-- status: `200 OK`
-- header: `Content-Type`
-- body: `{"message":"hello"}`
+- ステータス: `200 OK`
+- ヘッダー: `Content-Type`
+- ボディー: `{"message":"hello"}`
 
 ### POST
 
@@ -109,7 +109,7 @@ status は結果番号、header は補足情報、body は中身である。
 curl -i -X POST http://127.0.0.1:3001/hello
 ```
 
-同じ URL でも、HTTP method が違えば別の処理になる。
+同じ URL でも、HTTP メソッドが違うと別の処理になる。
 
 ### query parameter
 
@@ -117,7 +117,7 @@ curl -i -X POST http://127.0.0.1:3001/hello
 curl -i "http://127.0.0.1:3001/echo-query?word=backend"
 ```
 
-`?word=backend` の部分が query parameter。後で `limit` / `offset` に使う。
+`?word=backend` の部分が query parameter である。後の章で `limit` / `offset` を指定するときに使う。
 
 ### path parameter
 
@@ -135,9 +135,9 @@ curl -i -X POST http://127.0.0.1:3001/echo-body \
   -d '{"name":"alice"}'
 ```
 
-`-H` はヘッダ、`-d` はリクエスト body を指定する。
+`-H` はヘッダー、`-d` はリクエストボディーを指定する。
 
-壊れた JSON も送る。
+不正な形式の JSON も送る。
 
 ```bash
 curl -i -X POST http://127.0.0.1:3001/echo-body \
@@ -145,11 +145,11 @@ curl -i -X POST http://127.0.0.1:3001/echo-body \
   -d '{"name":"alice"'
 ```
 
-サーバーは `400 Bad Request` を返す。外から来る入力は信用しない。
+サーバーは `400 Bad Request` を返す。外部から送られる入力は信用できるとは限らない。
 
 ## 第 3 章 echo エンドポイント
 
-`system-a/src/practice-server.ts` に追加する。追加位置は `jsonErrorHandler` より前。
+`system-a/src/practice-server.ts` に次の処理を追加する。追加位置は `jsonErrorHandler` より前。
 
 ```ts
 app.post("/debug/request", (req: Request, res: Response) => {
@@ -178,7 +178,7 @@ app.post("/debug/request", (req: Request, res: Response) => {
 npm run start:practice
 ```
 
-リクエストする。
+次のリクエストを送る。
 
 ```bash
 curl -i -X POST "http://127.0.0.1:3001/debug/request?mode=practice" \
@@ -187,13 +187,13 @@ curl -i -X POST "http://127.0.0.1:3001/debug/request?mode=practice" \
   -d '{"message":"hello","count":1}'
 ```
 
-`curl` のレスポンスと、サーバー側の `console.log` の両方を見る。
+`curl` のレスポンスと、サーバー側の `console.log` の両方を確認する。
 
 ## 第 4 章 REST API の基本
 
-REST API では、操作対象を URL で表し、操作内容を HTTP method で表す。
+REST API では、操作対象を URL で表し、操作内容を HTTP メソッドで表す。
 
-| 操作 | method | 例 | 成功 status |
+| 操作 | メソッド | 例 | 成功ステータス |
 | --- | --- | --- | --- |
 | 一覧取得 | `GET` | `GET /books` | `200 OK` |
 | 詳細取得 | `GET` | `GET /books/1` | `200 OK` |
@@ -210,7 +210,7 @@ PATCH /books/1
 DELETE /books/1
 ```
 
-エラー形式は全 API でそろえる。
+エラー形式は全 API で統一する。
 
 ```json
 {
@@ -221,9 +221,9 @@ DELETE /books/1
 }
 ```
 
-主な status:
+主なステータス:
 
-| status | 用途 |
+| ステータス | 用途 |
 | --- | --- |
 | `400` | 入力が不正 |
 | `401` | ログイン確認が必要 |
@@ -231,9 +231,9 @@ DELETE /books/1
 | `404` | 対象がない |
 | `409` | 一意制約や外部キー制約に違反 |
 
-## 第 5 章 system-b の土台
+## 第 5 章 system-b の基本構成
 
-`system-b/src` に実装する。`system-a` と同じ分け方にすると進めやすい。
+`system-b/src` に実装する。`system-a` と同じ分け方にすると、対応関係を追いやすい。
 
 | ファイル | 役割 |
 | --- | --- |
@@ -246,7 +246,7 @@ DELETE /books/1
 | `time.ts` | 日付フォーマット |
 | `types.ts` | `req.user` などの型定義 |
 
-最初に作るもの:
+最初に実装する項目:
 
 - `createApp()`
 - `express.json()`
@@ -264,15 +264,15 @@ MYSQL_DATABASE=backend_training_b PORT=3001 npm run start:b
 
 ## 第 6 章 テーマ 1: 認証なし CRUD
 
-認証なしは、ログインしなくても使えるという意味。
+「認証なし」とは、ログインしなくても使えるという意味である。
 
-CRUD は `Create`、`Read`、`Update`、`Delete` の略。追加、取得、変更、削除のこと。
+CRUD は `Create`、`Read`、`Update`、`Delete` の略である。追加、取得、変更、削除をまとめて指す。
 
-この章では、`system-a` の `books` を読んで、`system-b` の `terms` を作る。
+この章では、`system-a` の書籍 API を確認し、`system-b` の用語 API を実装する。
 
-### system-a で読む
+### system-a の確認箇所
 
-起動する。
+`system-a` を起動する。
 
 ```bash
 npm run db:reset:a
@@ -280,7 +280,7 @@ npm run build:a
 MYSQL_DATABASE=backend_training_a PORT=3000 npm run start:a
 ```
 
-読む場所:
+確認するファイルと処理:
 
 - `system-a/sql/schema.sql` の `books`
 - `system-a/src/app.ts` の `mapBook()`
@@ -291,7 +291,7 @@ MYSQL_DATABASE=backend_training_a PORT=3000 npm run start:a
 - `PATCH /books/:bookId`
 - `DELETE /books/:bookId`
 
-### system-a を curl で確認
+### system-a の動作確認
 
 ```bash
 curl -i -X POST http://127.0.0.1:3000/books \
@@ -314,7 +314,7 @@ curl -i -X PATCH http://127.0.0.1:3000/books/1 \
 curl -i -X DELETE http://127.0.0.1:3000/books/1
 ```
 
-### system-b に実装
+### system-b の実装
 
 ```http
 GET /terms
@@ -341,7 +341,17 @@ DELETE /terms/:termId
 - `limit`: 任意。デフォルト `20`。最小 `1`。最大 `100`。
 - `offset`: 任意。デフォルト `0`。最小 `0`。
 
-削除時、用例が紐付く用語は削除できない。データベースの外部キー制約エラーを `409 CONFLICT` に変換する。
+第6章の時点では用例 API はまだ実装しないが、`examples` テーブルは `system-b/sql/schema.sql` にすでに定義されている。`examples.term_id` は `terms.id` を参照するため、後で `examples.term_id = 1` の行が作られると、`terms.id = 1` の用語は削除できなくなる。
+
+`DELETE /terms/:termId` は、その状態になっても正しく動くように実装する。
+
+1. `termId` が数値として正しいか確認する。
+2. `SELECT ... FROM terms WHERE id = ?` で用語が存在するか確認する。存在しなければ `404 NOT_FOUND` を返す。
+3. `DELETE FROM terms WHERE id = ?` を実行する。
+4. MySQL が外部キー制約エラーを返した場合は、`409 CONFLICT` に変換する。`mysql2` のエラーでは `errno` が `1451` になる。
+5. 削除できた場合は `204 No Content` を返す。
+
+削除前に `examples` の件数を数えて判定しない。用語を削除してよいかどうかは、`examples.term_id` から `terms.id` への外部キー制約でデータベースに判定させる。
 
 確認:
 
@@ -369,9 +379,9 @@ curl -i -X DELETE http://127.0.0.1:3001/terms/1
 
 ## 第 7 章 テーマ 2: ユーザー登録
 
-この章では、`system-a` の `POST /users` を読んで、`system-b` に実装する。
+この章では、`system-a` のユーザー登録処理を確認し、`system-b` に同じ処理を実装する。
 
-### system-a で読む
+### system-a の確認箇所
 
 - `system-a/sql/schema.sql` の `users`
 - `system-a/src/app.ts` の `mapUser()`
@@ -386,13 +396,13 @@ curl -i -X POST http://127.0.0.1:3000/users \
   -d '{"username":"alice","password":"password123"}'
 ```
 
-確認すること:
+確認する項目:
 
 - レスポンスに `password` / `passwordHash` を含めない。
 - データベースには Argon2 のハッシュを保存する。
 - `username` 重複は `409 CONFLICT`。
 
-### system-b に実装
+### system-b の実装
 
 ```http
 POST /users
@@ -410,7 +420,7 @@ POST /users
   -> argon2.hash()
   -> INSERT INTO users
   -> 作成した行を SELECT
-  -> password_hash を含めず 201 Created
+  -> password_hash を含めずに 201 Created を返す
 ```
 
 確認:
@@ -428,7 +438,7 @@ curl -i -X POST http://127.0.0.1:3001/users \
 
 ## 第 8 章 テーマ 3: 認証付き CRUD
 
-認証とは、リクエストしてきた相手が誰か確認すること。この教材では Basic 認証を使う。
+認証とは、リクエストしてきた相手が誰であるかを確認することである。この教材では Basic 認証を使う。
 
 ```http
 Authorization: Basic base64(username:password)
@@ -442,12 +452,12 @@ curl -i -u alice:password123 http://127.0.0.1:3000/books/1/reading-notes
 
 `401` と `403`:
 
-| status | 意味 |
+| ステータス | 意味 |
 | --- | --- |
 | `401` | 認証できていない |
 | `403` | 認証済みだが権限がない |
 
-### system-a で読む
+### system-a の確認箇所
 
 - `system-a/src/auth.ts`
 - `system-a/src/types.ts`
@@ -468,7 +478,7 @@ curl -i -u alice:password123 -X POST http://127.0.0.1:3000/books/1/reading-notes
   -d '{"page":123,"body":"第3章が参考になった"}'
 ```
 
-### system-b に実装
+### system-b の実装
 
 ```http
 GET /terms/:termId/examples
@@ -499,15 +509,15 @@ DELETE /examples/:exampleId
 - `collectedDate`: 必須。実在する日付の `YYYY-MM-DD`。
 - `note`: 任意。1000 文字以下。
 
-system-a との違い:
+`system-a` との違い:
 
 | 操作 | system-a 読書メモ | system-b 用例 |
 | --- | --- | --- |
-| 一覧取得 | 認証必須。自分の読書メモだけ | 認証不要。全ユーザーの用例 |
-| 詳細取得 | 認証必須。所有者だけ | 認証不要。誰でも閲覧可能 |
+| 一覧取得 | 認証必須。自分の読書メモのみ | 認証不要。全ユーザーの用例 |
+| 詳細取得 | 認証必須。所有者のみ | 認証不要。誰でも閲覧可能 |
 | 作成 | 認証必須 | 認証必須 |
-| 更新 | 認証必須。所有者だけ | 認証必須。所有者だけ |
-| 削除 | 認証必須。所有者だけ | 認証必須。所有者だけ |
+| 更新 | 認証必須。所有者のみ | 認証必須。所有者のみ |
+| 削除 | 認証必須。所有者のみ | 認証必須。所有者のみ |
 
 確認:
 
@@ -545,7 +555,17 @@ curl -i -u alice:password123 -X PATCH http://127.0.0.1:3001/examples/1 \
 curl -i -u alice:password123 -X DELETE http://127.0.0.1:3001/examples/1
 ```
 
-## 第 9 章 対応表
+## 第 9 章 公開テスト
+
+すべての API を実装した後に実行する。
+
+```bash
+npm run test:b
+```
+
+手動確認用に `PORT=3001 npm run start:b` を起動している場合は、停止してから実行する。
+
+## 付録 A. 対応表
 
 | system-a | system-b |
 | --- | --- |
@@ -560,16 +580,6 @@ curl -i -u alice:password123 -X DELETE http://127.0.0.1:3001/examples/1
 | `GET /reading-notes/:noteId` | `GET /examples/:exampleId` |
 | `PATCH /reading-notes/:noteId` | `PATCH /examples/:exampleId` |
 | `DELETE /reading-notes/:noteId` | `DELETE /examples/:exampleId` |
-
-## 第 10 章 公開テスト
-
-全 API を実装したら実行する。
-
-```bash
-npm run test:b
-```
-
-手動確認用に `PORT=3001 npm run start:b` を起動している場合は、止めてから実行する。
 
 ## 参考資料
 
