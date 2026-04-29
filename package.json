@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "db:up": "docker-compose up -d mysql",
-    "db:down": "docker-compose down -v",
+    "db:down": "docker-compose down",
+    "db:destroy": "docker-compose down -v",
     "db:reset:a": "node scripts/reset-db.mjs system-a/sql/schema.sql backend_training_a_volatile",
     "db:reset:b": "node scripts/reset-db.mjs system-b/sql/schema.sql backend_training_b_volatile",
     "build:a": "tsc -p system-a/tsconfig.json",

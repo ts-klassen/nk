@@ -41,6 +41,28 @@ API 仕様は [api.md](api.md) を参照する。DB スキーマは `system-b/sq
 npm install
 ```
 
+初回だけ、MySQL 接続用の `.env` を作る。
+
+```bash
+cp .env.example .env
+```
+
+MySQL 用のパスワードを生成する。
+
+```bash
+openssl rand -hex 32
+```
+
+表示された文字列を、`.env` の `MYSQL_PASSWORD=` の右側に書く。
+
+DB を起動、初期化、API サーバー起動、テスト実行するターミナルでは、最初に次の 3 行を実行する。新しいターミナルを開いた場合も、そのターミナルで最初に同じ 3 行を実行する。
+
+```bash
+set -a
+source .env
+set +a
+```
+
 MySQL を起動する。
 
 ```bash
@@ -50,11 +72,11 @@ npm run db:up
 テストを実行する。
 
 ```bash
-npm run test:b
+MYSQL_DATABASE=backend_training_b_test_volatile npm run test:b
 ```
 
 `npm run test:b` は TypeScript をビルドしてから公開テストを実行する。
-公開テストはデフォルトで `backend_training_b_test_volatile` を作り直す。
+公開テストは `MYSQL_DATABASE` に指定した DB を作り直す。
 安全のため、テストが初期化できる DB 名は `_volatile` で終わる名前だけに制限している。
 
 ## 実装場所

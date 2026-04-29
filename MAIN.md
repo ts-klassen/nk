@@ -133,12 +133,45 @@ echo '{"message":"hello"}' | jq -r '.message'
 
 `npm` は、Node.js のプロジェクトで使うコマンドである。この教材では、必要なライブラリをインストールしたり、あらかじめ用意された起動コマンドを実行したりするために使う。
 
+初回だけ、MySQL 接続用の `.env` を作る。パスワードは固定値にせず、`openssl` で生成する。
+
+```bash
+cp .env.example .env
+```
+
+次に、MySQL 用のパスワードを生成する。
+
+```bash
+openssl rand -hex 32
+```
+
+表示された文字列を、`.env` の `MYSQL_PASSWORD=` の右側に書く。
+
+DB を起動、初期化、API サーバー起動、テスト実行するターミナルでは、最初に次の 3 行を実行する。新しいターミナルを開いた場合も、そのターミナルで最初に同じ 3 行を実行する。
+
+```bash
+set -a
+source .env
+set +a
+```
+
+`.env` には `MYSQL_DATABASE` と `PORT` を書かない。`system-a`、`system-b`、練習用サーバーで使う値が違うため、サーバー起動時に明示する。
+
 ```bash
 npm install
 npm run db:up
 ```
 
 `npm install` は、この教材で使うライブラリをインストールする。`npm run db:up` は、この教材の `package.json` に用意されているコマンドで、データベースを起動する。
+
+すでに古いパスワードで MySQL の volume を作っている場合、新しい `MYSQL_PASSWORD` ではログインできない。その場合は、教材用 DB のデータを消してよいことを確認してから volume を削除する。
+
+```bash
+npm run db:destroy
+npm run db:up
+```
+
+`db:down` と `db:destroy` は npm 標準のコマンドではなく、この教材の `package.json` に定義した script である。`db:down` は MySQL コンテナを停止するだけで、DB データは残る。`db:destroy` は Docker volume を削除するため、DB データも消える。
 
 この研修ではフロントエンドは作らない。動作確認はコマンドとテストで行う。
 
@@ -332,6 +365,8 @@ DELETE /books/1
 - 共通エラーハンドラ
 - `queryRows()` / `execute()`
 - `server.ts` から `createApp()` を起動する処理
+
+`db.ts` では `MYSQL_PASSWORD` と `MYSQL_DATABASE` を環境変数から読む。`MYSQL_DATABASE` にデフォルト値を置いてはいけない。設定し忘れた場合は、別システムの DB に接続するより、起動時に失敗させる。
 
 確認:
 
@@ -698,7 +733,7 @@ curl -i -X POST http://127.0.0.1:3000/users \
 必要であれば、MySQL に入った値も確認する。
 
 ```bash
-docker-compose exec mysql mysql -uroot -prootpass backend_training_a_volatile \
+docker-compose exec mysql mysql -uroot -p"$MYSQL_PASSWORD" backend_training_a_volatile \
   -e "SELECT id, username, password_hash FROM users;"
 ```
 
@@ -971,14 +1006,14 @@ curl -i -u alice:password123 -X DELETE http://127.0.0.1:3001/examples/1
 すべての API を実装した後に実行する。
 
 ```bash
-npm run test:b
+MYSQL_DATABASE=backend_training_b_test_volatile npm run test:b
 ```
 
-手動確認用に `PORT=3001 npm run start:b` を起動している場合は、停止してから実行する。
+手動確認用に `MYSQL_DATABASE=backend_training_b_volatile PORT=3001 npm run start:b` を起動している場合は、停止してから実行する。
 
 ### 課題
 
-`npm run test:b` が通るようにせよ。
+`MYSQL_DATABASE=backend_training_b_test_volatile npm run test:b` が通るようにせよ。
 
 テストが失敗した場合は、失敗メッセージと API 仕様を照らし合わせて `system-b/src` の実装を直せ。テストを通すためだけに公開テストを書き換えるな。
 

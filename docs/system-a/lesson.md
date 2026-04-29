@@ -36,6 +36,29 @@ ORM、migration ツール、JWT、セッション管理は使わない。
 
 ```bash
 npm install
+```
+
+```bash
+cp .env.example .env
+```
+
+MySQL 用のパスワードを生成する。
+
+```bash
+openssl rand -hex 32
+```
+
+表示された文字列を、`.env` の `MYSQL_PASSWORD=` の右側に書く。
+
+DB を起動、初期化、API サーバー起動、テスト実行するターミナルでは、最初に次の 3 行を実行する。新しいターミナルを開いた場合も、そのターミナルで最初に同じ 3 行を実行する。
+
+```bash
+set -a
+source .env
+set +a
+```
+
+```bash
 npm run db:up
 npm run db:reset:a
 npm run build:a

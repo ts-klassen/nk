@@ -6,8 +6,21 @@ import { expect } from "chai";
 import argon2 from "argon2";
 
 const baseUrl = `http://127.0.0.1:${process.env.SYSTEM_B_PORT ?? "3001"}`;
-const database = process.env.MYSQL_DATABASE ?? "backend_training_b_test_volatile";
 let serverProcess;
+
+function requiredEnv(name, hint) {
+  const value = process.env[name];
+  if (value) {
+    return value;
+  }
+
+  throw new Error(`${name} is required. ${hint}`);
+}
+
+const database = requiredEnv(
+  "MYSQL_DATABASE",
+  "Set MYSQL_DATABASE when running tests."
+);
 
 function assertVolatileDatabaseName(databaseName) {
   if (/^[A-Za-z0-9_]+_volatile$/.test(databaseName)) {
@@ -26,7 +39,7 @@ const mysqlConnectionConfig = {
   host: process.env.MYSQL_HOST ?? "127.0.0.1",
   port: Number(process.env.MYSQL_PORT ?? "3306"),
   user: process.env.MYSQL_USER ?? "root",
-  password: process.env.MYSQL_PASSWORD ?? "rootpass"
+  password: requiredEnv("MYSQL_PASSWORD", "Source .env before running tests.")
 };
 
 function auth(username, password) {

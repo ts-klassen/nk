@@ -6,14 +6,29 @@ import mysql, {
 
 let pool: Pool | undefined;
 
+function requiredEnv(name: string, hint: string): string {
+  const value = process.env[name];
+  if (value) {
+    return value;
+  }
+
+  throw new Error(`${name} is required. ${hint}`);
+}
+
 export function getPool(): Pool {
   if (!pool) {
     pool = mysql.createPool({
       host: process.env.MYSQL_HOST ?? "127.0.0.1",
       port: Number(process.env.MYSQL_PORT ?? "3306"),
       user: process.env.MYSQL_USER ?? "root",
-      password: process.env.MYSQL_PASSWORD ?? "rootpass",
-      database: process.env.MYSQL_DATABASE ?? "backend_training_a_volatile",
+      password: requiredEnv(
+        "MYSQL_PASSWORD",
+        "Source .env before starting the server."
+      ),
+      database: requiredEnv(
+        "MYSQL_DATABASE",
+        "Set MYSQL_DATABASE when starting the server."
+      ),
       timezone: "+09:00",
       dateStrings: true,
       connectionLimit: 10

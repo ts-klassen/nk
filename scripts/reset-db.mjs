@@ -28,11 +28,21 @@ assertVolatileDatabaseName(database);
 
 const schemaSql = await fs.readFile(schemaPath, "utf8");
 
+function requiredEnv(name) {
+  const value = process.env[name];
+  if (value) {
+    return value;
+  }
+
+  console.error(`${name} is required. Source .env before running this command.`);
+  process.exit(1);
+}
+
 const connectionConfig = {
   host: process.env.MYSQL_HOST ?? "127.0.0.1",
   port: Number(process.env.MYSQL_PORT ?? "3306"),
   user: process.env.MYSQL_USER ?? "root",
-  password: process.env.MYSQL_PASSWORD ?? "rootpass",
+  password: requiredEnv("MYSQL_PASSWORD"),
   multipleStatements: true
 };
 
