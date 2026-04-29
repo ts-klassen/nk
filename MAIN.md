@@ -378,6 +378,96 @@ MYSQL_DATABASE=backend_training_a_volatile PORT=3000 npm run start:a
 - `PATCH /books/:bookId`
 - `DELETE /books/:bookId`
 
+### `mysql2` で SQL を実行する
+
+この教材では ORM は使わず、SQL を直接書く。Node.js から MySQL に接続するために `mysql2` を使う。
+
+`system-a/src/db.ts` は、MySQL への接続処理をまとめたファイルである。アプリケーションの各 API から毎回接続設定を書くのではなく、`queryRows()` と `execute()` を呼ぶ。
+
+`queryRows()` は `SELECT` 用である。結果は行の配列として返る。
+
+```ts
+const rows = await queryRows<BookRow[]>(
+  "SELECT * FROM books WHERE id = ?",
+  [bookId]
+);
+```
+
+`execute()` は `INSERT`、`UPDATE`、`DELETE` 用である。`INSERT` 後は `insertId` で作成された行の ID を取得できる。
+
+```ts
+const result = await execute(
+  "INSERT INTO books (isbn, title, author, published_date) VALUES (?, ?, ?, ?)",
+  [req.body.isbn, req.body.title, req.body.author, req.body.publishedDate ?? null]
+);
+
+const bookId = Number(result.insertId);
+```
+
+SQL の中の `?` はプレースホルダーである。`?` の位置に、後ろの配列の値が順番に入る。
+
+ユーザー入力を SQL 文字列へ直接埋め込んではいけない。
+
+悪い例:
+
+```ts
+const sql = `SELECT * FROM books WHERE title = '${req.query.title}'`;
+```
+
+この書き方では、ユーザーが送った文字列が SQL の一部として解釈される。たとえば入力に `' OR 1=1 --` のような SQL 断片が含まれると、本来とは違う条件で検索されたり、別の SQL として実行されたりする危険がある。これを SQL インジェクションという。
+
+良い例:
+
+```ts
+const rows = await queryRows<BookRow[]>(
+  "SELECT * FROM books WHERE title = ?",
+  [req.query.title]
+);
+```
+
+この書き方では、SQL の構造と値を分けて MySQL に渡す。`req.query.title` は SQL の命令ではなく、検索値として扱われる。
+
+プレースホルダーにできるのは値だけである。テーブル名、カラム名、`ORDER BY` の向きなどをユーザー入力から直接作ってはいけない。どうしても動的に変える場合は、許可する値をコード側で固定して選ぶ。
+
+`system-a/src/app.ts` の `buildPatch()` は、リクエストボディのキーをそのまま SQL に入れているのではない。`isbn`、`title`、`author`、`publishedDate` のような API のフィールド名を、コード内で決めた DB カラム名へ対応付けている。
+
+```ts
+const { assignments, values } = buildPatch(req.body, {
+  isbn: "isbn",
+  title: "title",
+  author: "author",
+  publishedDate: "published_date"
+});
+```
+
+この場合、SQL に入るカラム名はコード内の固定文字列だけである。ユーザー入力は `values` に入り、`?` の値として渡される。
+
+### CRUD 処理の読み方
+
+`books` テーブルのカラム名は `snake_case` である。一方、API レスポンスでは JavaScript で扱いやすい `camelCase` を使う。`mapBook()` は DB の行を API の JSON に変換する関数である。
+
+```text
+published_date -> publishedDate
+created_at     -> createdAt
+updated_at     -> updatedAt
+```
+
+`findBook()` は、指定された ID の本を 1 件取得する関数である。本が存在しない場合は `404 NOT_FOUND` を投げる。詳細取得、更新、削除のどこでも同じ確認が必要なので、関数に分けている。
+
+各 API は次の順番で読む。
+
+| API | 主な流れ |
+| --- | --- |
+| `GET /books` | `limit` / `offset` を検証し、総件数と一覧を `SELECT` する |
+| `POST /books` | JSON body を検証し、`INSERT` し、作成した行を返す |
+| `GET /books/:bookId` | `bookId` を検証し、`findBook()` で取得する |
+| `PATCH /books/:bookId` | `bookId` と body を検証し、存在確認してから `UPDATE` する |
+| `DELETE /books/:bookId` | `bookId` を検証し、存在確認してから `DELETE` する |
+
+`isbn` は一意である。同じ ISBN を登録しようとすると MySQL が一意制約エラーを返す。`system-a/src/errors.ts` の `isDuplicateEntry()` は、MySQL の `errno` が `1062` かどうかを見て、`409 CONFLICT` に変換する。
+
+書籍に読書メモが紐付いている場合、書籍は削除できない。このとき MySQL は外部キー制約エラーを返す。`isReferencedByForeignKey()` は `errno` が `1451` かどうかを見て、`409 CONFLICT` に変換する。
+
 ### system-a の動作確認
 
 ```bash
@@ -474,6 +564,34 @@ curl -i -X DELETE http://127.0.0.1:3001/terms/1
 
 この章では、`system-a` のユーザー登録処理を確認し、`system-b` に同じ処理を実装する。
 
+ユーザー登録では、ユーザー名とパスワードを受け取る。ただし、パスワードをそのままデータベースへ保存してはいけない。
+
+理由は、データベースの内容が漏れたときの被害が大きすぎるからである。平文のパスワードが保存されていると、漏れた瞬間にそのサービスへログインできる。さらに、利用者が別サービスでも同じパスワードを使っている場合、被害は他のサービスにも広がる。
+
+管理者や開発者も、利用者のパスワードを知る必要はない。ログイン時に確認できれば十分である。そのため、システムはパスワードそのものではなく、パスワードから作ったハッシュを保存する。
+
+ハッシュは一方向の変換である。パスワードからハッシュを作ることはできるが、ハッシュから元のパスワードを取り出すことはできない。ログイン時は、入力されたパスワードと保存済みハッシュを照合する。
+
+この教材ではパスワードハッシュに Argon2 を使う。Argon2 は、パスワード保存用に設計されたハッシュアルゴリズムである。通常の高速なハッシュ関数ではなく、攻撃者が大量の候補パスワードを試しにくいように、計算コストをかける作りになっている。
+
+ユーザー登録では `argon2.hash()` を使う。
+
+```ts
+const passwordHash = await argon2.hash(req.body.password);
+```
+
+`passwordHash` には、ハッシュ本体だけでなく、Argon2 の種類、パラメータ、ソルトも含まれる。ソルトとは、同じパスワードでも毎回違うハッシュになるように加えられるランダムな値である。
+
+Argon2 の結果は、たとえば次のような文字列になる。
+
+```text
+$argon2id$v=19$m=65536,t=3,p=4$...
+```
+
+同じ `password123` を登録しても、ソルトが違うため、保存されるハッシュ文字列は毎回同じにはならない。
+
+データベースには `password` ではなく `password_hash` を保存する。API レスポンスにも `password` や `passwordHash` は含めない。ハッシュは元のパスワードそのものではないが、認証に使う重要な値なので、外へ返す必要はない。
+
 ### system-a の確認箇所
 
 - `system-a/sql/schema.sql` の `users`
@@ -494,6 +612,17 @@ curl -i -X POST http://127.0.0.1:3000/users \
 - レスポンスに `password` / `passwordHash` を含めない。
 - データベースには Argon2 のハッシュを保存する。
 - `username` 重複は `409 CONFLICT`。
+
+必要であれば、MySQL に入った値も確認する。
+
+```bash
+docker-compose exec mysql mysql -uroot -prootpass backend_training_a_volatile \
+  -e "SELECT id, username, password_hash FROM users;"
+```
+
+`password_hash` は長い Argon2 文字列になっている。`password123` という平文がそのまま入っていないことを確認する。
+
+`password` は 8 文字以上 72 文字以下に制限する。短すぎるパスワードは推測されやすい。長さの上限は、極端に大きい入力でサーバーに余計な負荷をかけさせないためにも必要である。
 
 ### system-b の実装
 
@@ -539,15 +668,81 @@ curl -i -X POST http://127.0.0.1:3001/users \
 
 認証とは、リクエストしてきた相手が誰であるかを確認することである。この教材では Basic 認証を使う。
 
+HTTP リクエストには、メソッド、URL、ヘッダー、ボディーがある。認証情報はボディーではなく、ヘッダーに入れて送る。
+
+Basic 認証では、`Authorization` というヘッダーを使う。
+
 ```http
 Authorization: Basic base64(username:password)
 ```
 
-`curl` では `-u` を使う。
+`Authorization` がヘッダー名である。`Basic` は認証方式の名前である。その後ろに、`username:password` を Base64 エンコードした文字列を書く。
+
+Base64 は暗号化ではない。文字列の表現を変えているだけなので、誰でも元に戻せる。この教材では学習用に HTTP で確認するが、実際のサービスで Basic 認証を使う場合は HTTPS が前提である。
+
+Linux では `base64` コマンドでエンコードできる。`echo` は通常末尾に改行を付けるため、`-n` を付けて改行を出さないようにする。
+
+```bash
+echo -n 'alice:password123' | base64
+```
+
+結果は次のようになる。
+
+```text
+YWxpY2U6cGFzc3dvcmQxMjM=
+```
+
+この文字列を `Authorization` ヘッダーに入れる。
+
+```bash
+curl -i \
+  -H "Authorization: Basic YWxpY2U6cGFzc3dvcmQxMjM=" \
+  http://127.0.0.1:3000/books/1/reading-notes
+```
+
+元に戻せることも確認できる。
+
+```bash
+echo -n 'YWxpY2U6cGFzc3dvcmQxMjM=' | base64 -d
+```
+
+この例のパスワードは単純な文字だけを使っている。実際のパスワードに `'`、`$`、空白、`!` などシェルで特別扱いされる文字が含まれる場合、コマンドに直接書くと別の意味で解釈されることがある。その場合は、手で Base64 を作るより、後で説明する `curl -u` に任せる方が扱いやすい。
+
+毎回 Base64 を自分で作るのは面倒である。`curl` では `-u` を使うと、`username:password` から `Authorization: Basic ...` ヘッダーを自動で作ってくれる。
 
 ```bash
 curl -i -u alice:password123 http://127.0.0.1:3000/books/1/reading-notes
 ```
+
+つまり、上の `-H "Authorization: Basic ..."` と `-u alice:password123` は同じ種類のリクエストである。
+
+サーバー側では、`system-a/src/auth.ts` の `requireAuth` が認証を担当する。
+
+処理の流れ:
+
+1. `req.header("Authorization")` でヘッダーを読む。
+2. `Basic ` で始まっているか確認する。
+3. `Basic ` の後ろを Base64 デコードする。
+4. `username:password` を `:` で分ける。
+5. `username` で `users` テーブルを検索する。
+6. `argon2.verify()` で、入力されたパスワードと保存済み `password_hash` を照合する。
+7. 正しければ `req.user` に認証済みユーザー情報を入れる。
+
+ログイン確認では `argon2.hash()` ではなく `argon2.verify()` を使う。
+
+```ts
+const verified = await argon2.verify(user.password_hash, credentials.password);
+```
+
+保存済みハッシュには Argon2 のパラメータとソルトが含まれているため、`verify()` はその情報を使って入力パスワードを検証できる。
+
+認証に失敗した場合は `401 Unauthorized` を返す。Basic 認証では、`401` のレスポンスに次のヘッダーも付ける。
+
+```http
+WWW-Authenticate: Basic realm="backend-training"
+```
+
+`realm` は、認証が必要な範囲の名前である。この教材では固定で `backend-training` とする。
 
 `401` と `403`:
 
@@ -555,6 +750,10 @@ curl -i -u alice:password123 http://127.0.0.1:3000/books/1/reading-notes
 | --- | --- |
 | `401` | 認証できていない |
 | `403` | 認証済みだが権限がない |
+
+たとえば、パスワードが間違っている場合は `401` である。正しいユーザーとして認証できたが、他人の読書メモを更新しようとした場合は `403` である。
+
+所有者チェックは、DB の行に入っている `user_id` と `req.user.id` を比べて行う。`system-a/src/app.ts` の `assertOwnReadingNote()` がその処理である。
 
 ### system-a の確認箇所
 
@@ -568,6 +767,31 @@ curl -i -u alice:password123 http://127.0.0.1:3000/books/1/reading-notes
 - `GET /reading-notes/:noteId`
 - `PATCH /reading-notes/:noteId`
 - `DELETE /reading-notes/:noteId`
+
+確認用にユーザーと本が必要である。第6章の `system-a` 動作確認で `DELETE /books/1` まで実行していると、`books.id = 1` の本は残っていない。DB を初期化してから `system-a` を起動し直す。
+
+```bash
+npm run db:reset:a
+npm run build:a
+MYSQL_DATABASE=backend_training_a_volatile PORT=3000 npm run start:a
+```
+
+別のターミナルで、ユーザーと本を作成する。
+
+```bash
+curl -i -X POST http://127.0.0.1:3000/users \
+  -H "content-type: application/json" \
+  -d '{"username":"alice","password":"password123"}'
+
+curl -i -X POST http://127.0.0.1:3000/books \
+  -H "content-type: application/json" \
+  -d '{
+    "isbn": "9784297127473",
+    "title": "Node.js入門",
+    "author": "山田太郎",
+    "publishedDate": "2026-04-28"
+  }'
+```
 
 確認:
 
