@@ -1,0 +1,52 @@
+{
+  "title": "変数名を評価した結果",
+  "difficulty": "basic",
+  "unit": "04",
+  "set": 1,
+  "cases": [
+    {
+      "name": "文字列の値",
+      "input": {
+        "type": "value",
+        "value": "book"
+      },
+      "output": {
+        "type": "value",
+        "value": "book"
+      }
+    },
+    {
+      "name": "数値の値",
+      "input": {
+        "type": "value",
+        "value": 42
+      },
+      "output": {
+        "type": "value",
+        "value": 42
+      }
+    },
+    {
+      "name": "空文字列",
+      "input": {
+        "type": "value",
+        "value": ""
+      },
+      "output": {
+        "type": "value",
+        "value": ""
+      }
+    },
+    {
+      "name": "0の数値",
+      "input": {
+        "type": "value",
+        "value": 0
+      },
+      "output": {
+        "type": "value",
+        "value": 0
+      }
+    }
+  ]
+}

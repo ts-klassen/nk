@@ -1,0 +1,98 @@
+{
+  "title": "整数で使える範囲",
+  "difficulty": "advanced",
+  "unit": "27",
+  "set": 1,
+  "cases": [
+    {
+      "name": "小数の候補範囲が整数の上下限内に収まる",
+      "input": {
+        "type": "value",
+        "value": {
+          "values": [2.2, 8.9, 5.5],
+          "min": 3,
+          "max": 8
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [3, 8]
+      }
+    },
+    {
+      "name": "負の小数を含む範囲",
+      "input": {
+        "type": "value",
+        "value": {
+          "values": [-3.8, -1.2, -2.5],
+          "min": -3,
+          "max": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [-3, -2]
+      }
+    },
+    {
+      "name": "上下限で両端を切り詰める",
+      "input": {
+        "type": "value",
+        "value": {
+          "values": [-10.4, 12.6, 1.1],
+          "min": -2,
+          "max": 7
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [-2, 7]
+      }
+    },
+    {
+      "name": "小数の範囲内に整数がない",
+      "input": {
+        "type": "value",
+        "value": {
+          "values": [1.2, 1.8],
+          "min": 0,
+          "max": 10
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "候補範囲の整数が下限より小さい",
+      "input": {
+        "type": "value",
+        "value": {
+          "values": [1.1, 2.9],
+          "min": 3,
+          "max": 5
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "整数が1つだけ使える",
+      "input": {
+        "type": "value",
+        "value": {
+          "values": [4],
+          "min": 0,
+          "max": 10
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [4, 4]
+      }
+    }
+  ]
+}

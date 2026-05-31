@@ -1,0 +1,63 @@
+{
+  "title": "返却期限の表示",
+  "difficulty": "standard",
+  "unit": "10",
+  "set": 1,
+  "cases": [
+    {
+      "name": "3日以内の代表例",
+      "input": {
+        "type": "value",
+        "value": 2
+      },
+      "output": {
+        "type": "value",
+        "value": "まもなく"
+      }
+    },
+    {
+      "name": "期限を過ぎている",
+      "input": {
+        "type": "value",
+        "value": -1
+      },
+      "output": {
+        "type": "value",
+        "value": "期限切れ"
+      }
+    },
+    {
+      "name": "返却期限の当日",
+      "input": {
+        "type": "value",
+        "value": 0
+      },
+      "output": {
+        "type": "value",
+        "value": "本日まで"
+      }
+    },
+    {
+      "name": "まもなくの境界",
+      "input": {
+        "type": "value",
+        "value": 3
+      },
+      "output": {
+        "type": "value",
+        "value": "まもなく"
+      }
+    },
+    {
+      "name": "期限まで余裕がある",
+      "input": {
+        "type": "value",
+        "value": 4
+      },
+      "output": {
+        "type": "value",
+        "value": "余裕あり"
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "title": "店舗別ランク判定",
+  "difficulty": "advanced",
+  "unit": "19",
+  "set": 4,
+  "cases": [
+    {
+      "name": "代表例: 2つの店舗をthisとして呼び分ける",
+      "input": {
+        "type": "factory",
+        "factory": "() => { const judge = function(visits, purchasePoint) { let score = visits * this.visitPoint + purchasePoint; if (this.weekend) { score += this.weekendBonus; } let rank = \"regular\"; if (score >= this.goldLine) { rank = \"gold\"; } else if (score >= this.silverLine) { rank = \"silver\"; } return this.name + \":\" + rank + \":\" + score; }; return { judge: judge, stores: [{ name: \"east\", visitPoint: 8, weekendBonus: 12, silverLine: 40, goldLine: 70, weekend: true }, { name: \"west\", visitPoint: 5, weekendBonus: 0, silverLine: 30, goldLine: 55, weekend: false }], requests: [{ storeIndex: 0, args: [4, 20] }, { storeIndex: 1, args: [3, 15] }, { storeIndex: 0, args: [6, 12] }] }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": ["east:silver:64", "west:silver:30", "east:gold:72"]
+      }
+    },
+    {
+      "name": "境界値: silver直前、goldちょうど、silverちょうど",
+      "input": {
+        "type": "factory",
+        "factory": "() => { const judge = function(visits, purchasePoint) { let total = visits * this.pointPerVisit + purchasePoint; if (this.weekend) { total += this.weekendBonus; } let tier = \"regular\"; if (total >= this.goldLine) { tier = \"gold\"; } else if (total >= this.silverLine) { tier = \"silver\"; } return this.name + \"|\" + tier + \"|\" + total; }; return { judge: judge, stores: [{ name: \"north\", pointPerVisit: 10, weekendBonus: 5, silverLine: 50, goldLine: 90, weekend: true }, { name: \"south\", pointPerVisit: 7, weekendBonus: 20, silverLine: 60, goldLine: 80, weekend: true }, { name: \"center\", pointPerVisit: 4, weekendBonus: 0, silverLine: 25, goldLine: 45, weekend: false }], requests: [{ storeIndex: 0, args: [4, 4] }, { storeIndex: 1, args: [5, 25] }, { storeIndex: 2, args: [5, 5] }, { storeIndex: 1, args: [2, 10] }] }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": ["north|regular|49", "south|gold|80", "center|silver|25", "south|regular|44"]
+      }
+    },
+    {
+      "name": "空のrequestsは空配列にする",
+      "input": {
+        "type": "factory",
+        "factory": "() => { const judge = function(visits, purchasePoint) { let score = visits * this.visitPoint + purchasePoint; if (this.weekend) { score += this.weekendBonus; } let rank = \"regular\"; if (score >= this.goldLine) { rank = \"gold\"; } else if (score >= this.silverLine) { rank = \"silver\"; } return this.name + \":\" + rank + \":\" + score; }; return { judge: judge, stores: [{ name: \"solo\", visitPoint: 6, weekendBonus: 3, silverLine: 20, goldLine: 40, weekend: true }], requests: [] }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "同じ店舗を複数回使い、ランク更新の優先順位を確認する",
+      "input": {
+        "type": "factory",
+        "factory": "() => { const judge = function(visits, purchasePoint) { const total = visits * this.multiplier + purchasePoint + this.offset; let band = \"regular\"; if (total >= this.high) { band = \"gold\"; } else if (total >= this.middle) { band = \"silver\"; } return this.label + \":\" + band + \":\" + total; }; return { judge: judge, stores: [{ label: \"one\", multiplier: 3, offset: 9, middle: 20, high: 35 }, { label: \"two\", multiplier: 12, offset: 0, middle: 25, high: 50 }], requests: [{ storeIndex: 0, args: [2, 5] }, { storeIndex: 1, args: [1, 13] }, { storeIndex: 0, args: [7, 5] }, { storeIndex: 1, args: [0, 24] }] }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": ["one:silver:20", "two:silver:25", "one:gold:35", "two:regular:24"]
+      }
+    }
+  ]
+}

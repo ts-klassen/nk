@@ -1,0 +1,55 @@
+{
+  "title": "JSON文字列を値に変換する",
+  "difficulty": "basic",
+  "unit": "25",
+  "set": 1,
+  "cases": [
+    {
+      "name": "オブジェクトのJSON文字列を変換する",
+      "input": {
+        "type": "value",
+        "value": "{\"name\":\"JavaScript\",\"year\":2015}"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "name": "JavaScript",
+          "year": 2015
+        }
+      }
+    },
+    {
+      "name": "配列のJSON文字列を変換する",
+      "input": {
+        "type": "value",
+        "value": "[\"parse\",true,null]"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          "parse",
+          true,
+          null
+        ]
+      }
+    },
+    {
+      "name": "入れ子の値を含むJSON文字列を変換する",
+      "input": {
+        "type": "value",
+        "value": "{\"items\":[1,2,3],\"enabled\":false}"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "items": [
+            1,
+            2,
+            3
+          ],
+          "enabled": false
+        }
+      }
+    }
+  ]
+}

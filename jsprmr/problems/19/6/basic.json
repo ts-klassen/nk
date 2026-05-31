@@ -1,0 +1,50 @@
+{
+  "title": "メソッドのthisで在庫ラベルを作る",
+  "difficulty": "basic",
+  "unit": "19",
+  "set": 6,
+  "cases": [
+    {
+      "name": "在庫がある商品",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "えんぴつ",
+          "stock": 5
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "えんぴつ: 5個"
+      }
+    },
+    {
+      "name": "在庫が0の商品",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "ノート",
+          "stock": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "ノート: 0個"
+      }
+    },
+    {
+      "name": "2桁の在庫数",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "定規",
+          "stock": 12
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "定規: 12個"
+      }
+    }
+  ]
+}

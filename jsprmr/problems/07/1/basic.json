@@ -1,0 +1,52 @@
+{
+  "title": "文字列へ明示的に変換する",
+  "difficulty": "basic",
+  "unit": "07",
+  "set": 1,
+  "cases": [
+    {
+      "name": "数値を文字列へ変換する",
+      "input": {
+        "type": "value",
+        "value": 123
+      },
+      "output": {
+        "type": "value",
+        "value": "123"
+      }
+    },
+    {
+      "name": "真偽値を文字列へ変換する",
+      "input": {
+        "type": "value",
+        "value": false
+      },
+      "output": {
+        "type": "value",
+        "value": "false"
+      }
+    },
+    {
+      "name": "nullを文字列へ変換する",
+      "input": {
+        "type": "value",
+        "value": null
+      },
+      "output": {
+        "type": "value",
+        "value": "null"
+      }
+    },
+    {
+      "name": "空文字列を文字列として扱う",
+      "input": {
+        "type": "value",
+        "value": ""
+      },
+      "output": {
+        "type": "value",
+        "value": ""
+      }
+    }
+  ]
+}

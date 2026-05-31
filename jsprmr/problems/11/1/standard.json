@@ -1,0 +1,64 @@
+{
+  "title": "合格点を満たす点数があるか",
+  "difficulty": "standard",
+  "unit": "11",
+  "set": 1,
+  "cases": [
+    {
+      "name": "合格点以上の点数がある",
+      "input": {
+        "type": "value",
+        "value": {
+          "scores": [40, 70, 59],
+          "passingScore": 60
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": true
+      }
+    },
+    {
+      "name": "合格点以上の点数がない",
+      "input": {
+        "type": "value",
+        "value": {
+          "scores": [55, 59, 10],
+          "passingScore": 60
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    },
+    {
+      "name": "合格点ちょうどの点数がある",
+      "input": {
+        "type": "value",
+        "value": {
+          "scores": [60],
+          "passingScore": 60
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": true
+      }
+    },
+    {
+      "name": "空配列はfalseにする",
+      "input": {
+        "type": "value",
+        "value": {
+          "scores": [],
+          "passingScore": 80
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    }
+  ]
+}

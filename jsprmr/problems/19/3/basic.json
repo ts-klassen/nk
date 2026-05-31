@@ -1,0 +1,50 @@
+{
+  "title": "メソッドのthisで会員ラベルを作る",
+  "difficulty": "basic",
+  "unit": "19",
+  "set": 3,
+  "cases": [
+    {
+      "name": "Aランクの会員",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "ミナ",
+          "rank": "A"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "ミナさんはAランクです"
+      }
+    },
+    {
+      "name": "Bランクの会員",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "ソラ",
+          "rank": "B"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "ソラさんはBランクです"
+      }
+    },
+    {
+      "name": "Sランクの会員",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "レイ",
+          "rank": "S"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "レイさんはSランクです"
+      }
+    }
+  ]
+}

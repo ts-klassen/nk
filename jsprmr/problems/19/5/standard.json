@@ -1,0 +1,52 @@
+{
+  "title": "借りたフォーマッターを適用する",
+  "difficulty": "standard",
+  "unit": "19",
+  "set": 5,
+  "cases": [
+    {
+      "name": "前後の文字列を付ける",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ receiver: { name: \"Mika\", score: 42 }, formatter: function(prefix, suffix) { return prefix + this.name + \":\" + this.score + suffix; }, args: [\"@\", \"!\"] })"
+      },
+      "output": {
+        "type": "value",
+        "value": "@Mika:42!"
+      }
+    },
+    {
+      "name": "引数がない関数",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ receiver: { label: \"north\", rank: \"B\" }, formatter: function() { return this.label + \"/\" + this.rank; }, args: [] })"
+      },
+      "output": {
+        "type": "value",
+        "value": "north/B"
+      }
+    },
+    {
+      "name": "数値を使って文字列を作る",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ receiver: { price: 80, fee: 10 }, formatter: function(count) { return \"total=\" + (this.price * count + this.fee); }, args: [3] })"
+      },
+      "output": {
+        "type": "value",
+        "value": "total=250"
+      }
+    },
+    {
+      "name": "3つの引数を渡す",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ receiver: { first: \"JS\", second: \"Primer\" }, formatter: function(left, middle, right) { return left + this.first + middle + this.second + right; }, args: [\"[\", \":\", \"]\"] })"
+      },
+      "output": {
+        "type": "value",
+        "value": "[JS:Primer]"
+      }
+    }
+  ]
+}

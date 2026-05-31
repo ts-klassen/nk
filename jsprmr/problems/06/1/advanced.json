@@ -1,0 +1,151 @@
+{
+  "title": "出荷ステータスの判定",
+  "difficulty": "advanced",
+  "unit": "06",
+  "set": 1,
+  "cases": [
+    {
+      "name": "countがnullなら既定数を使って出荷できる",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 10,
+          "reserved": 6,
+          "count": null,
+          "defaultCount": 3,
+          "allowRestock": false,
+          "restock": 5
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "ship"
+      }
+    },
+    {
+      "name": "countが0なら既定数に置き換えずinvalid",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 10,
+          "reserved": 0,
+          "count": 0,
+          "defaultCount": 2,
+          "allowRestock": true,
+          "restock": 10
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "invalid"
+      }
+    },
+    {
+      "name": "現在の出荷可能数ぴったりならship",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 8,
+          "reserved": 3,
+          "count": 5,
+          "defaultCount": 1,
+          "allowRestock": false,
+          "restock": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "ship"
+      }
+    },
+    {
+      "name": "補充込みの上限ぴったりならrestock",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 5,
+          "reserved": 4,
+          "count": 4,
+          "defaultCount": 1,
+          "allowRestock": true,
+          "restock": 3
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "restock"
+      }
+    },
+    {
+      "name": "補充を許可していなければreject",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 5,
+          "reserved": 4,
+          "count": 2,
+          "defaultCount": 1,
+          "allowRestock": false,
+          "restock": 10
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "reject"
+      }
+    },
+    {
+      "name": "補充込みでも不足するならreject",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 3,
+          "reserved": 1,
+          "count": 6,
+          "defaultCount": 1,
+          "allowRestock": true,
+          "restock": 2
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "reject"
+      }
+    },
+    {
+      "name": "count未指定なら既定数を使う",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 6,
+          "reserved": 2,
+          "defaultCount": 4,
+          "allowRestock": false,
+          "restock": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "ship"
+      }
+    },
+    {
+      "name": "負の注文数はinvalid",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 20,
+          "reserved": 5,
+          "count": -1,
+          "defaultCount": 1,
+          "allowRestock": true,
+          "restock": 100
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "invalid"
+      }
+    }
+  ]
+}

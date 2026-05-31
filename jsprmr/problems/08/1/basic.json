@@ -1,0 +1,41 @@
+{
+  "title": "3倍にする関数",
+  "difficulty": "basic",
+  "unit": "08",
+  "set": 1,
+  "cases": [
+    {
+      "name": "正の数を3倍にする",
+      "input": {
+        "type": "value",
+        "value": 4
+      },
+      "output": {
+        "type": "value",
+        "value": 12
+      }
+    },
+    {
+      "name": "0を3倍にする",
+      "input": {
+        "type": "value",
+        "value": 0
+      },
+      "output": {
+        "type": "value",
+        "value": 0
+      }
+    },
+    {
+      "name": "大きめの数を3倍にする",
+      "input": {
+        "type": "value",
+        "value": 15
+      },
+      "output": {
+        "type": "value",
+        "value": 45
+      }
+    }
+  ]
+}

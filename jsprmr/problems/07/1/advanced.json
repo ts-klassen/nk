@@ -1,0 +1,129 @@
+{
+  "title": "整数スコアの受付判定",
+  "difficulty": "advanced",
+  "unit": "07",
+  "set": 1,
+  "cases": [
+    {
+      "name": "文字列の代表例",
+      "input": {
+        "type": "value",
+        "value": "80"
+      },
+      "output": {
+        "type": "value",
+        "value": true
+      }
+    },
+    {
+      "name": "数値の代表例",
+      "input": {
+        "type": "value",
+        "value": 42
+      },
+      "output": {
+        "type": "value",
+        "value": true
+      }
+    },
+    {
+      "name": "下限の0",
+      "input": {
+        "type": "value",
+        "value": "0"
+      },
+      "output": {
+        "type": "value",
+        "value": true
+      }
+    },
+    {
+      "name": "上限の100",
+      "input": {
+        "type": "value",
+        "value": 100
+      },
+      "output": {
+        "type": "value",
+        "value": true
+      }
+    },
+    {
+      "name": "下限未満",
+      "input": {
+        "type": "value",
+        "value": "-1"
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    },
+    {
+      "name": "上限超過",
+      "input": {
+        "type": "value",
+        "value": "101"
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    },
+    {
+      "name": "小数は受け付けない",
+      "input": {
+        "type": "value",
+        "value": "75.5"
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    },
+    {
+      "name": "数値に変換できない文字列",
+      "input": {
+        "type": "value",
+        "value": "80点"
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    },
+    {
+      "name": "空文字列は受け付けない",
+      "input": {
+        "type": "value",
+        "value": ""
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    },
+    {
+      "name": "真偽値は受け付けない",
+      "input": {
+        "type": "value",
+        "value": true
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    },
+    {
+      "name": "nullは受け付けない",
+      "input": {
+        "type": "value",
+        "value": null
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    }
+  ]
+}

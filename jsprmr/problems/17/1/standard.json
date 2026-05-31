@@ -1,0 +1,53 @@
+{
+  "title": "プリミティブとラッパーの型",
+  "difficulty": "standard",
+  "unit": "17",
+  "set": 1,
+  "cases": [
+    {
+      "name": "文字列helloの型と値を確認する",
+      "input": {
+        "type": "value",
+        "value": "hello"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "primitiveType": "string",
+          "wrapperType": "object",
+          "primitiveValue": "hello"
+        }
+      }
+    },
+    {
+      "name": "空文字列でもラッパーオブジェクトから値を取り出す",
+      "input": {
+        "type": "value",
+        "value": ""
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "primitiveType": "string",
+          "wrapperType": "object",
+          "primitiveValue": ""
+        }
+      }
+    },
+    {
+      "name": "日本語を含む文字列でも同じ型になる",
+      "input": {
+        "type": "value",
+        "value": "ラッパー"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "primitiveType": "string",
+          "wrapperType": "object",
+          "primitiveValue": "ラッパー"
+        }
+      }
+    }
+  ]
+}

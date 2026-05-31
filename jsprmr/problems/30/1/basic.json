@@ -1,0 +1,52 @@
+{
+  "title": "第一部と第二部の範囲",
+  "difficulty": "basic",
+  "unit": "30",
+  "set": 1,
+  "cases": [
+    {
+      "name": "ECMAScriptの基本は第一部",
+      "input": {
+        "type": "value",
+        "value": "ecmascript"
+      },
+      "output": {
+        "type": "value",
+        "value": "第一部"
+      }
+    },
+    {
+      "name": "Node.js固有のAPIは第二部",
+      "input": {
+        "type": "value",
+        "value": "node"
+      },
+      "output": {
+        "type": "value",
+        "value": "第二部"
+      }
+    },
+    {
+      "name": "ブラウザ固有のAPIは第二部",
+      "input": {
+        "type": "value",
+        "value": "browser"
+      },
+      "output": {
+        "type": "value",
+        "value": "第二部"
+      }
+    },
+    {
+      "name": "ライブラリの使い方は第二部",
+      "input": {
+        "type": "value",
+        "value": "library"
+      },
+      "output": {
+        "type": "value",
+        "value": "第二部"
+      }
+    }
+  ]
+}

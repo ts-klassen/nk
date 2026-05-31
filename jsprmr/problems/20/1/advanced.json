@@ -1,0 +1,90 @@
+{
+  "title": "貸出カードの親子クラス",
+  "difficulty": "advanced",
+  "unit": "20",
+  "set": 1,
+  "cases": [
+    {
+      "name": "通常カードの貸出と返却",
+      "input": {
+        "type": "value",
+        "value": {
+          "owner": "Mika",
+          "limit": 2
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => { try { const LoanCard = output && output.LoanCard; const PremiumLoanCard = output && output.PremiumLoanCard; if (typeof LoanCard !== \"function\" || typeof PremiumLoanCard !== \"function\") return false; if (!(PremiumLoanCard.prototype instanceof LoanCard)) return false; const card = new LoanCard(input.owner, input.limit); if (card.owner !== input.owner || card.limit !== input.limit) return false; if (card.count !== 0 || card.remaining !== 2 || card.canBorrow !== true) return false; if (card.borrow() !== true || card.count !== 1 || card.remaining !== 1 || card.canBorrow !== true) return false; if (card.borrow() !== true || card.count !== 2 || card.remaining !== 0 || card.canBorrow !== false) return false; if (card.borrow() !== false || card.count !== 2 || card.remaining !== 0) return false; if (card.returnBook() !== true || card.count !== 1 || card.remaining !== 1) return false; if (card.returnBook() !== true || card.count !== 0 || card.remaining !== 2 || card.canBorrow !== true) return false; return card.returnBook() === false && card.count === 0 && card.remaining === 2; } catch (error) { return false; } }"
+      }
+    },
+    {
+      "name": "通常カードの上限が1冊の場合",
+      "input": {
+        "type": "value",
+        "value": {
+          "owner": "Ren",
+          "limit": 1
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => { try { const LoanCard = output && output.LoanCard; const PremiumLoanCard = output && output.PremiumLoanCard; if (typeof LoanCard !== \"function\" || typeof PremiumLoanCard !== \"function\") return false; if (!(PremiumLoanCard.prototype instanceof LoanCard)) return false; const card = new LoanCard(input.owner, input.limit); if (card.count !== 0 || card.remaining !== 1 || card.canBorrow !== true) return false; if (card.borrow() !== true || card.count !== 1 || card.remaining !== 0 || card.canBorrow !== false) return false; if (card.borrow() !== false || card.count !== 1 || card.remaining !== 0 || card.canBorrow !== false) return false; if (card.returnBook() !== true || card.count !== 0 || card.remaining !== 1 || card.canBorrow !== true) return false; return card.returnBook() === false && card.count === 0 && card.remaining === 1; } catch (error) { return false; } }"
+      }
+    },
+    {
+      "name": "通常カードの静的ファクトリ",
+      "input": {
+        "type": "value",
+        "value": {
+          "owner": "Sora"
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => { try { const LoanCard = output && output.LoanCard; const PremiumLoanCard = output && output.PremiumLoanCard; if (typeof LoanCard !== \"function\" || typeof PremiumLoanCard !== \"function\") return false; if (LoanCard.defaultLimit !== 3) return false; if (typeof LoanCard.createDefault !== \"function\") return false; const card = LoanCard.createDefault(input.owner); if (!(card instanceof LoanCard) || card instanceof PremiumLoanCard) return false; if (card.owner !== input.owner || card.limit !== 3 || card.count !== 0 || card.remaining !== 3) return false; if (card.borrow() !== true || card.borrow() !== true || card.borrow() !== true) return false; return card.count === 3 && card.remaining === 0 && card.canBorrow === false && card.borrow() === false; } catch (error) { return false; } }"
+      }
+    },
+    {
+      "name": "プレミアムカードの上限と継承",
+      "input": {
+        "type": "value",
+        "value": {
+          "owner": "Nana",
+          "baseLimit": 2
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => { try { const LoanCard = output && output.LoanCard; const PremiumLoanCard = output && output.PremiumLoanCard; if (typeof LoanCard !== \"function\" || typeof PremiumLoanCard !== \"function\") return false; if (PremiumLoanCard.extraLimit !== 2) return false; if (!(PremiumLoanCard.prototype instanceof LoanCard)) return false; const card = new PremiumLoanCard(input.owner, input.baseLimit); if (!(card instanceof PremiumLoanCard) || !(card instanceof LoanCard)) return false; if (card.owner !== input.owner || card.limit !== 4 || card.count !== 0 || card.remaining !== 4) return false; if (card.borrow() !== true || card.count !== 1 || card.remaining !== 3) return false; if (card.returnBook() !== true || card.count !== 0 || card.remaining !== 4) return false; return card.canBorrow === true; } catch (error) { return false; } }"
+      }
+    },
+    {
+      "name": "2冊貸しは部分的に実行しない",
+      "input": {
+        "type": "value",
+        "value": {
+          "owner": "Yu",
+          "baseLimit": 1
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => { try { const LoanCard = output && output.LoanCard; const PremiumLoanCard = output && output.PremiumLoanCard; if (typeof LoanCard !== \"function\" || typeof PremiumLoanCard !== \"function\") return false; const card = new PremiumLoanCard(input.owner, input.baseLimit); if (!(card instanceof LoanCard) || card.limit !== 3) return false; if (card.borrowPair() !== true || card.count !== 2 || card.remaining !== 1) return false; if (card.borrowPair() !== false || card.count !== 2 || card.remaining !== 1) return false; if (card.borrow() !== true || card.count !== 3 || card.remaining !== 0 || card.canBorrow !== false) return false; if (card.returnBook() !== true || card.count !== 2 || card.remaining !== 1) return false; return card.borrowPair() === false && card.count === 2 && card.remaining === 1; } catch (error) { return false; } }"
+      }
+    },
+    {
+      "name": "継承された静的ファクトリ",
+      "input": {
+        "type": "value",
+        "value": {
+          "owner": "Kai"
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => { try { const LoanCard = output && output.LoanCard; const PremiumLoanCard = output && output.PremiumLoanCard; if (typeof LoanCard !== \"function\" || typeof PremiumLoanCard !== \"function\") return false; if (LoanCard.defaultLimit !== 3 || PremiumLoanCard.defaultLimit !== 3 || PremiumLoanCard.extraLimit !== 2) return false; if (typeof PremiumLoanCard.createDefault !== \"function\") return false; const card = PremiumLoanCard.createDefault(input.owner); if (!(card instanceof PremiumLoanCard) || !(card instanceof LoanCard)) return false; if (card.owner !== input.owner || card.limit !== 5 || card.count !== 0 || card.remaining !== 5) return false; if (card.borrowPair() !== true || card.count !== 2 || card.remaining !== 3) return false; if (card.borrowPair() !== true || card.count !== 4 || card.remaining !== 1) return false; if (card.borrowPair() !== false || card.count !== 4 || card.remaining !== 1) return false; return card.borrow() === true && card.count === 5 && card.remaining === 0 && card.borrow() === false; } catch (error) { return false; } }"
+      }
+    }
+  ]
+}

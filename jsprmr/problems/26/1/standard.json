@@ -1,0 +1,78 @@
+{
+  "title": "加算後のISO文字列",
+  "difficulty": "standard",
+  "unit": "26",
+  "set": 1,
+  "cases": [
+    {
+      "name": "30分後",
+      "input": {
+        "type": "value",
+        "value": {
+          "startedAt": "2024-05-01T09:00:00.000Z",
+          "minutes": 30
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "2024-05-01T09:30:00.000Z"
+      }
+    },
+    {
+      "name": "日付をまたぐ",
+      "input": {
+        "type": "value",
+        "value": {
+          "startedAt": "2024-05-01T23:15:00.000Z",
+          "minutes": 90
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "2024-05-02T00:45:00.000Z"
+      }
+    },
+    {
+      "name": "年をまたぐ",
+      "input": {
+        "type": "value",
+        "value": {
+          "startedAt": "2024-12-31T23:59:00.000Z",
+          "minutes": 1
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "2025-01-01T00:00:00.000Z"
+      }
+    },
+    {
+      "name": "0分後",
+      "input": {
+        "type": "value",
+        "value": {
+          "startedAt": "2024-08-20T12:34:56.789Z",
+          "minutes": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "2024-08-20T12:34:56.789Z"
+      }
+    },
+    {
+      "name": "うるう日の前日から24時間後",
+      "input": {
+        "type": "value",
+        "value": {
+          "startedAt": "2024-02-28T10:00:00.000Z",
+          "minutes": 1440
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "2024-02-29T10:00:00.000Z"
+      }
+    }
+  ]
+}

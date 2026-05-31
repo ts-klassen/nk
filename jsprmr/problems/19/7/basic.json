@@ -1,0 +1,50 @@
+{
+  "title": "メソッドのthisで自己紹介",
+  "difficulty": "basic",
+  "unit": "19",
+  "set": 7,
+  "cases": [
+    {
+      "name": "代表例",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "アオイ",
+          "age": 12
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "アオイは12歳です"
+      }
+    },
+    {
+      "name": "別の名前と年齢",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "ミナト",
+          "age": 31
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "ミナトは31歳です"
+      }
+    },
+    {
+      "name": "年齢が0のケース",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "レン",
+          "age": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "レンは0歳です"
+      }
+    }
+  ]
+}

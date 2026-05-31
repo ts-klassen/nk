@@ -1,0 +1,63 @@
+{
+  "title": "採点ラベルの切り替え",
+  "difficulty": "advanced",
+  "unit": "19",
+  "set": 6,
+  "cases": [
+    {
+      "name": "途中からbackupに切り替える",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ scorer: { name: \"A\", bonus: 5, build(score, index) { return this.name + \"#\" + (index + 1) + \"=\" + (score + this.bonus); } }, backup: { name: \"B\", bonus: 20 }, scores: [10, 0, 30, 5], switchIndex: 2 })"
+      },
+      "output": {
+        "type": "value",
+        "value": ["A#1=15", "A#2=5", "B#3=50", "B#4=25"]
+      }
+    },
+    {
+      "name": "最初からbackupを使う",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ scorer: { name: \"通常\", bonus: 10, build(score, index) { return this.name + \"#\" + (index + 1) + \"=\" + (score + this.bonus); } }, backup: { name: \"代替\", bonus: -1 }, scores: [1, 2, 3], switchIndex: 0 })"
+      },
+      "output": {
+        "type": "value",
+        "value": ["代替#1=0", "代替#2=1", "代替#3=2"]
+      }
+    },
+    {
+      "name": "最後までscorerを使う",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ scorer: { prefix: \"N\", offset: 0, build(score, index) { return this.prefix + \":\" + index + \":\" + (score * 2 + this.offset); } }, backup: { prefix: \"S\", offset: 100 }, scores: [7, 8], switchIndex: 2 })"
+      },
+      "output": {
+        "type": "value",
+        "value": ["N:0:14", "N:1:16"]
+      }
+    },
+    {
+      "name": "空配列",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ scorer: { name: \"空\", bonus: 3, build(score, index) { return this.name + \"#\" + (index + 1) + \"=\" + (score + this.bonus); } }, backup: { name: \"予備\", bonus: 9 }, scores: [], switchIndex: 0 })"
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "境界の1件だけscorerを使う",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ scorer: { name: \"店内\", bonus: 3, build(score, index) { return this.name + \"#\" + (index + 1) + \"=\" + (score + this.bonus); } }, backup: { name: \"臨時\", bonus: 7 }, scores: [0, 12, 4], switchIndex: 1 })"
+      },
+      "output": {
+        "type": "value",
+        "value": ["店内#1=3", "臨時#2=19", "臨時#3=11"]
+      }
+    }
+  ]
+}

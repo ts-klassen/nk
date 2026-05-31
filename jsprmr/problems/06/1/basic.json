@@ -1,0 +1,52 @@
+{
+  "title": "4で割った余り",
+  "difficulty": "basic",
+  "unit": "06",
+  "set": 1,
+  "cases": [
+    {
+      "name": "余りが2になる",
+      "input": {
+        "type": "value",
+        "value": 10
+      },
+      "output": {
+        "type": "value",
+        "value": 2
+      }
+    },
+    {
+      "name": "割り切れる",
+      "input": {
+        "type": "value",
+        "value": 12
+      },
+      "output": {
+        "type": "value",
+        "value": 0
+      }
+    },
+    {
+      "name": "入力が4より小さい",
+      "input": {
+        "type": "value",
+        "value": 3
+      },
+      "output": {
+        "type": "value",
+        "value": 3
+      }
+    },
+    {
+      "name": "余りが1になる",
+      "input": {
+        "type": "value",
+        "value": 25
+      },
+      "output": {
+        "type": "value",
+        "value": 1
+      }
+    }
+  ]
+}

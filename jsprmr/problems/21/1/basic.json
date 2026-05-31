@@ -1,0 +1,52 @@
+{
+  "title": "エラーメッセージを受け取る",
+  "difficulty": "basic",
+  "unit": "21",
+  "set": 1,
+  "cases": [
+    {
+      "name": "例と同じメッセージ",
+      "input": {
+        "type": "value",
+        "value": "名前が空です"
+      },
+      "output": {
+        "type": "value",
+        "value": "名前が空です"
+      }
+    },
+    {
+      "name": "別のメッセージ",
+      "input": {
+        "type": "value",
+        "value": "数値を入力してください"
+      },
+      "output": {
+        "type": "value",
+        "value": "数値を入力してください"
+      }
+    },
+    {
+      "name": "英字を含むメッセージ",
+      "input": {
+        "type": "value",
+        "value": "invalid score"
+      },
+      "output": {
+        "type": "value",
+        "value": "invalid score"
+      }
+    },
+    {
+      "name": "空文字列のメッセージ",
+      "input": {
+        "type": "value",
+        "value": ""
+      },
+      "output": {
+        "type": "value",
+        "value": ""
+      }
+    }
+  ]
+}

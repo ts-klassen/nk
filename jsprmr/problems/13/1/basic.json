@@ -1,0 +1,50 @@
+{
+  "title": "Object.hasOwn と in の確認",
+  "difficulty": "basic",
+  "unit": "13",
+  "set": 1,
+  "cases": [
+    {
+      "name": "自身が持つプロパティ",
+      "input": {
+        "type": "value",
+        "value": "name"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": true,
+          "exists": true
+        }
+      }
+    },
+    {
+      "name": "Object.prototype から継承したプロパティ",
+      "input": {
+        "type": "value",
+        "value": "toString"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": false,
+          "exists": true
+        }
+      }
+    },
+    {
+      "name": "存在しないプロパティ",
+      "input": {
+        "type": "value",
+        "value": "age"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": false,
+          "exists": false
+        }
+      }
+    }
+  ]
+}

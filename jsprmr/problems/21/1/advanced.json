@@ -1,0 +1,132 @@
+{
+  "title": "予備設定への切り替え",
+  "difficulty": "advanced",
+  "unit": "21",
+  "set": 1,
+  "cases": [
+    {
+      "name": "primaryが型エラーで失敗しbackupを採用する",
+      "input": {
+        "type": "value",
+        "value": {
+          "primary": { "name": "main", "value": "12", "max": 20 },
+          "backup": { "name": "sub", "value": 8, "max": 10 }
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "selected": "backup",
+          "value": 8,
+          "attempts": 2,
+          "primaryError": {
+            "message": "mainを読み取れませんでした",
+            "causeName": "TypeError",
+            "causeMessage": "valueとmaxは数値である必要があります"
+          },
+          "backupError": null
+        }
+      }
+    },
+    {
+      "name": "primaryが成功したらbackupは試さない",
+      "input": {
+        "type": "value",
+        "value": {
+          "primary": { "name": "main", "value": 15, "max": 15 },
+          "backup": { "name": "sub", "value": "invalid", "max": 10 }
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "selected": "primary",
+          "value": 15,
+          "attempts": 1,
+          "primaryError": null,
+          "backupError": null
+        }
+      }
+    },
+    {
+      "name": "primaryが上限超過で失敗しbackupを採用する",
+      "input": {
+        "type": "value",
+        "value": {
+          "primary": { "name": "main", "value": 21, "max": 20 },
+          "backup": { "name": "sub", "value": 0, "max": 0 }
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "selected": "backup",
+          "value": 0,
+          "attempts": 2,
+          "primaryError": {
+            "message": "mainを読み取れませんでした",
+            "causeName": "Error",
+            "causeMessage": "上限を超えています"
+          },
+          "backupError": null
+        }
+      }
+    },
+    {
+      "name": "両方失敗したらnoneになる",
+      "input": {
+        "type": "value",
+        "value": {
+          "primary": { "name": "main", "value": 30, "max": 10 },
+          "backup": { "name": "sub", "value": 5, "max": 4 }
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "selected": "none",
+          "value": null,
+          "attempts": 2,
+          "primaryError": {
+            "message": "mainを読み取れませんでした",
+            "causeName": "Error",
+            "causeMessage": "上限を超えています"
+          },
+          "backupError": {
+            "message": "subを読み取れませんでした",
+            "causeName": "Error",
+            "causeMessage": "上限を超えています"
+          }
+        }
+      }
+    },
+    {
+      "name": "両方が型エラーで失敗する",
+      "input": {
+        "type": "value",
+        "value": {
+          "primary": { "name": "main", "value": "x", "max": 10 },
+          "backup": { "name": "sub", "value": 4, "max": "9" }
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "selected": "none",
+          "value": null,
+          "attempts": 2,
+          "primaryError": {
+            "message": "mainを読み取れませんでした",
+            "causeName": "TypeError",
+            "causeMessage": "valueとmaxは数値である必要があります"
+          },
+          "backupError": {
+            "message": "subを読み取れませんでした",
+            "causeName": "TypeError",
+            "causeMessage": "valueとmaxは数値である必要があります"
+          }
+        }
+      }
+    }
+  ]
+}

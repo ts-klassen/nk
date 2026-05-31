@@ -1,0 +1,52 @@
+{
+  "title": "thisを指定してラベルを作る",
+  "difficulty": "standard",
+  "unit": "19",
+  "set": 4,
+  "cases": [
+    {
+      "name": "記号で囲むラベル",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ tool: { makeLabel(left, right) { return this.prefix + left + \"-\" + right + this.suffix; } }, card: { prefix: \"#\", suffix: \"!\" }, parts: [\"A\", \"7\"] })"
+      },
+      "output": {
+        "type": "value",
+        "value": "#A-7!"
+      }
+    },
+    {
+      "name": "接頭辞だけがあるラベル",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ tool: { makeLabel(left, right) { return this.prefix + left + \"-\" + right + this.suffix; } }, card: { prefix: \"ID:\", suffix: \"\" }, parts: [\"X\", \"9\"] })"
+      },
+      "output": {
+        "type": "value",
+        "value": "ID:X-9"
+      }
+    },
+    {
+      "name": "接尾辞だけがあるラベル",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ tool: { makeLabel(left, right) { return this.prefix + left + \"-\" + right + this.suffix; } }, card: { prefix: \"\", suffix: \"点\" }, parts: [\"10\", \"20\"] })"
+      },
+      "output": {
+        "type": "value",
+        "value": "10-20点"
+      }
+    },
+    {
+      "name": "単語をつなぐラベル",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ tool: { makeLabel(left, right) { return this.prefix + left + \"-\" + right + this.suffix; } }, card: { prefix: \"user-\", suffix: \"?\" }, parts: [\"min\", \"max\"] })"
+      },
+      "output": {
+        "type": "value",
+        "value": "user-min-max?"
+      }
+    }
+  ]
+}

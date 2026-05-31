@@ -1,0 +1,184 @@
+{
+  "title": "補正点つき成績カード",
+  "difficulty": "advanced",
+  "unit": "08",
+  "set": 1,
+  "cases": [
+    {
+      "name": "代表的な成績データ",
+      "input": {
+        "type": "value",
+        "value": {
+          "line": 70,
+          "records": [
+            {
+              "name": "A班",
+              "base": 50,
+              "adjustments": [10, 5]
+            },
+            {
+              "base": 62,
+              "adjustments": [8]
+            },
+            {
+              "name": "C班",
+              "base": 80,
+              "adjustments": [-15, 5]
+            }
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "name": "A班",
+            "total": 65,
+            "passed": false
+          },
+          {
+            "name": "未設定",
+            "total": 70,
+            "passed": true
+          },
+          {
+            "name": "C班",
+            "total": 70,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "空文字列とnullはそのまま使う",
+      "input": {
+        "type": "value",
+        "value": {
+          "line": 10,
+          "records": [
+            {
+              "name": "",
+              "base": 10,
+              "adjustments": []
+            },
+            {
+              "name": null,
+              "base": 5,
+              "adjustments": [5]
+            },
+            {
+              "base": 0,
+              "adjustments": [0]
+            }
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "name": "",
+            "total": 10,
+            "passed": true
+          },
+          {
+            "name": null,
+            "total": 10,
+            "passed": true
+          },
+          {
+            "name": "未設定",
+            "total": 0,
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "合格ラインちょうどと未満",
+      "input": {
+        "type": "value",
+        "value": {
+          "line": 0,
+          "records": [
+            {
+              "name": "minus",
+              "base": -3,
+              "adjustments": [1, 2]
+            },
+            {
+              "name": "zero",
+              "base": 0,
+              "adjustments": [-1]
+            }
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "name": "minus",
+            "total": 0,
+            "passed": true
+          },
+          {
+            "name": "zero",
+            "total": -1,
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "複数の補正点をすべて足す",
+      "input": {
+        "type": "value",
+        "value": {
+          "line": 100,
+          "records": [
+            {
+              "name": "multi",
+              "base": 10,
+              "adjustments": [20, 30, 40]
+            },
+            {
+              "name": "large",
+              "base": 100,
+              "adjustments": [-20, -30, -40]
+            }
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "name": "multi",
+            "total": 100,
+            "passed": true
+          },
+          {
+            "name": "large",
+            "total": 10,
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "成績データが空の配列",
+      "input": {
+        "type": "value",
+        "value": {
+          "line": 50,
+          "records": []
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    }
+  ]
+}

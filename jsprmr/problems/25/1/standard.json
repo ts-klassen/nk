@@ -1,0 +1,72 @@
+{
+  "title": "公開用ステータスJSON",
+  "difficulty": "standard",
+  "unit": "25",
+  "set": 1,
+  "cases": [
+    {
+      "name": "余分なプロパティを除外する",
+      "input": {
+        "type": "value",
+        "value": {
+          "id": "u-001",
+          "name": "Rina",
+          "active": true,
+          "password": "hidden"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "{\n  \"id\": \"u-001\",\n  \"name\": \"Rina\",\n  \"active\": true\n}"
+      }
+    },
+    {
+      "name": "元のキー順が違っても指定順にする",
+      "input": {
+        "type": "value",
+        "value": {
+          "active": false,
+          "name": "Kai",
+          "id": "u-024",
+          "memo": "休止中"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "{\n  \"id\": \"u-024\",\n  \"name\": \"Kai\",\n  \"active\": false\n}"
+      }
+    },
+    {
+      "name": "数値のidもそのままJSONにする",
+      "input": {
+        "type": "value",
+        "value": {
+          "id": 305,
+          "name": "Mio",
+          "active": true,
+          "score": 88
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "{\n  \"id\": 305,\n  \"name\": \"Mio\",\n  \"active\": true\n}"
+      }
+    },
+    {
+      "name": "空文字列のnameも含める",
+      "input": {
+        "type": "value",
+        "value": {
+          "id": "guest",
+          "name": "",
+          "active": false,
+          "role": "visitor"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "{\n  \"id\": \"guest\",\n  \"name\": \"\",\n  \"active\": false\n}"
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "title": "名前つきインポート文を組み立てる",
+  "difficulty": "basic",
+  "unit": "28",
+  "set": 1,
+  "cases": [
+    {
+      "name": "単純な名前つきインポート",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "sum",
+          "path": "./math.js"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "import { sum } from \"./math.js\";"
+      }
+    },
+    {
+      "name": "キャメルケースの名前",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "formatDate",
+          "path": "./format-date.js"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "import { formatDate } from \"./format-date.js\";"
+      }
+    },
+    {
+      "name": "親ディレクトリからのインポート",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "userName",
+          "path": "../user.js"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "import { userName } from \"../user.js\";"
+      }
+    }
+  ]
+}

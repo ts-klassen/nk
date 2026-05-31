@@ -1,0 +1,50 @@
+{
+  "title": "メソッドのthisで残り数を求める",
+  "difficulty": "basic",
+  "unit": "19",
+  "set": 4,
+  "cases": [
+    {
+      "name": "販売後に在庫が残る",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 12,
+          "sold": 5
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": 7
+      }
+    },
+    {
+      "name": "まだ販売していない",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 20,
+          "sold": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": 20
+      }
+    },
+    {
+      "name": "すべて販売済み",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 8,
+          "sold": 8
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": 0
+      }
+    }
+  ]
+}

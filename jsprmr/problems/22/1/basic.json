@@ -1,0 +1,53 @@
+{
+  "title": "Promise executorの実行順",
+  "difficulty": "basic",
+  "unit": "22",
+  "set": 1,
+  "cases": [
+    {
+      "name": "Promiseを作る前後の順番",
+      "input": {
+        "type": "value",
+        "value": {
+          "before": "start",
+          "executor": "promise",
+          "after": "end"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": ["start", "promise", "end"]
+      }
+    },
+    {
+      "name": "executorは作成時に実行される",
+      "input": {
+        "type": "value",
+        "value": {
+          "before": "before",
+          "executor": "executor",
+          "after": "after"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": ["before", "executor", "after"]
+      }
+    },
+    {
+      "name": "異なる文字列でも同じ順番",
+      "input": {
+        "type": "value",
+        "value": {
+          "before": "準備",
+          "executor": "処理中",
+          "after": "完了"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": ["準備", "処理中", "完了"]
+      }
+    }
+  ]
+}

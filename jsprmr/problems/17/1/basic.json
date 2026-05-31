@@ -1,0 +1,50 @@
+{
+  "title": "Stringラッパーから値を取り出す",
+  "difficulty": "basic",
+  "unit": "17",
+  "set": 1,
+  "cases": [
+    {
+      "name": "英字の文字列",
+      "input": {
+        "type": "constructor",
+        "name": "String",
+        "args": [
+          "apple"
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": "apple"
+      }
+    },
+    {
+      "name": "空白を含む文字列",
+      "input": {
+        "type": "constructor",
+        "name": "String",
+        "args": [
+          "JS Primer"
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": "JS Primer"
+      }
+    },
+    {
+      "name": "空文字列",
+      "input": {
+        "type": "constructor",
+        "name": "String",
+        "args": [
+          ""
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": ""
+      }
+    }
+  ]
+}

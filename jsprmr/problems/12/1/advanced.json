@@ -1,0 +1,167 @@
+{
+  "title": "商品カードの更新",
+  "difficulty": "advanced",
+  "unit": "12",
+  "set": 1,
+  "cases": [
+    {
+      "name": "代表例: 更新・削除・不足追加",
+      "input": {
+        "type": "value",
+        "value": {
+          "base": {
+            "name": "ノート",
+            "price": 120,
+            "stock": 5,
+            "label": "old"
+          },
+          "patch": {
+            "price": 150,
+            "sale": true
+          },
+          "required": ["name", "price", "stock", "sale", "label"],
+          "remove": "label"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "name": "ノート",
+          "price": 150,
+          "stock": 5,
+          "sale": true,
+          "label": "未設定"
+        }
+      }
+    },
+    {
+      "name": "削除対象がない場合も不足分を追加する",
+      "input": {
+        "type": "value",
+        "value": {
+          "base": {
+            "code": "A1",
+            "color": "red"
+          },
+          "patch": {
+            "color": "blue",
+            "size": "M"
+          },
+          "required": ["code", "color", "size", "stock"],
+          "remove": "memo"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "code": "A1",
+          "color": "blue",
+          "size": "M",
+          "stock": "未設定"
+        }
+      }
+    },
+    {
+      "name": "0 と false は存在する値として残す",
+      "input": {
+        "type": "value",
+        "value": {
+          "base": {
+            "name": "ペン",
+            "stock": 0,
+            "active": false
+          },
+          "patch": {},
+          "required": ["name", "stock", "active", "memo"],
+          "remove": "old"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "name": "ペン",
+          "stock": 0,
+          "active": false,
+          "memo": "未設定"
+        }
+      }
+    },
+    {
+      "name": "上書き後に削除し、必須なら未設定にする",
+      "input": {
+        "type": "value",
+        "value": {
+          "base": {
+            "id": "B2",
+            "status": "draft",
+            "count": 2
+          },
+          "patch": {
+            "status": "ready",
+            "count": 0
+          },
+          "required": ["id", "status", "count"],
+          "remove": "status"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "id": "B2",
+          "count": 0,
+          "status": "未設定"
+        }
+      }
+    },
+    {
+      "name": "null も存在する値として残す",
+      "input": {
+        "type": "value",
+        "value": {
+          "base": {
+            "title": "Box",
+            "owner": null
+          },
+          "patch": {
+            "done": false
+          },
+          "required": ["title", "owner", "done"],
+          "remove": "none"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "title": "Box",
+          "owner": null,
+          "done": false
+        }
+      }
+    },
+    {
+      "name": "不足がない場合は余計なプロパティを追加しない",
+      "input": {
+        "type": "value",
+        "value": {
+          "base": {
+            "name": "カップ",
+            "price": 300
+          },
+          "patch": {
+            "stock": 8
+          },
+          "required": ["name", "price", "stock"],
+          "remove": "unused"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "name": "カップ",
+          "price": 300,
+          "stock": 8
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "title": "自身のプロパティと継承されたプロパティ",
+  "difficulty": "standard",
+  "unit": "13",
+  "set": 1,
+  "cases": [
+    {
+      "name": "自身のプロパティ",
+      "input": {
+        "type": "value",
+        "value": {
+          "target": {
+            "title": "JavaScript"
+          },
+          "propertyName": "title"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": true,
+          "available": true
+        }
+      }
+    },
+    {
+      "name": "Object.prototype から継承した toString",
+      "input": {
+        "type": "value",
+        "value": {
+          "target": {},
+          "propertyName": "toString"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": false,
+          "available": true
+        }
+      }
+    },
+    {
+      "name": "どこにも存在しないプロパティ",
+      "input": {
+        "type": "value",
+        "value": {
+          "target": {},
+          "propertyName": "missing"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": false,
+          "available": false
+        }
+      }
+    },
+    {
+      "name": "Object.create(null) で作成されたオブジェクト自身のプロパティ",
+      "input": {
+        "type": "factory",
+        "factory": "() => { const target = Object.create(null); target.count = 3; return { target, propertyName: \"count\" }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": true,
+          "available": true
+        }
+      }
+    },
+    {
+      "name": "Object.create(null) には toString がない",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ target: Object.create(null), propertyName: \"toString\" })"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": false,
+          "available": false
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "title": "式の評価値で作るタグ",
+  "difficulty": "advanced",
+  "unit": "09",
+  "set": 1,
+  "cases": [
+    {
+      "name": "正の数を足して倍率をかける",
+      "input": {
+        "type": "value",
+        "value": {
+          "base": 12,
+          "bonus": 5,
+          "multiplier": 3,
+          "label": "alpha"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "added": 17,
+          "scaled": 51,
+          "tag": "alpha:51"
+        }
+      }
+    },
+    {
+      "name": "倍率が0",
+      "input": {
+        "type": "value",
+        "value": {
+          "base": 8,
+          "bonus": 7,
+          "multiplier": 0,
+          "label": "zero"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "added": 15,
+          "scaled": 0,
+          "tag": "zero:0"
+        }
+      }
+    },
+    {
+      "name": "bonusが負の数",
+      "input": {
+        "type": "value",
+        "value": {
+          "base": 20,
+          "bonus": -4,
+          "multiplier": 2,
+          "label": "minus"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "added": 16,
+          "scaled": 32,
+          "tag": "minus:32"
+        }
+      }
+    },
+    {
+      "name": "空文字列のラベル",
+      "input": {
+        "type": "value",
+        "value": {
+          "base": 4,
+          "bonus": 5,
+          "multiplier": 1,
+          "label": ""
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "added": 9,
+          "scaled": 9,
+          "tag": ":9"
+        }
+      }
+    }
+  ]
+}

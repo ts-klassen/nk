@@ -1,0 +1,52 @@
+{
+  "title": "最大値と最小値の差",
+  "difficulty": "standard",
+  "unit": "27",
+  "set": 1,
+  "cases": [
+    {
+      "name": "代表例",
+      "input": {
+        "type": "value",
+        "value": [3, 7, 2]
+      },
+      "output": {
+        "type": "value",
+        "value": 5
+      }
+    },
+    {
+      "name": "負の数だけ",
+      "input": {
+        "type": "value",
+        "value": [-4, -10, -1]
+      },
+      "output": {
+        "type": "value",
+        "value": 9
+      }
+    },
+    {
+      "name": "要素が1個",
+      "input": {
+        "type": "value",
+        "value": [5]
+      },
+      "output": {
+        "type": "value",
+        "value": 0
+      }
+    },
+    {
+      "name": "小数を含む",
+      "input": {
+        "type": "value",
+        "value": [2.5, -1.5, 4]
+      },
+      "output": {
+        "type": "value",
+        "value": 5.5
+      }
+    }
+  ]
+}

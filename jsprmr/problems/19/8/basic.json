@@ -1,0 +1,50 @@
+{
+  "title": "会員カードのメソッド",
+  "difficulty": "basic",
+  "unit": "19",
+  "set": 8,
+  "cases": [
+    {
+      "name": "代表例",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "山田",
+          "rank": "ゴールド"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "山田さんはゴールド会員です"
+      }
+    },
+    {
+      "name": "英字の名前",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "Aoi",
+          "rank": "一般"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "Aoiさんは一般会員です"
+      }
+    },
+    {
+      "name": "短い名前",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "李",
+          "rank": "トライアル"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "李さんはトライアル会員です"
+      }
+    }
+  ]
+}

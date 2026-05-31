@@ -1,0 +1,88 @@
+{
+  "title": "インポート文の組み立て",
+  "difficulty": "standard",
+  "unit": "28",
+  "set": 1,
+  "cases": [
+    {
+      "name": "名前つきインポートだけで別名なし",
+      "input": {
+        "type": "value",
+        "value": {
+          "modulePath": "./tax.js",
+          "defaultName": "",
+          "exportName": "taxRate",
+          "localName": "taxRate"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "import { taxRate } from \"./tax.js\";"
+      }
+    },
+    {
+      "name": "名前つきインポートだけで別名あり",
+      "input": {
+        "type": "value",
+        "value": {
+          "modulePath": "./price.js",
+          "defaultName": "",
+          "exportName": "formatPrice",
+          "localName": "format"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "import { formatPrice as format } from \"./price.js\";"
+      }
+    },
+    {
+      "name": "デフォルトインポートと名前つきインポートで別名なし",
+      "input": {
+        "type": "value",
+        "value": {
+          "modulePath": "./catalog.js",
+          "defaultName": "catalog",
+          "exportName": "itemCount",
+          "localName": "itemCount"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "import catalog, { itemCount } from \"./catalog.js\";"
+      }
+    },
+    {
+      "name": "デフォルトインポートと名前つきインポートで別名あり",
+      "input": {
+        "type": "value",
+        "value": {
+          "modulePath": "./theme.js",
+          "defaultName": "settings",
+          "exportName": "defaultTheme",
+          "localName": "theme"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "import settings, { defaultTheme as theme } from \"./theme.js\";"
+      }
+    },
+    {
+      "name": "長い相対パスを使う",
+      "input": {
+        "type": "value",
+        "value": {
+          "modulePath": "../shared/messages.js",
+          "defaultName": "messages",
+          "exportName": "welcomeText",
+          "localName": "welcome"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "import messages, { welcomeText as welcome } from \"../shared/messages.js\";"
+      }
+    }
+  ]
+}

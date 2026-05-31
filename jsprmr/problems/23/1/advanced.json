@@ -1,0 +1,96 @@
+{
+  "title": "部屋ごとの参加者数",
+  "difficulty": "advanced",
+  "unit": "23",
+  "set": 1,
+  "cases": [
+    {
+      "name": "重複入室と存在しない利用者の退室",
+      "input": {
+        "type": "value",
+        "value": [
+          { "room": "red", "user": "A", "action": "enter" },
+          { "room": "red", "user": "B", "action": "enter" },
+          { "room": "blue", "user": "A", "action": "enter" },
+          { "room": "red", "user": "A", "action": "enter" },
+          { "room": "red", "user": "A", "action": "leave" },
+          { "room": "green", "user": "D", "action": "enter" },
+          { "room": "blue", "user": "C", "action": "leave" },
+          { "room": "red", "user": "C", "action": "enter" }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": [["red", 2], ["blue", 1], ["green", 1]]
+      }
+    },
+    {
+      "name": "空になった部屋が後で再追加される",
+      "input": {
+        "type": "value",
+        "value": [
+          { "room": "alpha", "user": "a", "action": "enter" },
+          { "room": "beta", "user": "b", "action": "enter" },
+          { "room": "alpha", "user": "a", "action": "leave" },
+          { "room": "gamma", "user": "g", "action": "enter" },
+          { "room": "alpha", "user": "c", "action": "enter" }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": [["beta", 1], ["gamma", 1], ["alpha", 1]]
+      }
+    },
+    {
+      "name": "全員が退室して空配列になる",
+      "input": {
+        "type": "value",
+        "value": [
+          { "room": "main", "user": "x", "action": "enter" },
+          { "room": "main", "user": "x", "action": "enter" },
+          { "room": "main", "user": "x", "action": "leave" },
+          { "room": "main", "user": "x", "action": "leave" },
+          { "room": "sub", "user": "y", "action": "leave" }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "同じ利用者名でも部屋ごとに別々に扱う",
+      "input": {
+        "type": "value",
+        "value": [
+          { "room": "east", "user": "kai", "action": "enter" },
+          { "room": "west", "user": "kai", "action": "enter" },
+          { "room": "east", "user": "mio", "action": "enter" },
+          { "room": "west", "user": "kai", "action": "leave" }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": [["east", 2]]
+      }
+    },
+    {
+      "name": "退室対象がいない場合は人数を変えない",
+      "input": {
+        "type": "value",
+        "value": [
+          { "room": "lab1", "user": "a", "action": "enter" },
+          { "room": "lab2", "user": "b", "action": "enter" },
+          { "room": "lab1", "user": "c", "action": "enter" },
+          { "room": "lab2", "user": "d", "action": "enter" },
+          { "room": "lab1", "user": "b", "action": "leave" },
+          { "room": "lab2", "user": "d", "action": "leave" }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": [["lab1", 2], ["lab2", 1]]
+      }
+    }
+  ]
+}

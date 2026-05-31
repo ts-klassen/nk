@@ -1,0 +1,52 @@
+{
+  "title": "関数宣言文と関数式",
+  "difficulty": "standard",
+  "unit": "09",
+  "set": 1,
+  "cases": [
+    {
+      "name": "正の数",
+      "input": {
+        "type": "value",
+        "value": 4
+      },
+      "output": {
+        "type": "value",
+        "value": 19
+      }
+    },
+    {
+      "name": "1",
+      "input": {
+        "type": "value",
+        "value": 1
+      },
+      "output": {
+        "type": "value",
+        "value": 10
+      }
+    },
+    {
+      "name": "0",
+      "input": {
+        "type": "value",
+        "value": 0
+      },
+      "output": {
+        "type": "value",
+        "value": 7
+      }
+    },
+    {
+      "name": "負の数",
+      "input": {
+        "type": "value",
+        "value": -3
+      },
+      "output": {
+        "type": "value",
+        "value": -2
+      }
+    }
+  ]
+}

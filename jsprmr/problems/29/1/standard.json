@@ -1,0 +1,64 @@
+{
+  "title": "新機能を試す手段の分類",
+  "difficulty": "standard",
+  "unit": "29",
+  "set": 1,
+  "cases": [
+    {
+      "name": "新しい構文はTranspiler",
+      "input": {
+        "type": "value",
+        "value": {
+          "kind": "syntax",
+          "reproducible": true
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "transpiler"
+      }
+    },
+    {
+      "name": "新しいAPIはPolyfill",
+      "input": {
+        "type": "value",
+        "value": {
+          "kind": "api",
+          "reproducible": true
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "polyfill"
+      }
+    },
+    {
+      "name": "構文でも再現できなければ不可",
+      "input": {
+        "type": "value",
+        "value": {
+          "kind": "syntax",
+          "reproducible": false
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "cannot-reproduce"
+      }
+    },
+    {
+      "name": "APIでも再現できなければ不可",
+      "input": {
+        "type": "value",
+        "value": {
+          "kind": "api",
+          "reproducible": false
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "cannot-reproduce"
+      }
+    }
+  ]
+}

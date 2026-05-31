@@ -1,0 +1,30 @@
+{
+  "title": "変数を表示する",
+  "difficulty": "standard",
+  "unit": "04",
+  "set": 1,
+  "cases": [
+    {
+      "name": "文字列を表示して出力する",
+      "input": {
+        "type": "value",
+        "value": "こんにちは"
+      },
+      "output": {
+        "type": "value",
+        "value": "こんにちは"
+      }
+    },
+    {
+      "name": "数値を表示して出力する",
+      "input": {
+        "type": "value",
+        "value": 2048
+      },
+      "output": {
+        "type": "value",
+        "value": 2048
+      }
+    }
+  ]
+}

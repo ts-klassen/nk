@@ -1,0 +1,93 @@
+{
+  "title": "参加者リストへの追加",
+  "difficulty": "standard",
+  "unit": "23",
+  "set": 1,
+  "cases": [
+    {
+      "name": "未登録の参加者を追加する",
+      "input": {
+        "type": "value",
+        "value": {
+          "participants": ["aoi", "ren", "sora"],
+          "candidate": "mika"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "exists": false,
+          "count": 4
+        }
+      }
+    },
+    {
+      "name": "登録済みの参加者を追加しようとする",
+      "input": {
+        "type": "value",
+        "value": {
+          "participants": ["aoi", "ren", "sora"],
+          "candidate": "ren"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "exists": true,
+          "count": 3
+        }
+      }
+    },
+    {
+      "name": "参加者IDに重複がある",
+      "input": {
+        "type": "value",
+        "value": {
+          "participants": ["aoi", "aoi", "ren"],
+          "candidate": "aoi"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "exists": true,
+          "count": 2
+        }
+      }
+    },
+    {
+      "name": "重複のあるリストに新しい参加者を追加する",
+      "input": {
+        "type": "value",
+        "value": {
+          "participants": ["aoi", "aoi", "ren"],
+          "candidate": "sora"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "exists": false,
+          "count": 3
+        }
+      }
+    },
+    {
+      "name": "空のリストに追加する",
+      "input": {
+        "type": "value",
+        "value": {
+          "participants": [],
+          "candidate": "aoi"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "exists": false,
+          "count": 1
+        }
+      }
+    }
+  ]
+}

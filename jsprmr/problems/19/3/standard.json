@@ -1,0 +1,52 @@
+{
+  "title": "thisを指定して名前を整える",
+  "difficulty": "standard",
+  "unit": "19",
+  "set": 3,
+  "cases": [
+    {
+      "name": "空白でつなぐ名前",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ profile: { familyName: \"山田\", givenName: \"太郎\" }, separator: \" \", formatName: function(separator) { return this.familyName + separator + this.givenName; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "山田 太郎"
+      }
+    },
+    {
+      "name": "中黒でつなぐ名前",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ profile: { familyName: \"佐藤\", givenName: \"花子\" }, separator: \"・\", formatName: function(separator) { return this.familyName + separator + this.givenName; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "佐藤・花子"
+      }
+    },
+    {
+      "name": "区切り文字が空文字",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ profile: { familyName: \"A\", givenName: \"B\" }, separator: \"\", formatName: function(separator) { return this.familyName + separator + this.givenName; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "AB"
+      }
+    },
+    {
+      "name": "英字の名前",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ profile: { familyName: \"Turing\", givenName: \"Alan\" }, separator: \", \", formatName: function(separator) { return this.familyName + separator + this.givenName; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "Turing, Alan"
+      }
+    }
+  ]
+}

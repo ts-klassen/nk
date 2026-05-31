@@ -1,0 +1,107 @@
+{
+  "title": "プロパティの出どころカウント",
+  "difficulty": "advanced",
+  "unit": "13",
+  "set": 1,
+  "cases": [
+    {
+      "name": "通常のオブジェクトとObject.prototype",
+      "input": {
+        "type": "value",
+        "value": {
+          "target": {
+            "name": "memo"
+          },
+          "keys": [
+            "name",
+            "toString",
+            "missing"
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": 1,
+          "inherited": 1,
+          "missing": 1
+        }
+      }
+    },
+    {
+      "name": "同名プロパティは自身を優先",
+      "input": {
+        "type": "factory",
+        "factory": "() => { const prototype = { category: \"base\", shared: true }; const target = Object.create(prototype); target.name = \"alpha\"; target.category = \"own category\"; return { target, keys: [\"name\", \"category\", \"shared\", \"lost\"] }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": 2,
+          "inherited": 1,
+          "missing": 1
+        }
+      }
+    },
+    {
+      "name": "Object.prototypeを継承しないオブジェクト",
+      "input": {
+        "type": "factory",
+        "factory": "() => { const target = Object.create(null); target.code = \"N0\"; return { target, keys: [\"code\", \"toString\", \"hasOwnProperty\"] }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": 1,
+          "inherited": 0,
+          "missing": 2
+        }
+      }
+    },
+    {
+      "name": "値がundefinedでも存在を数える",
+      "input": {
+        "type": "factory",
+        "factory": "() => { const prototype = { inheritedValue: undefined }; const target = Object.create(prototype); target.ownValue = undefined; return { target, keys: [\"ownValue\", \"inheritedValue\", \"absent\"] }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": 1,
+          "inherited": 1,
+          "missing": 1
+        }
+      }
+    },
+    {
+      "name": "自身のtoStringはownとして数える",
+      "input": {
+        "type": "factory",
+        "factory": "() => { const target = { toString: \"custom\", count: 3 }; return { target, keys: [\"toString\", \"hasOwnProperty\", \"count\"] }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": 2,
+          "inherited": 1,
+          "missing": 0
+        }
+      }
+    },
+    {
+      "name": "調べるキーが空",
+      "input": {
+        "type": "factory",
+        "factory": "() => { const target = Object.create({ base: 1 }); target.local = 2; return { target, keys: [] }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "own": 0,
+          "inherited": 0,
+          "missing": 0
+        }
+      }
+    }
+  ]
+}

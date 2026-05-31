@@ -1,0 +1,41 @@
+{
+  "title": "ECMAScriptの役割を選ぶ",
+  "difficulty": "basic",
+  "unit": "29",
+  "set": 1,
+  "cases": [
+    {
+      "name": "ECMAScriptの役割ラベルを選ぶ",
+      "input": {
+        "type": "value",
+        "value": "ECMAScript"
+      },
+      "output": {
+        "type": "value",
+        "value": "仕様"
+      }
+    },
+    {
+      "name": "Ecma Internationalの役割ラベルを選ぶ",
+      "input": {
+        "type": "value",
+        "value": "Ecma International"
+      },
+      "output": {
+        "type": "value",
+        "value": "標準化団体"
+      }
+    },
+    {
+      "name": "TC39の役割ラベルを選ぶ",
+      "input": {
+        "type": "value",
+        "value": "TC39"
+      },
+      "output": {
+        "type": "value",
+        "value": "技術委員会"
+      }
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "title": "数量チェックとエラー種別",
+  "difficulty": "standard",
+  "unit": "21",
+  "set": 1,
+  "cases": [
+    {
+      "name": "数量が有効",
+      "input": {
+        "type": "value",
+        "value": {
+          "price": 250,
+          "quantity": 2
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "ok": true,
+          "total": 500
+        }
+      }
+    },
+    {
+      "name": "数量が0",
+      "input": {
+        "type": "value",
+        "value": {
+          "price": 800,
+          "quantity": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "ok": false,
+          "name": "Error",
+          "message": "quantity must be at least 1"
+        }
+      }
+    },
+    {
+      "name": "数量が負の数",
+      "input": {
+        "type": "value",
+        "value": {
+          "price": 120,
+          "quantity": -1
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "ok": false,
+          "name": "Error",
+          "message": "quantity must be at least 1"
+        }
+      }
+    },
+    {
+      "name": "数量が文字列",
+      "input": {
+        "type": "value",
+        "value": {
+          "price": 500,
+          "quantity": "2"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "ok": false,
+          "name": "TypeError",
+          "message": "quantity must be a number"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "title": "注文を受け付けられるか",
+  "difficulty": "standard",
+  "unit": "06",
+  "set": 1,
+  "cases": [
+    {
+      "name": "在庫が足りていて支払い済み",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 5,
+          "quantity": 3,
+          "paid": true
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": true
+      }
+    },
+    {
+      "name": "在庫がちょうど足りる",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 3,
+          "quantity": 3,
+          "paid": true
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": true
+      }
+    },
+    {
+      "name": "在庫が足りない",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 2,
+          "quantity": 3,
+          "paid": true
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    },
+    {
+      "name": "注文数が0",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 5,
+          "quantity": 0,
+          "paid": true
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    },
+    {
+      "name": "未払い",
+      "input": {
+        "type": "value",
+        "value": {
+          "stock": 5,
+          "quantity": 3,
+          "paid": false
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    }
+  ]
+}

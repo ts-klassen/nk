@@ -1,0 +1,68 @@
+{
+  "title": "yieldで値を取り出す",
+  "difficulty": "basic",
+  "unit": "24",
+  "set": 1,
+  "cases": [
+    {
+      "name": "文字列を順番にyieldする",
+      "input": {
+        "type": "value",
+        "value": ["赤", "青"]
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "value": "赤",
+            "done": false
+          },
+          {
+            "value": "青",
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "数値を順番にyieldする",
+      "input": {
+        "type": "value",
+        "value": [10, 20]
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "value": 10,
+            "done": false
+          },
+          {
+            "value": 20,
+            "done": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "異なる型の値を順番にyieldする",
+      "input": {
+        "type": "value",
+        "value": ["first", 0]
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "value": "first",
+            "done": false
+          },
+          {
+            "value": 0,
+            "done": false
+          }
+        ]
+      }
+    }
+  ]
+}

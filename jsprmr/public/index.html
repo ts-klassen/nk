@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JSPrimer 採点</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <h1>JSPrimer 採点</h1>
+        <form class="selector" id="problem-form">
+          <label>
+            <span>単元</span>
+            <select id="unit-select" name="unit"></select>
+          </label>
+          <label>
+            <span>課題セット</span>
+            <select id="set-select" name="set"></select>
+          </label>
+          <div class="segmented" role="tablist" aria-label="難易度">
+            <button type="button" data-difficulty="basic" aria-selected="true">基本</button>
+            <button type="button" data-difficulty="standard" aria-selected="false">標準</button>
+            <button type="button" data-difficulty="advanced" aria-selected="false">応用</button>
+          </div>
+        </form>
+      </header>
+
+      <section class="score-strip" aria-label="採点結果">
+        <div class="score-total">
+          <span>合計</span>
+          <strong><output id="total-score">0</output> / 7</strong>
+        </div>
+        <div class="score-item">
+          <span>基本</span>
+          <output id="score-basic">未実行</output>
+        </div>
+        <div class="score-item">
+          <span>標準</span>
+          <output id="score-standard">未実行</output>
+        </div>
+        <div class="score-item">
+          <span>応用</span>
+          <output id="score-advanced">未実行</output>
+        </div>
+      </section>
+
+      <main class="workspace">
+        <section class="problem-pane" aria-labelledby="problem-heading">
+          <div class="pane-heading">
+            <h2 id="problem-heading">課題</h2>
+            <span class="status-text" id="load-status"></span>
+          </div>
+          <pre class="markdown-text" id="problem-markdown"></pre>
+        </section>
+
+        <section class="editor-pane" aria-labelledby="editor-heading">
+          <div class="pane-heading">
+            <h2 id="editor-heading">コード</h2>
+            <span class="status-text" id="run-summary"></span>
+          </div>
+          <div class="preamble" aria-label="実行前提">
+            <code>const input = テストケースごとの値;</code>
+            <code>let output;</code>
+          </div>
+          <textarea id="code-input" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+          <div class="actions">
+            <div class="action-buttons">
+              <button class="primary" id="run-button" type="button" disabled>テスト実行</button>
+              <button id="save-button" type="button" disabled>保存</button>
+            </div>
+            <span class="status-text" id="save-status"></span>
+          </div>
+        </section>
+
+        <section class="cases-pane" aria-labelledby="cases-heading">
+          <div class="pane-heading">
+            <h2 id="cases-heading">テストケース</h2>
+          </div>
+          <div class="case-list" id="case-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

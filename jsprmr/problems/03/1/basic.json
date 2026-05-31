@@ -1,0 +1,30 @@
+{
+  "title": "constで値に名前をつける",
+  "difficulty": "basic",
+  "unit": "03",
+  "set": 1,
+  "cases": [
+    {
+      "name": "文字列に名前をつける",
+      "input": {
+        "type": "value",
+        "value": "JavaScript"
+      },
+      "output": {
+        "type": "value",
+        "value": "JavaScript"
+      }
+    },
+    {
+      "name": "数値に名前をつける",
+      "input": {
+        "type": "value",
+        "value": 2026
+      },
+      "output": {
+        "type": "value",
+        "value": 2026
+      }
+    }
+  ]
+}

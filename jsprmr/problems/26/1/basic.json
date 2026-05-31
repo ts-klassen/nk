@@ -1,0 +1,44 @@
+{
+  "title": "時刻値を取り出す",
+  "difficulty": "basic",
+  "unit": "26",
+  "set": 1,
+  "cases": [
+    {
+      "name": "Unix epochの時刻値を取り出す",
+      "input": {
+        "type": "constructor",
+        "name": "Date",
+        "args": [0]
+      },
+      "output": {
+        "type": "value",
+        "value": 0
+      }
+    },
+    {
+      "name": "1秒後の時刻値を取り出す",
+      "input": {
+        "type": "constructor",
+        "name": "Date",
+        "args": ["1970-01-01T00:00:01.000Z"]
+      },
+      "output": {
+        "type": "value",
+        "value": 1000
+      }
+    },
+    {
+      "name": "ミリ秒まで含む時刻値を取り出す",
+      "input": {
+        "type": "constructor",
+        "name": "Date",
+        "args": ["2024-02-29T12:34:56.789Z"]
+      },
+      "output": {
+        "type": "value",
+        "value": 1709210096789
+      }
+    }
+  ]
+}

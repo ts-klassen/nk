@@ -1,0 +1,78 @@
+{
+  "title": "クロージャーで回数を進める",
+  "difficulty": "standard",
+  "unit": "18",
+  "set": 1,
+  "cases": [
+    {
+      "name": "正の初期値から4回進める",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": 3,
+          "times": 4
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [4, 5, 6, 7]
+      }
+    },
+    {
+      "name": "0から3回進める",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": 0,
+          "times": 3
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [1, 2, 3]
+      }
+    },
+    {
+      "name": "負の初期値から2回進める",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": -2,
+          "times": 2
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [-1, 0]
+      }
+    },
+    {
+      "name": "1回だけ呼び出す",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": 10,
+          "times": 1
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [11]
+      }
+    },
+    {
+      "name": "呼び出さない",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": 5,
+          "times": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    }
+  ]
+}

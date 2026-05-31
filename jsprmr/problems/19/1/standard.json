@@ -1,0 +1,41 @@
+{
+  "title": "callでthisを指定する",
+  "difficulty": "standard",
+  "unit": "19",
+  "set": 1,
+  "cases": [
+    {
+      "name": "ノートの個数を整形する",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ item: { name: 'ノート', count: 3 }, unit: '冊', format(unit) { return `${this.name}:${this.count}${unit}`; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "ノート:3冊"
+      }
+    },
+    {
+      "name": "鉛筆の個数を整形する",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ item: { name: '鉛筆', count: 12 }, unit: '本', format(unit) { return `${this.name}:${this.count}${unit}`; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "鉛筆:12本"
+      }
+    },
+    {
+      "name": "0個でもthisで参照した値を使う",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ item: { name: 'カード', count: 0 }, unit: '枚', format(unit) { return `${this.name}:${this.count}${unit}`; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "カード:0枚"
+      }
+    }
+  ]
+}

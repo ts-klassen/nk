@@ -1,0 +1,50 @@
+{
+  "title": "入場券クラスを作る",
+  "difficulty": "basic",
+  "unit": "20",
+  "set": 1,
+  "cases": [
+    {
+      "name": "代表例",
+      "input": {
+        "type": "value",
+        "value": {
+          "title": "Morning Pass",
+          "price": 1200
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => typeof output === \"object\" && output !== null && output !== input && output.title === input.title && output.price === input.price && typeof output.label === \"function\" && output.label() === input.title + \" - \" + input.price + \"円\""
+      }
+    },
+    {
+      "name": "価格が0の入場券",
+      "input": {
+        "type": "value",
+        "value": {
+          "title": "Free Entry",
+          "price": 0
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => typeof output === \"object\" && output !== null && output !== input && output.title === input.title && output.price === input.price && typeof output.label === \"function\" && output.label() === input.title + \" - \" + input.price + \"円\""
+      }
+    },
+    {
+      "name": "別の名前と価格",
+      "input": {
+        "type": "value",
+        "value": {
+          "title": "Night Ticket",
+          "price": 2500
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => typeof output === \"object\" && output !== null && output !== input && output.title === input.title && output.price === input.price && typeof output.label === \"function\" && output.label() === input.title + \" - \" + input.price + \"円\""
+      }
+    }
+  ]
+}

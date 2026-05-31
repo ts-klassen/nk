@@ -1,0 +1,41 @@
+{
+  "title": "先頭のCode Point",
+  "difficulty": "basic",
+  "unit": "16",
+  "set": 1,
+  "cases": [
+    {
+      "name": "ASCII文字のCode Pointを取得する",
+      "input": {
+        "type": "value",
+        "value": "A"
+      },
+      "output": {
+        "type": "value",
+        "value": 65
+      }
+    },
+    {
+      "name": "ひらがなのCode Pointを取得する",
+      "input": {
+        "type": "value",
+        "value": "あ"
+      },
+      "output": {
+        "type": "value",
+        "value": 12354
+      }
+    },
+    {
+      "name": "サロゲートペアの文字のCode Pointを取得する",
+      "input": {
+        "type": "value",
+        "value": "🍣"
+      },
+      "output": {
+        "type": "value",
+        "value": 127843
+      }
+    }
+  ]
+}

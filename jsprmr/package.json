@@ -1,0 +1,8 @@
+{
+  "name": "jsprmr",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "express": "^4.22.2"
+  }
+}

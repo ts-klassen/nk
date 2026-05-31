@@ -1,0 +1,41 @@
+{
+  "title": "式の評価値を代入する",
+  "difficulty": "basic",
+  "unit": "09",
+  "set": 1,
+  "cases": [
+    {
+      "name": "正の数に10を足す",
+      "input": {
+        "type": "value",
+        "value": 5
+      },
+      "output": {
+        "type": "value",
+        "value": 15
+      }
+    },
+    {
+      "name": "0に10を足す",
+      "input": {
+        "type": "value",
+        "value": 0
+      },
+      "output": {
+        "type": "value",
+        "value": 10
+      }
+    },
+    {
+      "name": "負の数に10を足す",
+      "input": {
+        "type": "value",
+        "value": -12
+      },
+      "output": {
+        "type": "value",
+        "value": -2
+      }
+    }
+  ]
+}

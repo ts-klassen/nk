@@ -1,0 +1,41 @@
+{
+  "title": "ifで合格を判定する",
+  "difficulty": "basic",
+  "unit": "10",
+  "set": 1,
+  "cases": [
+    {
+      "name": "境界値の70点は合格にする",
+      "input": {
+        "type": "value",
+        "value": 70
+      },
+      "output": {
+        "type": "value",
+        "value": "合格"
+      }
+    },
+    {
+      "name": "69点は再挑戦にする",
+      "input": {
+        "type": "value",
+        "value": 69
+      },
+      "output": {
+        "type": "value",
+        "value": "再挑戦"
+      }
+    },
+    {
+      "name": "100点は合格にする",
+      "input": {
+        "type": "value",
+        "value": 100
+      },
+      "output": {
+        "type": "value",
+        "value": "合格"
+      }
+    }
+  ]
+}

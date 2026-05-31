@@ -1,0 +1,77 @@
+{
+  "title": "typeofでデータ型を調べる",
+  "difficulty": "basic",
+  "unit": "05",
+  "set": 1,
+  "cases": [
+    {
+      "name": "真偽値",
+      "input": {
+        "type": "value",
+        "value": true
+      },
+      "output": {
+        "type": "value",
+        "value": "boolean"
+      }
+    },
+    {
+      "name": "数値",
+      "input": {
+        "type": "value",
+        "value": 42
+      },
+      "output": {
+        "type": "value",
+        "value": "number"
+      }
+    },
+    {
+      "name": "文字列",
+      "input": {
+        "type": "value",
+        "value": "JavaScript"
+      },
+      "output": {
+        "type": "value",
+        "value": "string"
+      }
+    },
+    {
+      "name": "null",
+      "input": {
+        "type": "value",
+        "value": null
+      },
+      "output": {
+        "type": "value",
+        "value": "object"
+      }
+    },
+    {
+      "name": "配列",
+      "input": {
+        "type": "value",
+        "value": ["red", "green", "blue"]
+      },
+      "output": {
+        "type": "value",
+        "value": "object"
+      }
+    },
+    {
+      "name": "オブジェクト",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "notebook",
+          "price": 120
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "object"
+      }
+    }
+  ]
+}

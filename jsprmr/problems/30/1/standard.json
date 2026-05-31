@@ -1,0 +1,74 @@
+{
+  "title": "参照先を選ぶ",
+  "difficulty": "standard",
+  "unit": "30",
+  "set": 1,
+  "cases": [
+    {
+      "name": "DOM APIはMDN",
+      "input": {
+        "type": "value",
+        "value": "DOM API"
+      },
+      "output": {
+        "type": "value",
+        "value": "MDN Web Docs"
+      }
+    },
+    {
+      "name": "JavaScript APIもMDN",
+      "input": {
+        "type": "value",
+        "value": "JavaScript API"
+      },
+      "output": {
+        "type": "value",
+        "value": "MDN Web Docs"
+      }
+    },
+    {
+      "name": "Node.js APIはNode.js Documentation",
+      "input": {
+        "type": "value",
+        "value": "Node.js API"
+      },
+      "output": {
+        "type": "value",
+        "value": "Node.js Documentation"
+      }
+    },
+    {
+      "name": "ライブラリは公式サイトまたはリポジトリ",
+      "input": {
+        "type": "value",
+        "value": "ライブラリ"
+      },
+      "output": {
+        "type": "value",
+        "value": "公式サイトまたはリポジトリ"
+      }
+    },
+    {
+      "name": "ツールも公式サイトまたはリポジトリ",
+      "input": {
+        "type": "value",
+        "value": "ツール"
+      },
+      "output": {
+        "type": "value",
+        "value": "公式サイトまたはリポジトリ"
+      }
+    },
+    {
+      "name": "分類できない内容は公式情報を確認",
+      "input": {
+        "type": "value",
+        "value": "新しい仕様"
+      },
+      "output": {
+        "type": "value",
+        "value": "公式情報を確認"
+      }
+    }
+  ]
+}

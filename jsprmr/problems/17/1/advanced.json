@@ -1,0 +1,52 @@
+{
+  "title": "対応するラッパー名を調べる",
+  "difficulty": "advanced",
+  "unit": "17",
+  "set": 1,
+  "cases": [
+    {
+      "name": "真偽値、数値、文字列、nullを分類する",
+      "input": {
+        "type": "value",
+        "value": [true, 42, "js", null]
+      },
+      "output": {
+        "type": "value",
+        "value": ["Boolean", "Number", "String", "なし"]
+      }
+    },
+    {
+      "name": "BigInt、シンボル、undefinedを含めて分類する",
+      "input": {
+        "type": "factory",
+        "factory": "() => [10n, Symbol(\"token\"), undefined]"
+      },
+      "output": {
+        "type": "value",
+        "value": ["BigInt", "Symbol", "なし"]
+      }
+    },
+    {
+      "name": "falsyな値も型に応じて分類する",
+      "input": {
+        "type": "factory",
+        "factory": "() => [false, 0, 0n, \"\", null, undefined]"
+      },
+      "output": {
+        "type": "value",
+        "value": ["Boolean", "Number", "BigInt", "String", "なし", "なし"]
+      }
+    },
+    {
+      "name": "空配列は空配列にする",
+      "input": {
+        "type": "value",
+        "value": []
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    }
+  ]
+}

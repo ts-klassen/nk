@@ -1,0 +1,58 @@
+{
+  "title": "型チェックカード",
+  "difficulty": "standard",
+  "unit": "05",
+  "set": 1,
+  "cases": [
+    {
+      "name": "文字列と数値と配列とnull",
+      "input": {
+        "type": "value",
+        "value": {
+          "title": "JavaScript",
+          "count": 3,
+          "tags": ["basic", "type"],
+          "memo": null
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": ["string", "number", "object", "object"]
+      }
+    },
+    {
+      "name": "真偽値と文字列とnullと配列",
+      "input": {
+        "type": "value",
+        "value": {
+          "title": false,
+          "count": "7",
+          "tags": null,
+          "memo": ["note"]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": ["boolean", "string", "object", "object"]
+      }
+    },
+    {
+      "name": "オブジェクトと0と空配列と文字列",
+      "input": {
+        "type": "value",
+        "value": {
+          "title": {
+            "text": "book"
+          },
+          "count": 0,
+          "tags": [],
+          "memo": ""
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": ["object", "number", "object", "string"]
+      }
+    }
+  ]
+}

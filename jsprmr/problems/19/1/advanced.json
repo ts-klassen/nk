@@ -1,0 +1,73 @@
+{
+  "title": "採点関数とthis",
+  "difficulty": "advanced",
+  "unit": "19",
+  "set": 1,
+  "cases": [
+    {
+      "name": "代表例: 合格ライン以上の候補を選ぶ",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ line: 80, score: function(add, penalty) { return this.base + this.bonus + add - penalty; }, candidates: [{ name: \"Aoba\", base: 70, bonus: 5, args: [6, 1] }, { name: \"Mika\", base: 65, bonus: 8, args: [4, 0] }, { name: \"Ren\", base: 82, bonus: 0, args: [0, 3] }, { name: \"Sora\", base: 75, bonus: 2, args: [7, 2] }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          "Aoba",
+          "Sora"
+        ]
+      }
+    },
+    {
+      "name": "境界値: 点数が合格ラインと同じ候補を含める",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ line: 100, score: function(multiplier, add) { return this.base * multiplier + add - this.penalty; }, candidates: [{ name: \"Alpha\", base: 20, penalty: 5, args: [5, 0] }, { name: \"Beta\", base: 18, penalty: 0, args: [5, 10] }, { name: \"Gamma\", base: 12, penalty: 2, args: [8, 8] }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          "Beta",
+          "Gamma"
+        ]
+      }
+    },
+    {
+      "name": "該当なし: すべて合格ライン未満",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ line: 50, score: function(add) { return this.points + add - this.miss * 3; }, candidates: [{ name: \"North\", points: 30, miss: 2, args: [5] }, { name: \"East\", points: 42, miss: 1, args: [0] }, { name: \"West\", points: 20, miss: 0, args: [15] }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "空配列: 候補がない",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ line: 10, score: function(add) { return this.base + add; }, candidates: [] })"
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "順序: 点数順ではなく元の順番を保つ",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ line: 70, score: function(first, second, third) { return this.value + first * this.rate + second - third; }, candidates: [{ name: \"First\", value: 80, rate: 1, args: [0, 0, 0] }, { name: \"Second\", value: 10, rate: 3, args: [25, 0, 0] }, { name: \"Third\", value: 67, rate: 2, args: [1, 1, 0] }, { name: \"Fourth\", value: 40, rate: 4, args: [3, 5, 1] }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          "First",
+          "Second",
+          "Third"
+        ]
+      }
+    }
+  ]
+}

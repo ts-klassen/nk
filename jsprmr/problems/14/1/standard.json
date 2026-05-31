@@ -1,0 +1,92 @@
+{
+  "title": "除外リストを使ったタグ選択",
+  "difficulty": "standard",
+  "unit": "14",
+  "set": 1,
+  "cases": [
+    {
+      "name": "例と同じタグ一覧",
+      "input": {
+        "type": "value",
+        "value": {
+          "tags": ["news", "sale", "draft", "event"],
+          "hidden": ["draft"]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": ["news", "sale", "event"]
+      }
+    },
+    {
+      "name": "非表示タグが空",
+      "input": {
+        "type": "value",
+        "value": {
+          "tags": ["js", "array", "method"],
+          "hidden": []
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": ["js", "array", "method"]
+      }
+    },
+    {
+      "name": "すべて非表示にする",
+      "input": {
+        "type": "value",
+        "value": {
+          "tags": ["draft", "private"],
+          "hidden": ["private", "draft"]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "複数の非表示タグを取り除く",
+      "input": {
+        "type": "value",
+        "value": {
+          "tags": ["html", "ad", "css", "old", "js"],
+          "hidden": ["ad", "old"]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": ["html", "css", "js"]
+      }
+    },
+    {
+      "name": "同じタグを回数分残す",
+      "input": {
+        "type": "value",
+        "value": {
+          "tags": ["js", "css", "js", "html"],
+          "hidden": ["css"]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": ["js", "js", "html"]
+      }
+    },
+    {
+      "name": "タグ一覧が空",
+      "input": {
+        "type": "value",
+        "value": {
+          "tags": [],
+          "hidden": ["draft"]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    }
+  ]
+}

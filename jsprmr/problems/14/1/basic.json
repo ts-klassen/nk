@@ -1,0 +1,41 @@
+{
+  "title": "最後のラベル",
+  "difficulty": "basic",
+  "unit": "14",
+  "set": 1,
+  "cases": [
+    {
+      "name": "3個の文字列",
+      "input": {
+        "type": "value",
+        "value": ["red", "green", "blue"]
+      },
+      "output": {
+        "type": "value",
+        "value": "blue"
+      }
+    },
+    {
+      "name": "1個だけの配列",
+      "input": {
+        "type": "value",
+        "value": ["solo"]
+      },
+      "output": {
+        "type": "value",
+        "value": "solo"
+      }
+    },
+    {
+      "name": "5個の文字列",
+      "input": {
+        "type": "value",
+        "value": ["start", "north", "east", "south", "west"]
+      },
+      "output": {
+        "type": "value",
+        "value": "west"
+      }
+    }
+  ]
+}

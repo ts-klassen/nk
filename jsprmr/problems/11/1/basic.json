@@ -1,0 +1,41 @@
+{
+  "title": "数値を順番に合計する",
+  "difficulty": "basic",
+  "unit": "11",
+  "set": 1,
+  "cases": [
+    {
+      "name": "3つの数値を合計する",
+      "input": {
+        "type": "value",
+        "value": [2, 4, 6]
+      },
+      "output": {
+        "type": "value",
+        "value": 12
+      }
+    },
+    {
+      "name": "空配列は0にする",
+      "input": {
+        "type": "value",
+        "value": []
+      },
+      "output": {
+        "type": "value",
+        "value": 0
+      }
+    },
+    {
+      "name": "負の数を含めて合計する",
+      "input": {
+        "type": "value",
+        "value": [-3, 10, 5]
+      },
+      "output": {
+        "type": "value",
+        "value": 12
+      }
+    }
+  ]
+}

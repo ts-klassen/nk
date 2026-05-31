@@ -1,0 +1,52 @@
+{
+  "title": "札の入れ替え記録",
+  "difficulty": "advanced",
+  "unit": "03",
+  "set": 1,
+  "cases": [
+    {
+      "name": "代表例",
+      "input": {
+        "type": "value",
+        "value": "赤い札"
+      },
+      "output": {
+        "type": "value",
+        "value": "赤い札"
+      }
+    },
+    {
+      "name": "別の文字列でも最初の札が右に残る",
+      "input": {
+        "type": "value",
+        "value": "朝のメモ"
+      },
+      "output": {
+        "type": "value",
+        "value": "朝のメモ"
+      }
+    },
+    {
+      "name": "空文字列もそのまま右に残る",
+      "input": {
+        "type": "value",
+        "value": ""
+      },
+      "output": {
+        "type": "value",
+        "value": ""
+      }
+    },
+    {
+      "name": "数字のように見える文字列も文字列として扱う",
+      "input": {
+        "type": "value",
+        "value": "2026"
+      },
+      "output": {
+        "type": "value",
+        "value": "2026"
+      }
+    }
+  ]
+}

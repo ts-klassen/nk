@@ -1,0 +1,92 @@
+{
+  "title": "動的なキーで設定値を読む",
+  "difficulty": "standard",
+  "unit": "12",
+  "set": 1,
+  "cases": [
+    {
+      "name": "指定された文字列の設定値を取り出す",
+      "input": {
+        "type": "value",
+        "value": {
+          "settings": {
+            "theme": "dark",
+            "fontSize": 16
+          },
+          "key": "theme"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "dark"
+      }
+    },
+    {
+      "name": "値が0でも存在するプロパティとして扱う",
+      "input": {
+        "type": "value",
+        "value": {
+          "settings": {
+            "retryCount": 0,
+            "enabled": true
+          },
+          "key": "retryCount"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": 0
+      }
+    },
+    {
+      "name": "値がfalseでも存在するプロパティとして扱う",
+      "input": {
+        "type": "value",
+        "value": {
+          "settings": {
+            "retryCount": 3,
+            "enabled": false
+          },
+          "key": "enabled"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    },
+    {
+      "name": "識別子として書けないプロパティ名も取り出す",
+      "input": {
+        "type": "value",
+        "value": {
+          "settings": {
+            "display-name": "guest",
+            "role": "viewer"
+          },
+          "key": "display-name"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "guest"
+      }
+    },
+    {
+      "name": "指定されたプロパティがない場合は未設定を返す",
+      "input": {
+        "type": "value",
+        "value": {
+          "settings": {
+            "theme": "light"
+          },
+          "key": "fontSize"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "未設定"
+      }
+    }
+  ]
+}

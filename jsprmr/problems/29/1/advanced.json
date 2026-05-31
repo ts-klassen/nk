@@ -1,0 +1,182 @@
+{
+  "title": "提案メモの行動分類",
+  "difficulty": "advanced",
+  "unit": "29",
+  "set": 1,
+  "cases": [
+    {
+      "name": "代表例",
+      "input": {
+        "type": "value",
+        "value": [
+          {
+            "name": "記法A",
+            "stage": 4,
+            "kind": "syntax",
+            "purpose": "oldRuntime"
+          },
+          {
+            "name": "メソッドB",
+            "stage": 3,
+            "kind": "api",
+            "purpose": "production"
+          },
+          {
+            "name": "機能C",
+            "stage": 1,
+            "kind": "api",
+            "purpose": "study"
+          }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          "記法A: Transpilerを検討",
+          "メソッドB: 採用前に実装状況を確認",
+          "機能C: アイデアまたはドラフトとして読む"
+        ]
+      }
+    },
+    {
+      "name": "ステージ4の目的別判定",
+      "input": {
+        "type": "value",
+        "value": [
+          {
+            "name": "構文D",
+            "stage": 4,
+            "kind": "syntax",
+            "purpose": "production"
+          },
+          {
+            "name": "関数E",
+            "stage": 4,
+            "kind": "api",
+            "purpose": "oldRuntime"
+          },
+          {
+            "name": "機能F",
+            "stage": 4,
+            "kind": "api",
+            "purpose": "study"
+          }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          "構文D: 仕様採用済み",
+          "関数E: Polyfillを検討",
+          "機能F: 仕様またはMDNで確認"
+        ]
+      }
+    },
+    {
+      "name": "ステージ2.7と3の判定",
+      "input": {
+        "type": "value",
+        "value": [
+          {
+            "name": "提案G",
+            "stage": 2.7,
+            "kind": "syntax",
+            "purpose": "production"
+          },
+          {
+            "name": "提案H",
+            "stage": 2.7,
+            "kind": "api",
+            "purpose": "oldRuntime"
+          },
+          {
+            "name": "提案I",
+            "stage": 3,
+            "kind": "syntax",
+            "purpose": "study"
+          }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          "提案G: 採用前に実装状況を確認",
+          "提案H: 試験的な検証に留める",
+          "提案I: プロポーザルの状態を確認"
+        ]
+      }
+    },
+    {
+      "name": "初期ステージの目的別判定",
+      "input": {
+        "type": "value",
+        "value": [
+          {
+            "name": "草案J",
+            "stage": 0,
+            "kind": "syntax",
+            "purpose": "production"
+          },
+          {
+            "name": "草案K",
+            "stage": 2,
+            "kind": "api",
+            "purpose": "oldRuntime"
+          },
+          {
+            "name": "草案L",
+            "stage": 1,
+            "kind": "syntax",
+            "purpose": "study"
+          }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          "草案J: まだ採用しない",
+          "草案K: まだ採用しない",
+          "草案L: アイデアまたはドラフトとして読む"
+        ]
+      }
+    },
+    {
+      "name": "ステージ2と2.7の境界",
+      "input": {
+        "type": "value",
+        "value": [
+          {
+            "name": "境界M",
+            "stage": 2,
+            "kind": "api",
+            "purpose": "production"
+          },
+          {
+            "name": "境界N",
+            "stage": 2.7,
+            "kind": "api",
+            "purpose": "production"
+          }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          "境界M: まだ採用しない",
+          "境界N: 採用前に実装状況を確認"
+        ]
+      }
+    },
+    {
+      "name": "空配列",
+      "input": {
+        "type": "value",
+        "value": []
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    }
+  ]
+}

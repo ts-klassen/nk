@@ -1,0 +1,99 @@
+{
+  "title": "貸し出された計算関数",
+  "difficulty": "advanced",
+  "unit": "19",
+  "set": 9,
+  "cases": [
+    {
+      "name": "代表例: contextをthisにして2つの値を計算する",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ calc: function(count, extra) { return this.base + this.unit * count + extra; }, records: [{ name: 'alpha', context: { base: 100, unit: 25 }, args: [3, 10] }, { name: 'beta', context: { base: 40, unit: 8 }, args: [5, -5] }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "name": "alpha",
+            "result": 185
+          },
+          {
+            "name": "beta",
+            "result": 75
+          }
+        ]
+      }
+    },
+    {
+      "name": "空のrecordsは空配列にする",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ calc: function(count) { return this.base + count; }, records: [] })"
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "argsの3つの値をすべて渡す",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ calc: function(width, height, adjust) { return this.base + width * height * this.rate + adjust; }, records: [{ name: 'tile', context: { base: 2, rate: 3 }, args: [4, 5, 1] }, { name: 'panel', context: { base: 10, rate: 2 }, args: [3, 7, -4] }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "name": "tile",
+            "result": 63
+          },
+          {
+            "name": "panel",
+            "result": 48
+          }
+        ]
+      }
+    },
+    {
+      "name": "record自身ではなくcontextをthisにする",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ base: 999, unit: 999, calc: function(count, fee) { return this.base + this.unit * count + fee; }, records: [{ name: 'ctx-a', base: 1000, unit: 1000, context: { base: 5, unit: 4 }, args: [6, 1] }, { name: 'ctx-b', context: { base: 80, unit: 3 }, args: [0, 7] }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "name": "ctx-a",
+            "result": 30
+          },
+          {
+            "name": "ctx-b",
+            "result": 87
+          }
+        ]
+      }
+    },
+    {
+      "name": "計算式が違ってもcalcの戻り値を使う",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ calc: function(amount, bonus) { return (this.start - amount) * this.scale + bonus; }, records: [{ name: 'north', context: { start: 50, scale: 2 }, args: [8, 1] }, { name: 'south', context: { start: 9, scale: 5 }, args: [2, -3] }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "name": "north",
+            "result": 85
+          },
+          {
+            "name": "south",
+            "result": 32
+          }
+        ]
+      }
+    }
+  ]
+}

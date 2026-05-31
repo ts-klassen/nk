@@ -1,0 +1,77 @@
+{
+  "title": "1個ならそのままの合計金額",
+  "difficulty": "standard",
+  "unit": "08",
+  "set": 1,
+  "cases": [
+    {
+      "name": "個数が指定されている",
+      "input": {
+        "type": "value",
+        "value": {
+          "price": 120,
+          "count": 3
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": 360
+      }
+    },
+    {
+      "name": "個数がない場合は1個",
+      "input": {
+        "type": "value",
+        "value": {
+          "price": 250
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": 250
+      }
+    },
+    {
+      "name": "個数が0の場合は0円",
+      "input": {
+        "type": "value",
+        "value": {
+          "price": 500,
+          "count": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": 0
+      }
+    },
+    {
+      "name": "単価が0の場合",
+      "input": {
+        "type": "value",
+        "value": {
+          "price": 0,
+          "count": 5
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": 0
+      }
+    },
+    {
+      "name": "1個だけ指定されている",
+      "input": {
+        "type": "value",
+        "value": {
+          "price": 980,
+          "count": 1
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": 980
+      }
+    }
+  ]
+}

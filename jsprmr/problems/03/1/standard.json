@@ -1,0 +1,52 @@
+{
+  "title": "表示名の更新",
+  "difficulty": "standard",
+  "unit": "03",
+  "set": 1,
+  "cases": [
+    {
+      "name": "英字の表示名",
+      "input": {
+        "type": "value",
+        "value": "Sora"
+      },
+      "output": {
+        "type": "value",
+        "value": "Sora"
+      }
+    },
+    {
+      "name": "日本語の表示名",
+      "input": {
+        "type": "value",
+        "value": "みどり"
+      },
+      "output": {
+        "type": "value",
+        "value": "みどり"
+      }
+    },
+    {
+      "name": "空文字列の表示名",
+      "input": {
+        "type": "value",
+        "value": ""
+      },
+      "output": {
+        "type": "value",
+        "value": ""
+      }
+    },
+    {
+      "name": "記号を含む表示名",
+      "input": {
+        "type": "value",
+        "value": "plan-03"
+      },
+      "output": {
+        "type": "value",
+        "value": "plan-03"
+      }
+    }
+  ]
+}

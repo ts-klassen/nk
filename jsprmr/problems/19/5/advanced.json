@@ -1,0 +1,76 @@
+{
+  "title": "グループ別スコア表",
+  "difficulty": "advanced",
+  "unit": "19",
+  "set": 5,
+  "cases": [
+    {
+      "name": "複数グループの代表例",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ makeLine(label, point) { return this.name + \":\" + label + \"=\" + (this.base + point * this.rate); }, groups: [{ name: \"north\", base: 10, rate: 2, entries: [[\"A\", 3], [\"B\", 0]] }, { name: \"south\", base: 5, rate: 4, entries: [[\"C\", 2]] }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          [
+            "north:A=16",
+            "north:B=10"
+          ],
+          [
+            "south:C=13"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "空のentriesを含む",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ makeLine(label, point) { return this.code + \"-\" + label + \":\" + (this.start - point + this.offset); }, groups: [{ code: \"empty\", start: 0, offset: 0, entries: [] }, { code: \"west\", start: 20, offset: 5, entries: [[\"x\", 4], [\"y\", 9]] }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          [],
+          [
+            "west-x:21",
+            "west-y:16"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "グループごとのthisで条件が変わる",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ makeLine(label, point) { const mark = point >= this.limit ? \"high\" : \"low\"; return this.team + \"/\" + label + \"/\" + mark + \"/\" + (point + this.bonus); }, groups: [{ team: \"red\", limit: 5, bonus: 1, entries: [[\"p\", 5], [\"q\", 4]] }, { team: \"blue\", limit: 2, bonus: -1, entries: [[\"r\", 1], [\"s\", 2], [\"t\", 3]] }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          [
+            "red/p/high/6",
+            "red/q/low/5"
+          ],
+          [
+            "blue/r/low/0",
+            "blue/s/high/1",
+            "blue/t/high/2"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "groupsが空",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ makeLine(label, point) { return this.name + label + point; }, groups: [] })"
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    }
+  ]
+}

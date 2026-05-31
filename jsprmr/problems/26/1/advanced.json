@@ -1,0 +1,183 @@
+{
+  "title": "UTCメンテナンス枠",
+  "difficulty": "advanced",
+  "unit": "26",
+  "set": 1,
+  "cases": [
+    {
+      "name": "期間中の代表例",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": {
+            "year": 2026,
+            "month": 6,
+            "day": 1,
+            "hour": 23,
+            "minute": 30
+          },
+          "durationMinutes": 90,
+          "check": "2026-06-02T00:15:00.000Z"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "startIso": "2026-06-01T23:30:00.000Z",
+          "endIso": "2026-06-02T01:00:00.000Z",
+          "status": "inside"
+        }
+      }
+    },
+    {
+      "name": "開始前",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": {
+            "year": 2026,
+            "month": 5,
+            "day": 5,
+            "hour": 12,
+            "minute": 0
+          },
+          "durationMinutes": 45,
+          "check": "2026-05-05T11:59:59.999Z"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "startIso": "2026-05-05T12:00:00.000Z",
+          "endIso": "2026-05-05T12:45:00.000Z",
+          "status": "before"
+        }
+      }
+    },
+    {
+      "name": "開始ちょうど",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": {
+            "year": 2026,
+            "month": 1,
+            "day": 1,
+            "hour": 0,
+            "minute": 0
+          },
+          "durationMinutes": 1,
+          "check": "2026-01-01T00:00:00.000Z"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "startIso": "2026-01-01T00:00:00.000Z",
+          "endIso": "2026-01-01T00:01:00.000Z",
+          "status": "inside"
+        }
+      }
+    },
+    {
+      "name": "終了ちょうどは終了後",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": {
+            "year": 2026,
+            "month": 1,
+            "day": 1,
+            "hour": 0,
+            "minute": 0
+          },
+          "durationMinutes": 60,
+          "check": "2026-01-01T01:00:00.000Z"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "startIso": "2026-01-01T00:00:00.000Z",
+          "endIso": "2026-01-01T01:00:00.000Z",
+          "status": "after"
+        }
+      }
+    },
+    {
+      "name": "月番号を1始まりとして扱う",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": {
+            "year": 2024,
+            "month": 3,
+            "day": 31,
+            "hour": 23,
+            "minute": 0
+          },
+          "durationMinutes": 120,
+          "check": "2024-04-01T00:30:00.000Z"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "startIso": "2024-03-31T23:00:00.000Z",
+          "endIso": "2024-04-01T01:00:00.000Z",
+          "status": "inside"
+        }
+      }
+    },
+    {
+      "name": "年をまたぐ終了",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": {
+            "year": 2026,
+            "month": 12,
+            "day": 31,
+            "hour": 23,
+            "minute": 45
+          },
+          "durationMinutes": 30,
+          "check": "2027-01-01T00:10:00.000Z"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "startIso": "2026-12-31T23:45:00.000Z",
+          "endIso": "2027-01-01T00:15:00.000Z",
+          "status": "inside"
+        }
+      }
+    },
+    {
+      "name": "不正な日時文字列",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": {
+            "year": 2026,
+            "month": 7,
+            "day": 1,
+            "hour": 8,
+            "minute": 0
+          },
+          "durationMinutes": 60,
+          "check": "not a date"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "startIso": "2026-07-01T08:00:00.000Z",
+          "endIso": "2026-07-01T09:00:00.000Z",
+          "status": "invalid"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "title": "メソッドとして呼び出す",
+  "difficulty": "basic",
+  "unit": "19",
+  "set": 1,
+  "cases": [
+    {
+      "name": "入門ラベルを返す",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ kind: '入門', name: 'JavaScript', getLabel() { return `${this.kind}:${this.name}`; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "入門:JavaScript"
+      }
+    },
+    {
+      "name": "基礎ラベルを返す",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ kind: '基礎', name: 'this', getLabel() { return `${this.kind}:${this.name}`; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "基礎:this"
+      }
+    },
+    {
+      "name": "別のプロパティ値でもメソッドとして呼び出す",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ kind: '確認', name: 'メソッド', getLabel() { return `${this.kind}:${this.name}`; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "確認:メソッド"
+      }
+    }
+  ]
+}

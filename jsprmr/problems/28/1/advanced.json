@@ -1,0 +1,188 @@
+{
+  "title": "インポート指定を検査する",
+  "difficulty": "advanced",
+  "unit": "28",
+  "set": 1,
+  "cases": [
+    {
+      "name": "名前つきインポートの不足を検出する",
+      "input": {
+        "type": "value",
+        "value": {
+          "modules": [
+            {
+              "path": "./math.js",
+              "default": false,
+              "named": ["sum", "max"]
+            },
+            {
+              "path": "./formatter.js",
+              "default": true,
+              "named": ["VERSION"]
+            }
+          ],
+          "requests": [
+            {
+              "path": "./math.js",
+              "defaultName": null,
+              "named": [
+                { "imported": "sum", "local": "sum" },
+                { "imported": "min", "local": "min" }
+              ]
+            },
+            {
+              "path": "./formatter.js",
+              "defaultName": "format",
+              "named": [
+                { "imported": "VERSION", "local": "formatterVersion" }
+              ]
+            }
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "locals": ["sum", "format", "formatterVersion"],
+          "errors": ["./math.js: min"]
+        }
+      }
+    },
+    {
+      "name": "デフォルトエクスポートの不足を検出する",
+      "input": {
+        "type": "value",
+        "value": {
+          "modules": [
+            {
+              "path": "./config.js",
+              "default": false,
+              "named": ["load"]
+            },
+            {
+              "path": "./client.js",
+              "default": true,
+              "named": ["ClientError"]
+            }
+          ],
+          "requests": [
+            {
+              "path": "./config.js",
+              "defaultName": "config",
+              "named": [
+                { "imported": "load", "local": "loadConfig" }
+              ]
+            },
+            {
+              "path": "./client.js",
+              "defaultName": "Client",
+              "named": [
+                { "imported": "ClientError", "local": "ErrorClass" }
+              ]
+            }
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "locals": ["loadConfig", "Client", "ErrorClass"],
+          "errors": ["./config.js: default"]
+        }
+      }
+    },
+    {
+      "name": "別名つき名前つきインポートを受け入れる",
+      "input": {
+        "type": "value",
+        "value": {
+          "modules": [
+            {
+              "path": "./router.js",
+              "default": false,
+              "named": ["createRouter", "RouteRecord"]
+            },
+            {
+              "path": "./ui.js",
+              "default": true,
+              "named": ["Button", "Modal"]
+            }
+          ],
+          "requests": [
+            {
+              "path": "./router.js",
+              "defaultName": null,
+              "named": [
+                { "imported": "createRouter", "local": "createRouter" },
+                { "imported": "RouteRecord", "local": "Record" }
+              ]
+            },
+            {
+              "path": "./ui.js",
+              "defaultName": "UI",
+              "named": [
+                { "imported": "Modal", "local": "Dialog" }
+              ]
+            }
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "locals": ["createRouter", "Record", "UI", "Dialog"],
+          "errors": []
+        }
+      }
+    },
+    {
+      "name": "複数の不足を順番に集める",
+      "input": {
+        "type": "value",
+        "value": {
+          "modules": [
+            {
+              "path": "./user.js",
+              "default": true,
+              "named": ["User"]
+            },
+            {
+              "path": "./audit.js",
+              "default": false,
+              "named": ["writeAudit"]
+            }
+          ],
+          "requests": [
+            {
+              "path": "./user.js",
+              "defaultName": "UserModule",
+              "named": [
+                { "imported": "User", "local": "User" },
+                { "imported": "createUser", "local": "createUser" }
+              ]
+            },
+            {
+              "path": "./audit.js",
+              "defaultName": "audit",
+              "named": [
+                { "imported": "readAudit", "local": "readAudit" },
+                { "imported": "writeAudit", "local": "writeAudit" }
+              ]
+            }
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "locals": ["UserModule", "User", "writeAudit"],
+          "errors": [
+            "./user.js: createUser",
+            "./audit.js: default",
+            "./audit.js: readAudit"
+          ]
+        }
+      }
+    }
+  ]
+}

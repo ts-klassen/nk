@@ -1,0 +1,41 @@
+{
+  "title": "別の会員としてメッセージを作る",
+  "difficulty": "standard",
+  "unit": "19",
+  "set": 9,
+  "cases": [
+    {
+      "name": "別の会員をthisにする",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ template: { name: \"Original\", rank: \"silver\", format: function(prefix) { return prefix + \": \" + this.name + \" (\" + this.rank + \")\"; } }, target: { name: \"Aki\", rank: \"gold\" }, prefix: \"member\" })"
+      },
+      "output": {
+        "type": "value",
+        "value": "member: Aki (gold)"
+      }
+    },
+    {
+      "name": "prefixが別の文字列",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ template: { name: \"Base\", rank: \"standard\", format: function(prefix) { return prefix + \": \" + this.name + \" (\" + this.rank + \")\"; } }, target: { name: \"Ren\", rank: \"guest\" }, prefix: \"visitor\" })"
+      },
+      "output": {
+        "type": "value",
+        "value": "visitor: Ren (guest)"
+      }
+    },
+    {
+      "name": "空文字列のprefix",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ template: { name: \"Template\", rank: \"none\", format: function(prefix) { return prefix + \": \" + this.name + \" (\" + this.rank + \")\"; } }, target: { name: \"Mio\", rank: \"trial\" }, prefix: \"\" })"
+      },
+      "output": {
+        "type": "value",
+        "value": ": Mio (trial)"
+      }
+    }
+  ]
+}

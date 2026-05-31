@@ -1,0 +1,52 @@
+{
+  "title": "指定したthisで会員ラベルを作る",
+  "difficulty": "standard",
+  "unit": "19",
+  "set": 8,
+  "cases": [
+    {
+      "name": "代表的な会員ラベル",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ member: { name: \"Mina\", rank: \"gold\" }, prefix: \"member:\", suffix: \"!\", makeLabel: function(prefix, suffix) { return prefix + this.name + \"(\" + this.rank + \")\" + suffix; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "member:Mina(gold)!"
+      }
+    },
+    {
+      "name": "別の文字列形式",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ member: { name: \"Leo\", rank: \"silver\" }, prefix: \"[\", suffix: \"]\", makeLabel: function(prefix, suffix) { return this.rank + \":\" + prefix + this.name + suffix; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "silver:[Leo]"
+      }
+    },
+    {
+      "name": "空のprefix",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ member: { name: \"Nia\", rank: \"trial\" }, prefix: \"\", suffix: \" user\", makeLabel: function(prefix, suffix) { return prefix + this.name + \" / \" + this.rank + suffix; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "Nia / trial user"
+      }
+    },
+    {
+      "name": "空のsuffix",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ member: { name: \"Aki\", rank: \"bronze\" }, prefix: \"rank=\", suffix: \"\", makeLabel: function(prefix, suffix) { return prefix + this.rank + \", name=\" + this.name + suffix; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "rank=bronze, name=Aki"
+      }
+    }
+  ]
+}

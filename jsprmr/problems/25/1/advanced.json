@@ -1,0 +1,151 @@
+{
+  "title": "JSON化チェックレポート",
+  "difficulty": "advanced",
+  "unit": "25",
+  "set": 1,
+  "cases": [
+    {
+      "name": "toJSONとBigIntを含む代表例",
+      "input": {
+        "type": "factory",
+        "factory": "() => [{ id: 1, name: \"pen\", temporary: undefined }, { id: 2, name: \"box\", toJSON() { return { id: this.id, label: this.name }; } }, 10n]"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "index": 0,
+            "status": "ok",
+            "json": "{\"id\":1,\"name\":\"pen\"}"
+          },
+          {
+            "index": 1,
+            "status": "ok",
+            "json": "{\"id\":2,\"label\":\"box\"}"
+          },
+          {
+            "index": 2,
+            "status": "error"
+          }
+        ]
+      }
+    },
+    {
+      "name": "プリミティブ値と入れ子配列",
+      "input": {
+        "type": "value",
+        "value": [
+          "text",
+          0,
+          false,
+          null,
+          [
+            true,
+            {
+              "x": 2
+            }
+          ]
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "index": 0,
+            "status": "ok",
+            "json": "\"text\""
+          },
+          {
+            "index": 1,
+            "status": "ok",
+            "json": "0"
+          },
+          {
+            "index": 2,
+            "status": "ok",
+            "json": "false"
+          },
+          {
+            "index": 3,
+            "status": "ok",
+            "json": "null"
+          },
+          {
+            "index": 4,
+            "status": "ok",
+            "json": "[true,{\"x\":2}]"
+          }
+        ]
+      }
+    },
+    {
+      "name": "配列要素とオブジェクトプロパティでの変換差",
+      "input": {
+        "type": "factory",
+        "factory": "() => [[1, undefined, () => 3], { keep: true, skipFunction: () => 1, skipUndefined: undefined }]"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "index": 0,
+            "status": "ok",
+            "json": "[1,null,null]"
+          },
+          {
+            "index": 1,
+            "status": "ok",
+            "json": "{\"keep\":true}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MapとSetは空のオブジェクトになる",
+      "input": {
+        "type": "factory",
+        "factory": "() => [new Map([[\"a\", 1]]), new Set([1, 2])]"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "index": 0,
+            "status": "ok",
+            "json": "{}"
+          },
+          {
+            "index": 1,
+            "status": "ok",
+            "json": "{}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "循環参照と入れ子のBigIntはエラーにする",
+      "input": {
+        "type": "factory",
+        "factory": "() => { const circular = { name: \"root\" }; circular.self = circular; return [{ count: 2n }, circular, { ok: true }]; }"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          {
+            "index": 0,
+            "status": "error"
+          },
+          {
+            "index": 1,
+            "status": "error"
+          },
+          {
+            "index": 2,
+            "status": "ok",
+            "json": "{\"ok\":true}"
+          }
+        ]
+      }
+    }
+  ]
+}

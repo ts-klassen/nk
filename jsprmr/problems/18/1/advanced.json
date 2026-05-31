@@ -1,0 +1,109 @@
+{
+  "title": "独立した連番メーカー",
+  "difficulty": "advanced",
+  "unit": "18",
+  "set": 1,
+  "cases": [
+    {
+      "name": "2つの連番メーカーを交互に呼び出す",
+      "input": {
+        "type": "value",
+        "value": {
+          "settings": [
+            { "name": "red", "start": 3, "step": 2 },
+            { "name": "blue", "start": 10, "step": -1 }
+          ],
+          "calls": ["red", "blue", "red", "red", "blue"]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [3, 10, 5, 7, 9]
+      }
+    },
+    {
+      "name": "1つの連番メーカーを繰り返し呼び出す",
+      "input": {
+        "type": "value",
+        "value": {
+          "settings": [
+            { "name": "single", "start": 0, "step": 1 }
+          ],
+          "calls": ["single", "single", "single", "single"]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [0, 1, 2, 3]
+      }
+    },
+    {
+      "name": "増減値が0の連番メーカーを含む",
+      "input": {
+        "type": "value",
+        "value": {
+          "settings": [
+            { "name": "same", "start": 5, "step": 0 },
+            { "name": "up", "start": 1, "step": 4 }
+          ],
+          "calls": ["same", "up", "same", "up", "same"]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [5, 1, 5, 5, 5]
+      }
+    },
+    {
+      "name": "負の開始値と負の増減値を扱う",
+      "input": {
+        "type": "value",
+        "value": {
+          "settings": [
+            { "name": "down", "start": -2, "step": -3 },
+            { "name": "flat", "start": 4, "step": 0 }
+          ],
+          "calls": ["down", "down", "flat", "down", "flat"]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [-2, -5, 4, -8, 4]
+      }
+    },
+    {
+      "name": "3つの連番メーカーがそれぞれ独立して進む",
+      "input": {
+        "type": "value",
+        "value": {
+          "settings": [
+            { "name": "a", "start": 1, "step": 10 },
+            { "name": "b", "start": 1, "step": 100 },
+            { "name": "c", "start": -5, "step": 5 }
+          ],
+          "calls": ["a", "b", "a", "c", "b", "c", "a"]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [1, 1, 11, -5, 101, 0, 21]
+      }
+    },
+    {
+      "name": "呼び出しがない場合は空配列",
+      "input": {
+        "type": "value",
+        "value": {
+          "settings": [
+            { "name": "unused", "start": 8, "step": 3 }
+          ],
+          "calls": []
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    }
+  ]
+}

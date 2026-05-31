@@ -1,0 +1,63 @@
+{
+  "title": "小数点以下を切り下げる",
+  "difficulty": "basic",
+  "unit": "27",
+  "set": 1,
+  "cases": [
+    {
+      "name": "正の小数",
+      "input": {
+        "type": "value",
+        "value": 3.8
+      },
+      "output": {
+        "type": "value",
+        "value": 3
+      }
+    },
+    {
+      "name": "負の小数",
+      "input": {
+        "type": "value",
+        "value": -2.1
+      },
+      "output": {
+        "type": "value",
+        "value": -3
+      }
+    },
+    {
+      "name": "すでに整数",
+      "input": {
+        "type": "value",
+        "value": 5
+      },
+      "output": {
+        "type": "value",
+        "value": 5
+      }
+    },
+    {
+      "name": "1未満の正の小数",
+      "input": {
+        "type": "value",
+        "value": 0.99
+      },
+      "output": {
+        "type": "value",
+        "value": 0
+      }
+    },
+    {
+      "name": "0より少し小さい数",
+      "input": {
+        "type": "value",
+        "value": -0.1
+      },
+      "output": {
+        "type": "value",
+        "value": -1
+      }
+    }
+  ]
+}

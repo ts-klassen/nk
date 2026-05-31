@@ -1,0 +1,65 @@
+{
+  "title": "Promiseチェーンの同期部分",
+  "difficulty": "standard",
+  "unit": "22",
+  "set": 1,
+  "cases": [
+    {
+      "name": "成功したPromiseでもthenはまだ実行されない",
+      "input": {
+        "type": "value",
+        "value": {
+          "ok": true,
+          "value": 10,
+          "errorMessage": "失敗",
+          "syncLabel": "同期処理"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "chainIsPromise": true,
+          "log": ["同期処理"]
+        }
+      }
+    },
+    {
+      "name": "失敗したPromiseでもcatchはまだ実行されない",
+      "input": {
+        "type": "value",
+        "value": {
+          "ok": false,
+          "value": "値",
+          "errorMessage": "読み込み失敗",
+          "syncLabel": "登録完了"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "chainIsPromise": true,
+          "log": ["登録完了"]
+        }
+      }
+    },
+    {
+      "name": "別の同期ラベルでもチェーンはPromiseになる",
+      "input": {
+        "type": "value",
+        "value": {
+          "ok": true,
+          "value": "data",
+          "errorMessage": "error",
+          "syncLabel": "after chain"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "chainIsPromise": true,
+          "log": ["after chain"]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "title": "歩幅つきの数列ジェネレータ",
+  "difficulty": "standard",
+  "unit": "24",
+  "set": 1,
+  "cases": [
+    {
+      "name": "正の歩幅で4個生成する",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": 3,
+          "step": 2,
+          "count": 4
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [3, 5, 7, 9]
+      }
+    },
+    {
+      "name": "1個だけ生成する",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": 10,
+          "step": 5,
+          "count": 1
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [10]
+      }
+    },
+    {
+      "name": "0個なら空配列にする",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": 7,
+          "step": 3,
+          "count": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "負の歩幅で小さくしていく",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": 8,
+          "step": -2,
+          "count": 5
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [8, 6, 4, 2, 0]
+      }
+    },
+    {
+      "name": "歩幅0で同じ値を生成する",
+      "input": {
+        "type": "value",
+        "value": {
+          "start": -1,
+          "step": 0,
+          "count": 3
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": [-1, -1, -1]
+      }
+    }
+  ]
+}

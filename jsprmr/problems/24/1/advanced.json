@@ -1,0 +1,74 @@
+{
+  "title": "採用する番号ストリーム",
+  "difficulty": "advanced",
+  "unit": "24",
+  "set": 1,
+  "cases": [
+    {
+      "name": "配列とSetを順番に調べる",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ sources: [[3, 1, 2], new Set([2, 4, 5]), [6]], blocked: new Set([1, 5]), limit: 4 })"
+      },
+      "output": {
+        "type": "value",
+        "value": [3, 2, 4, 6]
+      }
+    },
+    {
+      "name": "limitに達したら途中で終える",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ sources: [[8, 9, 10], [11]], blocked: new Set(), limit: 2 })"
+      },
+      "output": {
+        "type": "value",
+        "value": [8, 9]
+      }
+    },
+    {
+      "name": "GeneratorとSetの重複を除く",
+      "input": {
+        "type": "factory",
+        "factory": "() => { function* nums() { yield 4; yield 6; yield 4; yield 7; } return { sources: [nums(), new Set([6, 8, 9]), [7, 10]], blocked: new Set([7]), limit: 4 }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": [4, 6, 8, 9]
+      }
+    },
+    {
+      "name": "同じIteratorを作り直さずに扱う",
+      "input": {
+        "type": "factory",
+        "factory": "() => { function* values() { yield 1; yield 2; } const shared = values(); return { sources: [shared, [2, 3], shared, [4]], blocked: new Set(), limit: 5 }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": [1, 2, 3, 4]
+      }
+    },
+    {
+      "name": "limitが0なら空配列",
+      "input": {
+        "type": "factory",
+        "factory": "() => { function* nums() { yield 3; } return { sources: [[1], new Set([2]), nums()], blocked: new Set(), limit: 0 }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "採用できる値がlimitより少ない",
+      "input": {
+        "type": "factory",
+        "factory": "() => { function* tail() { yield 6; yield 7; } return { sources: [[5, 5], new Set([5, 6]), tail()], blocked: new Set([7]), limit: 4 }; }"
+      },
+      "output": {
+        "type": "value",
+        "value": [5, 6]
+      }
+    }
+  ]
+}

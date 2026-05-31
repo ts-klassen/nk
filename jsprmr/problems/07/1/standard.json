@@ -1,0 +1,74 @@
+{
+  "title": "先頭の整数でポイント計算",
+  "difficulty": "standard",
+  "unit": "07",
+  "set": 1,
+  "cases": [
+    {
+      "name": "単位つきの整数",
+      "input": {
+        "type": "value",
+        "value": "12回"
+      },
+      "output": {
+        "type": "value",
+        "value": 60
+      }
+    },
+    {
+      "name": "先頭に0がある整数",
+      "input": {
+        "type": "value",
+        "value": "007"
+      },
+      "output": {
+        "type": "value",
+        "value": 35
+      }
+    },
+    {
+      "name": "小数を含む文字列",
+      "input": {
+        "type": "value",
+        "value": "3.9"
+      },
+      "output": {
+        "type": "value",
+        "value": 15
+      }
+    },
+    {
+      "name": "0の入力",
+      "input": {
+        "type": "value",
+        "value": "0"
+      },
+      "output": {
+        "type": "value",
+        "value": 0
+      }
+    },
+    {
+      "name": "数値で始まらない文字列",
+      "input": {
+        "type": "value",
+        "value": "未記入"
+      },
+      "output": {
+        "type": "value",
+        "value": "記録なし"
+      }
+    },
+    {
+      "name": "空文字列を判定する",
+      "input": {
+        "type": "value",
+        "value": ""
+      },
+      "output": {
+        "type": "value",
+        "value": "記録なし"
+      }
+    }
+  ]
+}

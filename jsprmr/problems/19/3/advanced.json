@@ -1,0 +1,72 @@
+{
+  "title": "スタンプカードの対象明細",
+  "difficulty": "advanced",
+  "unit": "19",
+  "set": 3,
+  "cases": [
+    {
+      "name": "キャンペーン加算と通常購入が混ざる",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ purchases: [{ code: \"A-100\", price: 120, count: 2 }, { code: \"S-050\", price: 80, count: 3 }, { code: \"B-020\", price: 300, count: 1 }], card: { prefix: \"GOLD\", campaignPrefix: \"S-\", bonus: 20, minimum: 250, score(purchase) { let value = purchase.price * purchase.count; if (purchase.code.startsWith(this.campaignPrefix)) { value += this.bonus; } return value; }, isRewardTarget(purchase) { return this.score(purchase) >= this.minimum; }, label(purchase, index) { return this.prefix + \"#\" + (index + 1) + \":\" + purchase.code + \"=\" + this.score(purchase); } } })"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          "GOLD#2:S-050=260",
+          "GOLD#3:B-020=300"
+        ]
+      }
+    },
+    {
+      "name": "しきい値ちょうどと元のインデックス",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ purchases: [{ code: \"N-1\", price: 100, count: 1 }, { code: \"SALE-2\", price: 85, count: 2 }, { code: \"N-3\", price: 199, count: 1 }, { code: \"N-4\", price: 200, count: 1 }], card: { prefix: \"BLUE\", campaignPrefix: \"SALE\", bonus: 30, minimum: 200, score(purchase) { let value = purchase.price * purchase.count; if (purchase.code.startsWith(this.campaignPrefix)) { value += this.bonus; } return value; }, isRewardTarget(purchase) { return this.score(purchase) >= this.minimum; }, label(purchase, index) { return this.prefix + \"#\" + (index + 1) + \":\" + purchase.code + \"=\" + this.score(purchase); } } })"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          "BLUE#2:SALE-2=200",
+          "BLUE#4:N-4=200"
+        ]
+      }
+    },
+    {
+      "name": "対象購入がない",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ purchases: [{ code: \"S-1\", price: 60, count: 2 }, { code: \"N-2\", price: 90, count: 1 }], card: { prefix: \"RED\", campaignPrefix: \"S-\", bonus: 10, minimum: 200, score(purchase) { let value = purchase.price * purchase.count; if (purchase.code.startsWith(this.campaignPrefix)) { value += this.bonus; } return value; }, isRewardTarget(purchase) { return this.score(purchase) >= this.minimum; }, label(purchase, index) { return this.prefix + \"#\" + (index + 1) + \":\" + purchase.code + \"=\" + this.score(purchase); } } })"
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "空の購入履歴",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ purchases: [], card: { prefix: \"EMPTY\", campaignPrefix: \"E-\", bonus: 50, minimum: 100, score(purchase) { let value = purchase.price * purchase.count; if (purchase.code.startsWith(this.campaignPrefix)) { value += this.bonus; } return value; }, isRewardTarget(purchase) { return this.score(purchase) >= this.minimum; }, label(purchase, index) { return this.prefix + \"#\" + (index + 1) + \":\" + purchase.code + \"=\" + this.score(purchase); } } })"
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "すべて対象になる",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ purchases: [{ code: \"P-1\", price: 30, count: 1 }, { code: \"Q-2\", price: 50, count: 2 }], card: { prefix: \"BLACK\", campaignPrefix: \"P-\", bonus: 100, minimum: 100, score(purchase) { let value = purchase.price * purchase.count; if (purchase.code.startsWith(this.campaignPrefix)) { value += this.bonus; } return value; }, isRewardTarget(purchase) { return this.score(purchase) >= this.minimum; }, label(purchase, index) { return this.prefix + \"#\" + (index + 1) + \":\" + purchase.code + \"=\" + this.score(purchase); } } })"
+      },
+      "output": {
+        "type": "value",
+        "value": [
+          "BLACK#1:P-1=130",
+          "BLACK#2:Q-2=100"
+        ]
+      }
+    }
+  ]
+}

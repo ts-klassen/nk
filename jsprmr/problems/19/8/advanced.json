@@ -1,0 +1,52 @@
+{
+  "title": "メソッドを保って成績ラベルを作る",
+  "difficulty": "advanced",
+  "unit": "19",
+  "set": 8,
+  "cases": [
+    {
+      "name": "OKとNGが混在する代表例",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ formatter: { prefix: \"A\", bonus: 3, passLine: 10, makeLabel(record) { const total = record.score + this.bonus; let status = \"NG\"; if (total >= this.passLine) { status = \"OK\"; } return this.prefix + \":\" + record.name + \":\" + total + \":\" + status; } }, records: [{ name: \"mika\", score: 4 }, { name: \"ren\", score: 8 }, { name: \"ao\", score: 7 }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": ["A:mika:7:NG", "A:ren:11:OK", "A:ao:10:OK"]
+      }
+    },
+    {
+      "name": "合格ラインちょうどをOKにする",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ formatter: { prefix: \"B\", bonus: 0, passLine: 5, makeLabel(record) { const total = record.score + this.bonus; let status = \"NG\"; if (total >= this.passLine) { status = \"OK\"; } return this.prefix + \":\" + record.name + \":\" + total + \":\" + status; } }, records: [{ name: \"sora\", score: 5 }, { name: \"nagi\", score: 4 }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": ["B:sora:5:OK", "B:nagi:4:NG"]
+      }
+    },
+    {
+      "name": "補正値と接頭辞が異なるケース",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ formatter: { prefix: \"Z\", bonus: 12, passLine: 20, makeLabel(record) { const total = record.score + this.bonus; let status = \"NG\"; if (total >= this.passLine) { status = \"OK\"; } return this.prefix + \":\" + record.name + \":\" + total + \":\" + status; } }, records: [{ name: \"kei\", score: 7 }, { name: \"yu\", score: 8 }, { name: \"rio\", score: 0 }] })"
+      },
+      "output": {
+        "type": "value",
+        "value": ["Z:kei:19:NG", "Z:yu:20:OK", "Z:rio:12:NG"]
+      }
+    },
+    {
+      "name": "recordsが空のケース",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ formatter: { prefix: \"E\", bonus: 5, passLine: 8, makeLabel(record) { const total = record.score + this.bonus; let status = \"NG\"; if (total >= this.passLine) { status = \"OK\"; } return this.prefix + \":\" + record.name + \":\" + total + \":\" + status; } }, records: [] })"
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    }
+  ]
+}

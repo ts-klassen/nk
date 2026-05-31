@@ -1,0 +1,52 @@
+{
+  "title": "実行結果から表示値を選ぶ",
+  "difficulty": "advanced",
+  "unit": "04",
+  "set": 1,
+  "cases": [
+    {
+      "name": "readyの表示値",
+      "input": {
+        "type": "value",
+        "value": "ready"
+      },
+      "output": {
+        "type": "value",
+        "value": "ready"
+      }
+    },
+    {
+      "name": "draftの表示値",
+      "input": {
+        "type": "value",
+        "value": "draft"
+      },
+      "output": {
+        "type": "value",
+        "value": "draft"
+      }
+    },
+    {
+      "name": "日本語の表示値",
+      "input": {
+        "type": "value",
+        "value": "確認中"
+      },
+      "output": {
+        "type": "value",
+        "value": "確認中"
+      }
+    },
+    {
+      "name": "空文字列の表示値",
+      "input": {
+        "type": "value",
+        "value": ""
+      },
+      "output": {
+        "type": "value",
+        "value": ""
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "title": "プロフィール文の整形",
+  "difficulty": "standard",
+  "unit": "19",
+  "set": 7,
+  "cases": [
+    {
+      "name": "あいさつ文を作る",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ profile: { name: \"Mika\", suffix: \"!\" }, prefix: \"Hello, \", format: function(prefix) { return prefix + this.name + this.suffix; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "Hello, Mika!"
+      }
+    },
+    {
+      "name": "敬称をつける",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ profile: { name: \"田中\", suffix: \"さん\" }, prefix: \"\", format: function(prefix) { return prefix + this.name + this.suffix; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "田中さん"
+      }
+    },
+    {
+      "name": "末尾文字列が空文字列",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ profile: { name: \"A-17\", suffix: \"\" }, prefix: \"ID: \", format: function(prefix) { return prefix + this.name + this.suffix; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "ID: A-17"
+      }
+    },
+    {
+      "name": "別のprofileをthisにする",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ profile: { name: \"Noa\", suffix: \"?\" }, name: \"InputObject\", suffix: \"...\", prefix: \"To: \", format: function(prefix) { return prefix + this.name + this.suffix; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": "To: Noa?"
+      }
+    }
+  ]
+}

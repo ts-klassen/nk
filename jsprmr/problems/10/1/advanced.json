@@ -1,0 +1,63 @@
+{
+  "title": "うるう年を判定する",
+  "difficulty": "advanced",
+  "unit": "10",
+  "set": 1,
+  "cases": [
+    {
+      "name": "400で割り切れる2000年はうるう年",
+      "input": {
+        "type": "value",
+        "value": 2000
+      },
+      "output": {
+        "type": "value",
+        "value": true
+      }
+    },
+    {
+      "name": "100で割り切れるが400で割り切れない1900年はうるう年ではない",
+      "input": {
+        "type": "value",
+        "value": 1900
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    },
+    {
+      "name": "4で割り切れる2024年はうるう年",
+      "input": {
+        "type": "value",
+        "value": 2024
+      },
+      "output": {
+        "type": "value",
+        "value": true
+      }
+    },
+    {
+      "name": "4で割り切れない2023年はうるう年ではない",
+      "input": {
+        "type": "value",
+        "value": 2023
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    },
+    {
+      "name": "100で割り切れるが400で割り切れない2100年はうるう年ではない",
+      "input": {
+        "type": "value",
+        "value": 2100
+      },
+      "output": {
+        "type": "value",
+        "value": false
+      }
+    }
+  ]
+}

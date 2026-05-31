@@ -1,0 +1,52 @@
+{
+  "title": "バッジ番号の種類",
+  "difficulty": "basic",
+  "unit": "23",
+  "set": 1,
+  "cases": [
+    {
+      "name": "重複を含む代表例",
+      "input": {
+        "type": "value",
+        "value": ["A12", "B07", "A12", "C30"]
+      },
+      "output": {
+        "type": "value",
+        "value": 3
+      }
+    },
+    {
+      "name": "すべて同じバッジ番号",
+      "input": {
+        "type": "value",
+        "value": ["Z99", "Z99", "Z99"]
+      },
+      "output": {
+        "type": "value",
+        "value": 1
+      }
+    },
+    {
+      "name": "重複がない記録",
+      "input": {
+        "type": "value",
+        "value": ["K01", "K02", "K03", "K04"]
+      },
+      "output": {
+        "type": "value",
+        "value": 4
+      }
+    },
+    {
+      "name": "記録が空",
+      "input": {
+        "type": "value",
+        "value": []
+      },
+      "output": {
+        "type": "value",
+        "value": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "title": "点検チケットの作成",
+  "difficulty": "advanced",
+  "unit": "19",
+  "set": 7,
+  "cases": [
+    {
+      "name": "複数エリアのチケットを順番に作成する",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ status: \"OK\", floor: \"input\", name: \"root\", areas: [{ floor: \"2\", name: \"east\", rooms: [201, 202] }, { floor: \"3\", name: \"west\", rooms: [301] }], createTicket: function (room, status) { return this.floor + \"F-\" + this.name + \"-\" + room + \":\" + status; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": ["2F-east-201:OK", "2F-east-202:OK", "3F-west-301:OK"]
+      }
+    },
+    {
+      "name": "空のroomsを持つエリアは飛ばす",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ status: \"CHECK\", floor: \"input\", name: \"root\", areas: [{ floor: \"1\", name: \"lobby\", rooms: [] }, { floor: \"4\", name: \"north\", rooms: [401, 402] }], createTicket: function (room, status) { return this.floor + \"F-\" + this.name + \"-\" + room + \":\" + status; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": ["4F-north-401:CHECK", "4F-north-402:CHECK"]
+      }
+    },
+    {
+      "name": "エリアごとにthisを切り替える",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ status: \"NG\", floor: \"input\", name: \"root\", areas: [{ floor: \"B1\", name: \"storage\", rooms: [12] }, { floor: \"1\", name: \"front\", rooms: [101] }, { floor: \"10\", name: \"roof\", rooms: [1001, 1002] }], createTicket: function (room, status) { return this.floor + \"F-\" + this.name + \"-\" + room + \":\" + status; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": ["B1F-storage-12:NG", "1F-front-101:NG", "10F-roof-1001:NG", "10F-roof-1002:NG"]
+      }
+    },
+    {
+      "name": "全エリアのroomsが空なら空配列にする",
+      "input": {
+        "type": "factory",
+        "factory": "() => ({ status: \"OK\", floor: \"input\", name: \"root\", areas: [{ floor: \"5\", name: \"south\", rooms: [] }, { floor: \"6\", name: \"center\", rooms: [] }], createTicket: function (room, status) { return this.floor + \"F-\" + this.name + \"-\" + room + \":\" + status; } })"
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    }
+  ]
+}

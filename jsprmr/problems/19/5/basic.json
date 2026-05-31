@@ -1,0 +1,50 @@
+{
+  "title": "商品オブジェクトの説明メソッド",
+  "difficulty": "basic",
+  "unit": "19",
+  "set": 5,
+  "cases": [
+    {
+      "name": "ノートの説明文",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "ノート",
+          "price": 120
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "ノートは120円です"
+      }
+    },
+    {
+      "name": "ペンの説明文",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "ペン",
+          "price": 80
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "ペンは80円です"
+      }
+    },
+    {
+      "name": "価格が0の説明文",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "サンプル",
+          "price": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "サンプルは0円です"
+      }
+    }
+  ]
+}

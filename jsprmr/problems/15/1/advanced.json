@@ -1,0 +1,115 @@
+{
+  "title": "公開する記事名",
+  "difficulty": "advanced",
+  "unit": "15",
+  "set": 1,
+  "cases": [
+    {
+      "name": "代表例",
+      "input": {
+        "type": "value",
+        "value": {
+          "paths": [
+            "posts/js-basics.md",
+            "posts/_draft.md",
+            "archive/string-methods.md",
+            "README.txt"
+          ],
+          "extension": ".md"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "js basics, string methods"
+      }
+    },
+    {
+      "name": "スラッシュがないパスも対象にする",
+      "input": {
+        "type": "value",
+        "value": {
+          "paths": [
+            "plain-title.md",
+            "notes/two-part-name.md",
+            "notes/image.png"
+          ],
+          "extension": ".md"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "plain title, two part name"
+      }
+    },
+    {
+      "name": "拡張子が末尾にないものは除外する",
+      "input": {
+        "type": "value",
+        "value": {
+          "paths": [
+            "drafts/_private.md",
+            "backup/readme.md.bak",
+            "memo.txt",
+            "posts/final-note.md"
+          ],
+          "extension": ".md"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "final note"
+      }
+    },
+    {
+      "name": "別の拡張子で判定する",
+      "input": {
+        "type": "value",
+        "value": {
+          "paths": [
+            "src/main-test.js",
+            "src/_helper.js",
+            "docs/readme.md",
+            "plain-name.js"
+          ],
+          "extension": ".js"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "main test, plain name"
+      }
+    },
+    {
+      "name": "公開対象がない場合は空文字列",
+      "input": {
+        "type": "value",
+        "value": {
+          "paths": [
+            "_index.md",
+            "notes/todo.txt",
+            "archive/report.md.old"
+          ],
+          "extension": ".md"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": ""
+      }
+    },
+    {
+      "name": "空の配列",
+      "input": {
+        "type": "value",
+        "value": {
+          "paths": [],
+          "extension": ".md"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": ""
+      }
+    }
+  ]
+}

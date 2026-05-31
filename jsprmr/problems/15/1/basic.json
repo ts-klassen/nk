@@ -1,0 +1,50 @@
+{
+  "title": "テンプレートでラベルを作る",
+  "difficulty": "basic",
+  "unit": "15",
+  "set": 1,
+  "cases": [
+    {
+      "name": "商品名と個数を埋め込む",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "ペン",
+          "count": 3
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "商品: ペン / 個数: 3"
+      }
+    },
+    {
+      "name": "個数が0でも文字列に埋め込む",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "ノート",
+          "count": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "商品: ノート / 個数: 0"
+      }
+    },
+    {
+      "name": "長い商品名を埋め込む",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "JavaScript入門",
+          "count": 12
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": "商品: JavaScript入門 / 個数: 12"
+      }
+    }
+  ]
+}

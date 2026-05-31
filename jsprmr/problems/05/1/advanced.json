@@ -1,0 +1,165 @@
+{
+  "title": "カード情報の型まとめ",
+  "difficulty": "advanced",
+  "unit": "05",
+  "set": 1,
+  "cases": [
+    {
+      "name": "代表例",
+      "input": {
+        "type": "value",
+        "value": {
+          "card": {
+            "display-name": "Blue Pen",
+            "main-code": "P-100",
+            "stock": 12,
+            "active": true,
+            "note": null
+          },
+          "labels": ["office", "sale", "blue"],
+          "samples": [
+            { "label": "small", "value": "S" },
+            { "label": "count", "value": 3 }
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "title": "Blue Pen",
+          "titleLength": 8,
+          "selected": ["P-100", "sale", "S", 3],
+          "typeNames": ["string", "number", "boolean", "object", "object", "object"],
+          "sampleValueTypes": ["string", "number"]
+        }
+      }
+    },
+    {
+      "name": "空文字列とfalseとnullの値",
+      "input": {
+        "type": "value",
+        "value": {
+          "card": {
+            "display-name": "",
+            "main-code": "EMPTY",
+            "stock": 0,
+            "active": false,
+            "note": null
+          },
+          "labels": ["first", "middle", "last"],
+          "samples": [
+            { "label": "flag", "value": true },
+            { "label": "nothing", "value": null }
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "title": "",
+          "titleLength": 0,
+          "selected": ["EMPTY", "middle", true, null],
+          "typeNames": ["string", "number", "boolean", "object", "object", "object"],
+          "sampleValueTypes": ["boolean", "object"]
+        }
+      }
+    },
+    {
+      "name": "小数と配列のサンプル値",
+      "input": {
+        "type": "value",
+        "value": {
+          "card": {
+            "display-name": "Notebook",
+            "main-code": "N-5",
+            "stock": 45.5,
+            "active": true,
+            "note": {
+              "text": "gift"
+            }
+          },
+          "labels": ["paper", "school", "wide"],
+          "samples": [
+            { "label": "sizes", "value": [1, 2] },
+            { "label": "memo", "value": "plain" }
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "title": "Notebook",
+          "titleLength": 8,
+          "selected": ["N-5", "school", [1, 2], "plain"],
+          "typeNames": ["string", "number", "boolean", "object", "object", "object"],
+          "sampleValueTypes": ["object", "string"]
+        }
+      }
+    },
+    {
+      "name": "1文字の名前と文字列のnote",
+      "input": {
+        "type": "value",
+        "value": {
+          "card": {
+            "display-name": "A",
+            "main-code": "ONE",
+            "stock": 1,
+            "active": false,
+            "note": "none"
+          },
+          "labels": ["x", "y", "z"],
+          "samples": [
+            { "label": "zero", "value": 0 },
+            { "label": "ok", "value": false }
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "title": "A",
+          "titleLength": 1,
+          "selected": ["ONE", "y", 0, false],
+          "typeNames": ["string", "number", "boolean", "string", "object", "object"],
+          "sampleValueTypes": ["number", "boolean"]
+        }
+      }
+    },
+    {
+      "name": "オブジェクトのサンプル値",
+      "input": {
+        "type": "value",
+        "value": {
+          "card": {
+            "display-name": "Desk Lamp",
+            "main-code": "L-22",
+            "stock": 7,
+            "active": true,
+            "note": [1, 2]
+          },
+          "labels": ["light", "home", "desk"],
+          "samples": [
+            {
+              "label": "color",
+              "value": {
+                "kind": "warm"
+              }
+            },
+            { "label": "switch", "value": true }
+          ]
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "title": "Desk Lamp",
+          "titleLength": 9,
+          "selected": ["L-22", "home", { "kind": "warm" }, true],
+          "typeNames": ["string", "number", "boolean", "object", "object", "object"],
+          "sampleValueTypes": ["object", "boolean"]
+        }
+      }
+    }
+  ]
+}

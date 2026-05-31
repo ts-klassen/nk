@@ -1,0 +1,41 @@
+{
+  "title": "関数の中だけの合計",
+  "difficulty": "basic",
+  "unit": "18",
+  "set": 1,
+  "cases": [
+    {
+      "name": "正の数同士を合計する",
+      "input": {
+        "type": "value",
+        "value": { "value": 12, "bonus": 5 }
+      },
+      "output": {
+        "type": "value",
+        "value": 17
+      }
+    },
+    {
+      "name": "bonusが0のときも合計する",
+      "input": {
+        "type": "value",
+        "value": { "value": 8, "bonus": 0 }
+      },
+      "output": {
+        "type": "value",
+        "value": 8
+      }
+    },
+    {
+      "name": "負の数を含む合計を返す",
+      "input": {
+        "type": "value",
+        "value": { "value": -3, "bonus": 10 }
+      },
+      "output": {
+        "type": "value",
+        "value": 7
+      }
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "title": "Promise結果表の集計",
+  "difficulty": "advanced",
+  "unit": "22",
+  "set": 1,
+  "cases": [
+    {
+      "name": "すべて成功し、最初に完了するタスクは配列の途中",
+      "input": {
+        "type": "value",
+        "value": [
+          {
+            "name": "profile",
+            "settledAt": 30,
+            "status": "fulfilled",
+            "value": "user"
+          },
+          {
+            "name": "settings",
+            "settledAt": 10,
+            "status": "fulfilled",
+            "value": "dark"
+          },
+          {
+            "name": "history",
+            "settledAt": 20,
+            "status": "fulfilled",
+            "value": "recent"
+          }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "all": {
+            "status": "fulfilled",
+            "values": ["user", "dark", "recent"]
+          },
+          "race": {
+            "name": "settings",
+            "status": "fulfilled",
+            "result": "dark"
+          }
+        }
+      }
+    },
+    {
+      "name": "最初は成功するが、後で失敗タスクがある",
+      "input": {
+        "type": "value",
+        "value": [
+          {
+            "name": "cache",
+            "settledAt": 5,
+            "status": "fulfilled",
+            "value": "cached"
+          },
+          {
+            "name": "network",
+            "settledAt": 25,
+            "status": "rejected",
+            "reason": "offline"
+          },
+          {
+            "name": "backup",
+            "settledAt": 15,
+            "status": "fulfilled",
+            "value": "backup"
+          }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "all": {
+            "status": "rejected",
+            "values": []
+          },
+          "race": {
+            "name": "cache",
+            "status": "fulfilled",
+            "result": "cached"
+          }
+        }
+      }
+    },
+    {
+      "name": "最初に失敗タスクが完了する",
+      "input": {
+        "type": "value",
+        "value": [
+          {
+            "name": "main",
+            "settledAt": 40,
+            "status": "fulfilled",
+            "value": "main-ok"
+          },
+          {
+            "name": "auth",
+            "settledAt": 10,
+            "status": "rejected",
+            "reason": "token-expired"
+          },
+          {
+            "name": "fallback",
+            "settledAt": 20,
+            "status": "fulfilled",
+            "value": "fallback-ok"
+          }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "all": {
+            "status": "rejected",
+            "values": []
+          },
+          "race": {
+            "name": "auth",
+            "status": "rejected",
+            "result": "token-expired"
+          }
+        }
+      }
+    },
+    {
+      "name": "失敗タスクが複数あり、より早い失敗がraceの結果になる",
+      "input": {
+        "type": "value",
+        "value": [
+          {
+            "name": "primary",
+            "settledAt": 30,
+            "status": "rejected",
+            "reason": "primary-failed"
+          },
+          {
+            "name": "mirror",
+            "settledAt": 5,
+            "status": "rejected",
+            "reason": "mirror-failed"
+          },
+          {
+            "name": "local",
+            "settledAt": 15,
+            "status": "fulfilled",
+            "value": "local-ok"
+          }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "all": {
+            "status": "rejected",
+            "values": []
+          },
+          "race": {
+            "name": "mirror",
+            "status": "rejected",
+            "result": "mirror-failed"
+          }
+        }
+      }
+    },
+    {
+      "name": "タスクが1つだけ成功する",
+      "input": {
+        "type": "value",
+        "value": [
+          {
+            "name": "only",
+            "settledAt": 0,
+            "status": "fulfilled",
+            "value": "done"
+          }
+        ]
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "all": {
+            "status": "fulfilled",
+            "values": ["done"]
+          },
+          "race": {
+            "name": "only",
+            "status": "fulfilled",
+            "result": "done"
+          }
+        }
+      }
+    }
+  ]
+}

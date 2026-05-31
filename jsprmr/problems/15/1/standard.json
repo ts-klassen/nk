@@ -1,0 +1,63 @@
+{
+  "title": "ファイル名の拡張子",
+  "difficulty": "standard",
+  "unit": "15",
+  "set": 1,
+  "cases": [
+    {
+      "name": "代表的な拡張子",
+      "input": {
+        "type": "value",
+        "value": "photo.jpeg"
+      },
+      "output": {
+        "type": "value",
+        "value": "jpeg"
+      }
+    },
+    {
+      "name": "複数のドットを含む名前",
+      "input": {
+        "type": "value",
+        "value": "archive.backup.zip"
+      },
+      "output": {
+        "type": "value",
+        "value": "zip"
+      }
+    },
+    {
+      "name": "ドットを含まない名前",
+      "input": {
+        "type": "value",
+        "value": "README"
+      },
+      "output": {
+        "type": "value",
+        "value": ""
+      }
+    },
+    {
+      "name": "末尾がドットの名前",
+      "input": {
+        "type": "value",
+        "value": "note."
+      },
+      "output": {
+        "type": "value",
+        "value": ""
+      }
+    },
+    {
+      "name": "先頭がドットの名前",
+      "input": {
+        "type": "value",
+        "value": ".env"
+      },
+      "output": {
+        "type": "value",
+        "value": "env"
+      }
+    }
+  ]
+}

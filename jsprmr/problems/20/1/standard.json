@@ -1,0 +1,83 @@
+{
+  "title": "スタンプカードのクラス",
+  "difficulty": "standard",
+  "unit": "20",
+  "set": 1,
+  "cases": [
+    {
+      "name": "満了していない代表例",
+      "input": {
+        "type": "value",
+        "value": {
+          "shopName": "Blue Cafe",
+          "initialStamps": 4,
+          "addStamps": 3
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => { const expected = input.initialStamps + input.addStamps; if (!output || typeof output !== \"object\") return false; if (output.shopName !== input.shopName || output.stamps !== expected || output.isFull !== (expected >= 10)) return false; if (typeof output.add !== \"function\") return false; const after = output.add(1); return after === expected + 1 && output.stamps === expected + 1 && output.isFull === (expected + 1 >= 10); }"
+      }
+    },
+    {
+      "name": "ちょうど10個で満了",
+      "input": {
+        "type": "value",
+        "value": {
+          "shopName": "Green Books",
+          "initialStamps": 6,
+          "addStamps": 4
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => { const expected = input.initialStamps + input.addStamps; if (!output || typeof output !== \"object\") return false; if (output.shopName !== input.shopName || output.stamps !== expected || output.isFull !== (expected >= 10)) return false; if (typeof output.add !== \"function\") return false; const after = output.add(1); return after === expected + 1 && output.stamps === expected + 1 && output.isFull === (expected + 1 >= 10); }"
+      }
+    },
+    {
+      "name": "10個を超えて満了",
+      "input": {
+        "type": "value",
+        "value": {
+          "shopName": "North Bakery",
+          "initialStamps": 9,
+          "addStamps": 2
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => { const expected = input.initialStamps + input.addStamps; if (!output || typeof output !== \"object\") return false; if (output.shopName !== input.shopName || output.stamps !== expected || output.isFull !== (expected >= 10)) return false; if (typeof output.add !== \"function\") return false; const after = output.add(1); return after === expected + 1 && output.stamps === expected + 1 && output.isFull === (expected + 1 >= 10); }"
+      }
+    },
+    {
+      "name": "最初から10個ある",
+      "input": {
+        "type": "value",
+        "value": {
+          "shopName": "Station Deli",
+          "initialStamps": 10,
+          "addStamps": 0
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => { const expected = input.initialStamps + input.addStamps; if (!output || typeof output !== \"object\") return false; if (output.shopName !== input.shopName || output.stamps !== expected || output.isFull !== (expected >= 10)) return false; if (typeof output.add !== \"function\") return false; const after = output.add(1); return after === expected + 1 && output.stamps === expected + 1 && output.isFull === (expected + 1 >= 10); }"
+      }
+    },
+    {
+      "name": "0個のまま",
+      "input": {
+        "type": "value",
+        "value": {
+          "shopName": "Tiny Mart",
+          "initialStamps": 0,
+          "addStamps": 0
+        }
+      },
+      "output": {
+        "type": "evaluator",
+        "evaluator": "(output, input) => { const expected = input.initialStamps + input.addStamps; if (!output || typeof output !== \"object\") return false; if (output.shopName !== input.shopName || output.stamps !== expected || output.isFull !== (expected >= 10)) return false; if (typeof output.add !== \"function\") return false; const after = output.add(1); return after === expected + 1 && output.stamps === expected + 1 && output.isFull === (expected + 1 >= 10); }"
+      }
+    }
+  ]
+}

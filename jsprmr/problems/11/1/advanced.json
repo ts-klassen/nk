@@ -1,0 +1,113 @@
+{
+  "title": "閉店までの売上集計",
+  "difficulty": "advanced",
+  "unit": "11",
+  "set": 1,
+  "cases": [
+    {
+      "name": "代表例: 取り消しと終了記録を含む",
+      "input": {
+        "type": "value",
+        "value": [480, -20, 1200, 0, 3000]
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "count": 2,
+          "total": 1680,
+          "hasLarge": true
+        }
+      }
+    },
+    {
+      "name": "終了後の大口売上は無視する",
+      "input": {
+        "type": "value",
+        "value": [200, 300, 0, 1500]
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "count": 2,
+          "total": 500,
+          "hasLarge": false
+        }
+      }
+    },
+    {
+      "name": "0がない場合は最後まで処理する",
+      "input": {
+        "type": "value",
+        "value": [1000, -1, 250, 750]
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "count": 3,
+          "total": 2000,
+          "hasLarge": true
+        }
+      }
+    },
+    {
+      "name": "最初が終了記録",
+      "input": {
+        "type": "value",
+        "value": [0, 500, 1000]
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "count": 0,
+          "total": 0,
+          "hasLarge": false
+        }
+      }
+    },
+    {
+      "name": "正の売上がない",
+      "input": {
+        "type": "value",
+        "value": [-5, -10, 0]
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "count": 0,
+          "total": 0,
+          "hasLarge": false
+        }
+      }
+    },
+    {
+      "name": "大口判定の境界未満",
+      "input": {
+        "type": "value",
+        "value": [999, 1, 0]
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "count": 2,
+          "total": 1000,
+          "hasLarge": false
+        }
+      }
+    },
+    {
+      "name": "空配列",
+      "input": {
+        "type": "value",
+        "value": []
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "count": 0,
+          "total": 0,
+          "hasLarge": false
+        }
+      }
+    }
+  ]
+}

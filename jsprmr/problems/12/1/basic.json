@@ -1,0 +1,59 @@
+{
+  "title": "オブジェクトを作って値を移す",
+  "difficulty": "basic",
+  "unit": "12",
+  "set": 1,
+  "cases": [
+    {
+      "name": "名前と点数を別名のプロパティへ移す",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "山田",
+          "points": 80
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "userName": "山田",
+          "score": 80
+        }
+      }
+    },
+    {
+      "name": "別の文字列と数値でも同じ形のオブジェクトを作る",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "佐藤",
+          "points": 0
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "userName": "佐藤",
+          "score": 0
+        }
+      }
+    },
+    {
+      "name": "空文字列の名前も値としてそのまま使う",
+      "input": {
+        "type": "value",
+        "value": {
+          "name": "",
+          "points": 45
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "userName": "",
+          "score": 45
+        }
+      }
+    }
+  ]
+}

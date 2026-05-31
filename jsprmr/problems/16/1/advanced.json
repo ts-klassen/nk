@@ -1,0 +1,122 @@
+{
+  "title": "Code Point レポート",
+  "difficulty": "advanced",
+  "unit": "16",
+  "set": 1,
+  "cases": [
+    {
+      "name": "BMPとサロゲートペアが混ざる代表例",
+      "input": {
+        "type": "value",
+        "value": {
+          "text": "A😀あ🐱B",
+          "target": "🐱"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "codeUnitLength": 7,
+          "codePointLength": 5,
+          "targetCount": 1,
+          "surrogateHexes": ["1f600", "1f431"]
+        }
+      }
+    },
+    {
+      "name": "サロゲートペアの対象文字が複数回出る",
+      "input": {
+        "type": "value",
+        "value": {
+          "text": "😀A😀🐱",
+          "target": "😀"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "codeUnitLength": 7,
+          "codePointLength": 4,
+          "targetCount": 2,
+          "surrogateHexes": ["1f600", "1f600", "1f431"]
+        }
+      }
+    },
+    {
+      "name": "BMP文字だけで構成される",
+      "input": {
+        "type": "value",
+        "value": {
+          "text": "AあA中",
+          "target": "A"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "codeUnitLength": 4,
+          "codePointLength": 4,
+          "targetCount": 2,
+          "surrogateHexes": []
+        }
+      }
+    },
+    {
+      "name": "空文字列",
+      "input": {
+        "type": "value",
+        "value": {
+          "text": "",
+          "target": "😀"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "codeUnitLength": 0,
+          "codePointLength": 0,
+          "targetCount": 0,
+          "surrogateHexes": []
+        }
+      }
+    },
+    {
+      "name": "対象文字が含まれない",
+      "input": {
+        "type": "value",
+        "value": {
+          "text": "🐱🐱B😀",
+          "target": "🚀"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "codeUnitLength": 7,
+          "codePointLength": 4,
+          "targetCount": 0,
+          "surrogateHexes": ["1f431", "1f431", "1f600"]
+        }
+      }
+    },
+    {
+      "name": "BMPの対象文字をサロゲートペア混じりで数える",
+      "input": {
+        "type": "value",
+        "value": {
+          "text": "a😀a🐱😀",
+          "target": "a"
+        }
+      },
+      "output": {
+        "type": "value",
+        "value": {
+          "codeUnitLength": 8,
+          "codePointLength": 5,
+          "targetCount": 2,
+          "surrogateHexes": ["1f600", "1f431", "1f600"]
+        }
+      }
+    }
+  ]
+}

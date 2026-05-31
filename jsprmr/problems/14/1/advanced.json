@@ -1,0 +1,74 @@
+{
+  "title": "連続ログの圧縮",
+  "difficulty": "advanced",
+  "unit": "14",
+  "set": 1,
+  "cases": [
+    {
+      "name": "連続する同じログをまとめる",
+      "input": {
+        "type": "value",
+        "value": ["ok", "ok", "warn", "warn", "warn", "ok"]
+      },
+      "output": {
+        "type": "value",
+        "value": [["ok", 2], ["warn", 3], ["ok", 1]]
+      }
+    },
+    {
+      "name": "空配列は空配列にする",
+      "input": {
+        "type": "value",
+        "value": []
+      },
+      "output": {
+        "type": "value",
+        "value": []
+      }
+    },
+    {
+      "name": "1要素だけの配列",
+      "input": {
+        "type": "value",
+        "value": ["idle"]
+      },
+      "output": {
+        "type": "value",
+        "value": [["idle", 1]]
+      }
+    },
+    {
+      "name": "同じ文字列でも離れていれば別グループ",
+      "input": {
+        "type": "value",
+        "value": ["a", "b", "a", "b"]
+      },
+      "output": {
+        "type": "value",
+        "value": [["a", 1], ["b", 1], ["a", 1], ["b", 1]]
+      }
+    },
+    {
+      "name": "すべて同じ文字列",
+      "input": {
+        "type": "value",
+        "value": ["retry", "retry", "retry", "retry"]
+      },
+      "output": {
+        "type": "value",
+        "value": [["retry", 4]]
+      }
+    },
+    {
+      "name": "最後のグループも忘れずに含める",
+      "input": {
+        "type": "value",
+        "value": ["start", "start", "run", "stop", "stop"]
+      },
+      "output": {
+        "type": "value",
+        "value": [["start", 2], ["run", 1], ["stop", 2]]
+      }
+    }
+  ]
+}
